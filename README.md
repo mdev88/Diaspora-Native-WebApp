@@ -34,8 +34,8 @@ https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 
 ## About the author
 
-Martín Vukovic
-Diaspora: https://joindiaspora.com/people/7c39340ef7847d9c
-Twitter: @martin_legion
+- Martín Vukovic
+- Diaspora: https://joindiaspora.com/people/7c39340ef7847d9c
+- Twitter: @martin_legion
 
 
