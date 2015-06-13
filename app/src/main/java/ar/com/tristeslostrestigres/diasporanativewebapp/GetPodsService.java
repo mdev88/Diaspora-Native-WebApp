@@ -28,6 +28,8 @@ import java.util.List;
 public class GetPodsService extends Service {
     public static final String MESSAGE = "ar.com.tristeslostrestigres.diasporanativewebapp.podsreceived";
 
+    private static final String TAG = "Diaspora Pod Service";
+
     public GetPodsService() { }
 
     @Override
@@ -70,7 +72,7 @@ public class GetPodsService extends Service {
                         }
                     } else {
                         //TODO  Notify User about failure
-                        Log.e("Diaspora", "Failed to download file");
+                        Log.e(TAG, "Failed to download file");
                     }
                 } catch (ClientProtocolException e) {
                     //TODO handle network unreachable exception here
@@ -83,11 +85,11 @@ public class GetPodsService extends Service {
                 try {
                     JSONObject j = new JSONObject(builder.toString());
                     JSONArray jr = j.getJSONArray("pods");
-                    Log.i("Diaspora", "Number of entries " + jr.length());
+                    Log.d(TAG, "Number of entries " + jr.length());
                     list = new ArrayList<String>();
                     for (int i = 0; i < jr.length(); i++) {
                         JSONObject jo = jr.getJSONObject(i);
-                        Log.i("Diaspora", jo.getString("domain"));
+                        Log.d(TAG, jo.getString("domain"));
                         String secure = jo.getString("secure");
                         if (secure.equals("true"))
                             list.add(jo.getString("domain"));
@@ -97,9 +99,7 @@ public class GetPodsService extends Service {
                     //TODO Handle Parsing errors here
                     e.printStackTrace();
                 }
-
                 return list.toArray(new String[list.size()]);
-
             }
 
             @Override
