@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Diaspora Native WebApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="reload">Reload</string>
+    <string name="title_activity_pods">Select Pod</string>
+    <string name="filter_hint">Type here to filter list</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="changePod">Change Pod</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="action_settings">Settings</string>
+</resources>
