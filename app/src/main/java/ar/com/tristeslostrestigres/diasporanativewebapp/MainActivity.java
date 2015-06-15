@@ -1,5 +1,25 @@
+/*
+    This file is part of the Diaspora Native WebApp.
+
+    Diaspora Native WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Diaspora Native WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -11,6 +31,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,10 +53,11 @@ public class MainActivity extends ActionBarActivity {
         podDomain = config.getString("podDomain", null);
 
         setContentView(R.layout.activity_main);
-        this.webView = (WebView)findViewById(R.id.webView);
+        webView = (WebView)findViewById(R.id.webView);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
@@ -134,10 +156,51 @@ public class MainActivity extends ActionBarActivity {
             webView.reload();
             return true;
         }
+
+        if (id == R.id.clearCookies) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Confirmation")
+                    .setMessage("Clearing the cookies will log you out and clear all session data. Do you want to proceed?")
+                    .setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                @TargetApi(11)
+                                public void onClick(DialogInterface dialog, int id) {
+                                    progressBar.show();
+                                    CookieManager.getInstance().removeSessionCookies(null);
+                                    CookieManager.getInstance().removeAllCookies(null);
+                                    webView.reload();
+                                    dialog.cancel();
+                                }
+                            })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @TargetApi(11)
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }).show();
+            return true;
+        }
+
         if (id == R.id.changePod) {
-            Intent i = new Intent(MainActivity.this, PodsActivity.class);
-            startActivity(i);
-            finish();
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Confirmation")
+                    .setMessage("This will erase all cookies and session data. Do you really want to change pods?")
+                    .setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                @TargetApi(11)
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @TargetApi(11)
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }).show();
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,6 +1,9 @@
 # Diaspora Native WebApp
 
+### About
+
 This is an unofficial client developed just for the lulz.
+It's released under GNU GENERAL PUBLIC LICENSE (see LICENCE).
 
 ### Native
 It's "native" because it's developed in Java + the Android SDK (Android Studio).
@@ -31,6 +34,10 @@ Comming soon
 
 You can download the latest generated APK (which may or may not be the same published in Google Play) from the release folder:
 https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
+
+### Following the Development Process
+
+Public Trello board: https://trello.com/b/8z6gzo05
 
 ## About the author
 

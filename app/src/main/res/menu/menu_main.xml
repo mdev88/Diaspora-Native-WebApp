@@ -2,14 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/reload"
+    <item
+        android:id="@+id/reload"
+        android:icon="@android:drawable/ic_popup_sync"
         android:title="@string/reload"
         android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/clearCookies"
+        android:title="@string/clear_cookies"
+        android:orderInCategory="105"
         app:showAsAction="never" />
 
-    <item android:id="@+id/changePod"
+    <item
+        android:id="@+id/changePod"
         android:title="@string/changePod"
-        android:orderInCategory="105"
+        android:orderInCategory="110"
         app:showAsAction="never" />
 
 </menu>

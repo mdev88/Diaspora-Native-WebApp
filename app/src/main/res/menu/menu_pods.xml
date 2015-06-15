@@ -2,6 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ar.com.tristeslostrestigres.diasporanativewebapp.PodsActivity">
-    <item android:id="@+id/reload" android:title="@string/reload"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/reload"
+        android:title="@string/reload"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 </menu>
