@@ -42,6 +42,7 @@ Public Trello board: https://trello.com/b/8z6gzo05
 ## About the author
 
 - Martín Vukovic
+- Donations: http://martinv.tip.me
 - Diaspora: https://joindiaspora.com/people/7c39340ef7847d9c
 - Twitter: @martin_legion
 
