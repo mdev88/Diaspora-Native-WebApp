@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -146,10 +147,16 @@ public class PodsActivity extends ActionBarActivity {
                                 SharedPreferences sp = getSharedPreferences("PodSettings", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putString("podDomain", podDomain);
-                                editor.commit();
+                                editor.apply();
 
-                                CookieManager.getInstance().removeSessionCookies(null);
-                                CookieManager.getInstance().removeAllCookies(null);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    CookieManager.getInstance().removeAllCookies(null);
+                                    CookieManager.getInstance().removeSessionCookies(null);
+                                }
+                                else {
+                                    CookieManager.getInstance().removeAllCookie();
+                                    CookieManager.getInstance().removeSessionCookie();
+                                }
 
                                 Intent i = new Intent(PodsActivity.this, MainActivity.class);
                                 startActivity(i);
