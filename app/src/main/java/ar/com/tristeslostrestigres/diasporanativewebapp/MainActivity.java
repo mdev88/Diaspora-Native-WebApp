@@ -19,6 +19,7 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -35,7 +37,6 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -45,25 +46,30 @@ public class MainActivity extends ActionBarActivity {
     private ProgressDialog progressBar;
     private String podDomain;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        progressBar = new ProgressDialog(MainActivity.this);
+        progressBar.setCancelable(true);
+        progressBar.setTitle("Please Wait");
+        progressBar.setMessage("Loading...");
+        progressBar.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
+        progressBar.show();
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
-        setContentView(R.layout.activity_main);
         webView = (WebView)findViewById(R.id.webView);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
-        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-
-        progressBar = ProgressDialog.show(MainActivity.this, "Please wait", "Loading...");
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         WebViewClient wc = new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -72,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(i);
                     return true;
                 } else {
+                    if (!progressBar.isShowing())progressBar.show();
                     return false;
                 }
             }
@@ -88,15 +95,12 @@ public class MainActivity extends ActionBarActivity {
                 if (progressBar.isShowing()) {
                     progressBar.dismiss();
                 }
-                Toast.makeText(MainActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage(description);
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                });
-                alertDialog.show();
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage(description)
+                        .setPositiveButton("CLOSE", null)
+                        .show();
             }
         };
 
@@ -157,6 +161,18 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+        if (id == R.id.liked) {
+            progressBar.show();
+            webView.loadUrl("https://" + podDomain + "/liked");
+            return true;
+        }
+
+        if (id == R.id.commented) {
+            progressBar.show();
+            webView.loadUrl("https://"+podDomain+"/commented");
+            return true;
+        }
+
         if (id == R.id.clearCookies) {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Confirmation")
@@ -166,8 +182,14 @@ public class MainActivity extends ActionBarActivity {
                                 @TargetApi(11)
                                 public void onClick(DialogInterface dialog, int id) {
                                     progressBar.show();
-                                    CookieManager.getInstance().removeSessionCookies(null);
-                                    CookieManager.getInstance().removeAllCookies(null);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        CookieManager.getInstance().removeAllCookies(null);
+                                        CookieManager.getInstance().removeSessionCookies(null);
+                                    }
+                                    else {
+                                        CookieManager.getInstance().removeAllCookie();
+                                        CookieManager.getInstance().removeSessionCookie();
+                                    }
                                     webView.reload();
                                     dialog.cancel();
                                 }

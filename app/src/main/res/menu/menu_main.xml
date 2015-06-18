@@ -10,6 +10,18 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/liked"
+        android:title="@string/liked_posts"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/commented"
+        android:title="@string/commented_posts"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/clearCookies"
         android:title="@string/clear_cookies"
         android:orderInCategory="105"
