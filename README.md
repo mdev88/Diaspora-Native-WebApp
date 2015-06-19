@@ -12,6 +12,11 @@ Other Diaspora clients are developed using frameworks like AppCelerator Titanium
 ### "WebApp"
 It's a WebApp because at this moment Diaspora doesn't have an API that can be used to create a native interface to retrieve the user's data, publications, direct messages and so on, that's why there are only WebApps for Diaspora out there.
 
+
+### Why a WebApp is better than using the mobile site on a browser?
+Basically it provides better integration with the system (events coming into and going out of the app), notifications, customized interface and functions and a nice little icon that takes you directly to your favorite social network :)
+For the moment, this app provides little aditional advantages
+
 ### System Requirements
 
 For the moment, the minimum supported version of Android is Lolipop (Android 5.0.1, or API 21) but I'll try to broaden the backward compatibility at least back to KitKat (Android 4.0.3 or API 15).
@@ -28,11 +33,11 @@ https://play.google.com/store/apps/details?id=ar.com.tristeslostrestigres.diaspo
 
 ### F-Droid
 
-Comming soon
+https://f-droid.org/repository/browse/?fdfilter=diaspora&fdid=ar.com.tristeslostrestigres.diasporanativewebapp
 
 ### Latest APK
 
-You can download the latest generated APK (which may or may not be the same published in Google Play) from the release folder:
+You can also download the latest generated APK (which may or may not be the same published in Google Play o F-Droid) from the "release" folder:
 https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 
 ### Following the Development Process
