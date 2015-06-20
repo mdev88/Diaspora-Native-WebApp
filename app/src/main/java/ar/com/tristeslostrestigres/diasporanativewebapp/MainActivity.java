@@ -34,13 +34,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
 public class MainActivity extends ActionBarActivity {
-
     private WebView webView;
     private static final String TAG = "Diaspora Main";
     private ProgressDialog progressBar;
@@ -65,14 +66,15 @@ public class MainActivity extends ActionBarActivity {
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setBuiltInZoomControls(true);
+        WebSettings wSettings = webView.getSettings();
+        wSettings.setJavaScriptEnabled(true);
+        wSettings.setBuiltInZoomControls(true);
         if (android.os.Build.VERSION.SDK_INT >= 21)
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         WebViewClient wc = new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.d(TAG, url);
                 if (!url.contains(podDomain)) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(i);
@@ -104,6 +106,16 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
+        // This fixes the inability to reshare posts.
+        // This solution was taken from the Diaspora WebClient by Terkel Sørensen.
+        // Source: https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/MainActivity.java
+        webView.setWebChromeClient(new WebChromeClient() {
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result)
+            {
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
+
         webView.setWebViewClient(wc);
         if (savedInstanceState == null)
             webView.loadUrl("https://"+podDomain);
@@ -127,7 +139,9 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if (webView.getUrl().contains(podDomain+"/stream")) {
+        if (webView.getUrl().contains(podDomain + "/stream") ||
+            webView.getUrl().contains(podDomain + "/users/sign_in") ||
+            webView.getUrl().equals("https://" + podDomain)) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setMessage("Are you sure you want to exit?")
@@ -173,13 +187,18 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+        if (id == R.id.followed_tags) {
+            progressBar.show();
+            webView.loadUrl("https://" + podDomain + "/followed_tags");
+            return true;
+        }
+
         if (id == R.id.clearCookies) {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Confirmation")
                     .setMessage("Clearing the cookies will log you out and clear all session data. Do you want to proceed?")
                     .setPositiveButton("YES",
                             new DialogInterface.OnClickListener() {
-                                @TargetApi(11)
                                 public void onClick(DialogInterface dialog, int id) {
                                     progressBar.show();
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -195,7 +214,6 @@ public class MainActivity extends ActionBarActivity {
                                 }
                             })
                     .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @TargetApi(11)
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -223,6 +241,23 @@ public class MainActivity extends ActionBarActivity {
                             dialog.cancel();
                         }
                     }).show();
+            return true;
+        }
+
+        if (id == R.id.exit_app) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage("Are you sure you want to exit?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("NO", null)
+                    .show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

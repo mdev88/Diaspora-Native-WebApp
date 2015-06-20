@@ -18,19 +18,31 @@
     <item
         android:id="@+id/commented"
         android:title="@string/commented_posts"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/followed_tags"
+        android:title="@string/followed_tags"
+        android:orderInCategory="104"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/clearCookies"
         android:title="@string/clear_cookies"
-        android:orderInCategory="105"
+        android:orderInCategory="110"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/changePod"
         android:title="@string/changePod"
-        android:orderInCategory="110"
+        android:orderInCategory="115"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/exit_app"
+        android:title="@string/exit_app"
+        android:orderInCategory="120"
         app:showAsAction="never" />
 
 </menu>

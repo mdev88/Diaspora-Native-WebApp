@@ -13,4 +13,9 @@
     <string name="liked_posts">Liked posts</string>
     <string name="commented_posts">Commented posts</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="followed_tags">Followed Tags</string>
+    <string name="exit_app">Exit app</string>
+    <string name="metnions">Mentions</string>
+    <string name="edit_profile">Edit my profile</string>
+    <string name="help">Help</string>
 </resources>
