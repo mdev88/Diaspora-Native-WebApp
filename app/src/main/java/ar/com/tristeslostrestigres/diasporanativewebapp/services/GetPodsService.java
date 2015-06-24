@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ar.com.tristeslostrestigres.diasporanativewebapp;
+package ar.com.tristeslostrestigres.diasporanativewebapp.services;
 
 import android.app.Service;
 import android.content.Intent;

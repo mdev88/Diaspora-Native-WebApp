@@ -49,6 +49,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ar.com.tristeslostrestigres.diasporanativewebapp.services.GetPodsService;
+import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
+
 
 public class PodsActivity extends ActionBarActivity {
 
@@ -72,13 +75,9 @@ public class PodsActivity extends ActionBarActivity {
         imgSelectPod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            askConfirmation(filter.getText().toString());
+                askConfirmation(filter.getText().toString());
             }
         });
-
-        ringProgressDialog =
-                ProgressDialog.show(PodsActivity.this, null, "Loading pod list ...", true);
-        ringProgressDialog.setCancelable(false);
 
         br = new BroadcastReceiver() {
             @Override
@@ -104,8 +103,20 @@ public class PodsActivity extends ActionBarActivity {
 
         registerReceiver(br, new IntentFilter(GetPodsService.MESSAGE));
 
-        Intent i= new Intent(PodsActivity.this, GetPodsService.class);
-        startService(i);
+        if (Helpers.isOnline(PodsActivity.this)) {
+            ringProgressDialog =
+                    ProgressDialog.show(PodsActivity.this, null, "Loading pod list ...", true);
+            ringProgressDialog.setCancelable(false);
+
+            Intent i= new Intent(PodsActivity.this, GetPodsService.class);
+            startService(i);
+        } else {
+            Toast.makeText(
+                    PodsActivity.this,
+                    "Sorry, you must be connected to the Internet to proceed",
+                    Toast.LENGTH_LONG).show();
+        }
+
 
     }
 
@@ -152,38 +163,56 @@ public class PodsActivity extends ActionBarActivity {
     }
 
     public void askConfirmation(final String podDomain) {
-        new AlertDialog.Builder(PodsActivity.this)
-                .setTitle("Confirmation")
-                .setMessage("Do you want to use the pod: "+podDomain+"?")
-                .setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+        if (Helpers.isOnline(PodsActivity.this)) {
 
-                                SharedPreferences sp = getSharedPreferences("PodSettings", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("podDomain", podDomain);
-                                editor.apply();
+            // Show a warning when is connected using mobile Internet
+            if (Helpers.isUsingMobile(PodsActivity.this)) {
+                Toast.makeText(
+                        PodsActivity.this,
+                        "Warning: Connected via mobile",
+                        Toast.LENGTH_SHORT).show();
+            }
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    CookieManager.getInstance().removeAllCookies(null);
-                                    CookieManager.getInstance().removeSessionCookies(null);
-                                } else {
-                                    CookieManager.getInstance().removeAllCookie();
-                                    CookieManager.getInstance().removeSessionCookie();
+            new AlertDialog.Builder(PodsActivity.this)
+                    .setTitle("Confirmation")
+                    .setMessage("Do you want to use the pod: "+podDomain+"?")
+                    .setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    SharedPreferences sp = getSharedPreferences("PodSettings", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sp.edit();
+                                    editor.putString("podDomain", podDomain);
+                                    editor.apply();
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        CookieManager.getInstance().removeAllCookies(null);
+                                        CookieManager.getInstance().removeSessionCookies(null);
+                                    } else {
+                                        CookieManager.getInstance().removeAllCookie();
+                                        CookieManager.getInstance().removeSessionCookie();
+                                    }
+
+                                    Intent i = new Intent(PodsActivity.this, MainActivity.class);
+                                    dialog.cancel();
+                                    startActivity(i);
+                                    finish();
                                 }
+                            })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @TargetApi(11)
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }).show();
 
-                                Intent i = new Intent(PodsActivity.this, MainActivity.class);
-                                dialog.cancel();
-                                startActivity(i);
-                                finish();
-                            }
-                        })
-                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @TargetApi(11)
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                }).show();
+        } else { // No Internet connection
+            Toast.makeText(
+                    PodsActivity.this,
+                    "Sorry, you must be connected to the Internet to proceed",
+                    Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
@@ -219,10 +248,28 @@ public class PodsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.reload) {
-            ringProgressDialog.show();
-            Intent i= new Intent(PodsActivity.this, GetPodsService.class);
-            startService(i);
-            return true;
+            if (Helpers.isOnline(PodsActivity.this)) {
+
+                // Show a warning when is connected using mobile Internet
+                if (Helpers.isUsingMobile(PodsActivity.this)) {
+                    Toast.makeText(
+                            PodsActivity.this,
+                            "Warning: Connected via mobile",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                ringProgressDialog.show();
+                Intent i= new Intent(PodsActivity.this, GetPodsService.class);
+                startService(i);
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        PodsActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
