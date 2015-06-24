@@ -10,16 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lstPods"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edtFilter"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:layout_below="@+id/edtFilter" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edtFilter"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/filter_hint" />
+        android:hint="@string/filter_hint"
+        android:layout_toLeftOf="@+id/imgSelectPod"
+        android:layout_toStartOf="@+id/imgSelectPod"
+        android:inputType="textUri|textWebEditText" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:id="@+id/imgSelectPod"
+        android:src="@mipmap/ic_arrow_right_grey600_24dp"
+        android:layout_above="@+id/lstPods"
+        android:layout_alignRight="@+id/lstPods"
+        android:layout_alignEnd="@+id/lstPods"
+        android:layout_alignTop="@+id/edtFilter"
+        android:contentDescription="@string/confirm_url"
+        android:visibility="gone"/>
 
 </RelativeLayout>
+

@@ -4,7 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="reload">Reload</string>
     <string name="title_activity_pods">Select Pod</string>
-    <string name="filter_hint">Type here to filter list</string>
+    <string name="filter_hint">Enter pod domain</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="changePod">Change Pod</string>
     <string name="title_activity_compose">ComposeActivity</string>
@@ -18,4 +18,5 @@
     <string name="metnions">Mentions</string>
     <string name="edit_profile">Edit my profile</string>
     <string name="help">Help</string>
+    <string name="confirm_url">Confirm pod url</string>
 </resources>

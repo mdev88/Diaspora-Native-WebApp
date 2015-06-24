@@ -41,6 +41,7 @@ import android.webkit.CookieManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class PodsActivity extends ActionBarActivity {
     BroadcastReceiver br;
     EditText filter;
     ListView lv;
+    ImageView imgSelectPod;
     ProgressDialog ringProgressDialog;
     private static final String TAG = "Diaspora Pods";
 
@@ -65,6 +67,14 @@ public class PodsActivity extends ActionBarActivity {
         filter = (EditText) findViewById(R.id.edtFilter);
         lv = (ListView) findViewById(R.id.lstPods);
         lv.setTextFilterEnabled(true);
+
+        imgSelectPod = (ImageView) findViewById(R.id.imgSelectPod);
+        imgSelectPod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            askConfirmation(filter.getText().toString());
+            }
+        });
 
         ringProgressDialog =
                 ProgressDialog.show(PodsActivity.this, null, "Loading pod list ...", true);
@@ -124,6 +134,11 @@ public class PodsActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 (adapter).getFilter().filter(s.toString());
+
+                if (s.toString().length()>3 && s.toString().contains("."))
+                    imgSelectPod.setVisibility(View.VISIBLE);
+                else
+                    imgSelectPod.setVisibility(View.GONE);
             }
 
             @Override
@@ -142,8 +157,8 @@ public class PodsActivity extends ActionBarActivity {
                 .setMessage("Do you want to use the pod: "+podDomain+"?")
                 .setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
-                            @TargetApi(11)
                             public void onClick(DialogInterface dialog, int id) {
+
                                 SharedPreferences sp = getSharedPreferences("PodSettings", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putString("podDomain", podDomain);
@@ -152,15 +167,14 @@ public class PodsActivity extends ActionBarActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     CookieManager.getInstance().removeAllCookies(null);
                                     CookieManager.getInstance().removeSessionCookies(null);
-                                }
-                                else {
+                                } else {
                                     CookieManager.getInstance().removeAllCookie();
                                     CookieManager.getInstance().removeSessionCookie();
                                 }
 
                                 Intent i = new Intent(PodsActivity.this, MainActivity.class);
-                                startActivity(i);
                                 dialog.cancel();
+                                startActivity(i);
                                 finish();
                             }
                         })
