@@ -1,8 +1,10 @@
 # Diaspora Native WebApp
 
 ### About
-
 This is an unofficial client developed just for the lulz.
+It's currently under development and should be used with that in mind. Please submit any bugs you might find.
+
+### License
 It's released under GNU GENERAL PUBLIC LICENSE (see LICENCE).
 
 ### Native
@@ -12,18 +14,19 @@ Other Diaspora clients are developed using frameworks like AppCelerator Titanium
 ### "WebApp"
 It's a WebApp because at this moment Diaspora doesn't have an API that can be used to create a native interface to retrieve the user's data, publications, direct messages and so on, that's why there are only WebApps for Diaspora out there.
 
-
 ### Why a WebApp is better than using the mobile site on a browser?
 Basically it provides better integration with the system (events coming into and going out of the app), notifications, customized interface and functions and a nice little icon that takes you directly to your favorite social network :)
 For the moment, this app provides little aditional advantages
 
 ### System Requirements
-
-For the moment, the minimum supported version of Android is Lolipop (Android 5.0.1, or API 21) but I'll try to broaden the backward compatibility at least back to KitKat (Android 4.0.3 or API 15).
+The minimum version supported is KitKat, Android version 4.0.3 (or API 15)
 
 ### Permissions
-
 It only requires Internet access.
+
+### Following the Development Process
+
+Public Trello board: https://trello.com/b/8z6gzo05
 
 ## Where to get the app
 
@@ -39,10 +42,6 @@ https://f-droid.org/repository/browse/?fdfilter=diaspora&fdid=ar.com.tristeslost
 
 You can also download the latest generated APK (which may or may not be the same published in Google Play o F-Droid) from the "release" folder:
 https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
-
-### Following the Development Process
-
-Public Trello board: https://trello.com/b/8z6gzo05
 
 ## About the author
 
