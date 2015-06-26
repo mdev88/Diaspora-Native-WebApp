@@ -49,24 +49,27 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ar.com.tristeslostrestigres.diasporanativewebapp.receivers.NetworkChangeReceiver;
 import ar.com.tristeslostrestigres.diasporanativewebapp.services.GetPodsService;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
 public class PodsActivity extends ActionBarActivity {
 
-    BroadcastReceiver br;
+    BroadcastReceiver podListReceiver;
     EditText filter;
     ListView lv;
     ImageView imgSelectPod;
-    ProgressDialog ringProgressDialog;
+    ProgressDialog progressDialog;
     private static final String TAG = "Diaspora Pods";
+    private boolean networkStateReceiverIsRegistered;
+    private BroadcastReceiver networkStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pods);
-
+        
         filter = (EditText) findViewById(R.id.edtFilter);
         lv = (ListView) findViewById(R.id.lstPods);
         lv.setTextFilterEnabled(true);
@@ -75,41 +78,51 @@ public class PodsActivity extends ActionBarActivity {
         imgSelectPod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askConfirmation(filter.getText().toString());
+                if (filter.getText().length() > 4 && filter.getText().toString().contains("."))
+                    askConfirmation(filter.getText().toString());
+                else
+                    Toast.makeText(
+                            PodsActivity.this,
+                            "Please enter a valid domain name",
+                            Toast.LENGTH_SHORT).show();
             }
         });
 
-        br = new BroadcastReceiver() {
+        podListReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Bundle extras = intent.getExtras();
-                String[] pods = extras.getStringArray("pods");
+                if (intent.hasExtra("pods")) {
+                    Bundle extras = intent.getExtras();
+                    String[] pods = extras.getStringArray("pods");
 
-                if (ringProgressDialog != null)
-                    ringProgressDialog.dismiss();
+                    if (progressDialog != null)
+                        progressDialog.dismiss();
 
-                if (pods != null && pods.length>0)
-                    updateListview(pods);
-                else {
-                    Log.d(TAG, "Could not retrieve list of pods");
-                    Toast.makeText(
-                            PodsActivity.this,
-                            "Error: Could not retrieve list of pods!",
-                            Toast.LENGTH_LONG).show();
+                    if (pods != null && pods.length>0)
+                        updateListview(pods);
+                    else {
+                        Log.d(TAG, "Could not retrieve list of pods");
+                        Toast.makeText(
+                                PodsActivity.this,
+                                "Error: Could not retrieve list of pods!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    // List of pods empty
                 }
-
             }
         };
 
-        registerReceiver(br, new IntentFilter(GetPodsService.MESSAGE));
+        registerReceiver(podListReceiver, new IntentFilter(GetPodsService.MESSAGE));
+        regNetworkStateChangeReceiver();
+
+        progressDialog = new ProgressDialog(PodsActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading pod list ...");
 
         if (Helpers.isOnline(PodsActivity.this)) {
-            ringProgressDialog =
-                    ProgressDialog.show(PodsActivity.this, null, "Loading pod list ...", true);
-            ringProgressDialog.setCancelable(false);
-
-            Intent i= new Intent(PodsActivity.this, GetPodsService.class);
-            startService(i);
+            progressDialog.show();
         } else {
             Toast.makeText(
                     PodsActivity.this,
@@ -118,6 +131,37 @@ public class PodsActivity extends ActionBarActivity {
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent i= new Intent(PodsActivity.this, GetPodsService.class);
+        startService(i);
+    }
+
+
+    private void regNetworkStateChangeReceiver() {
+        networkStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
+                    extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
+                    Toast.makeText(
+                            PodsActivity.this,
+                            "Internet connection established! Please reload the list if necessary",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(
+                            PodsActivity.this,
+                            "Warning: Internet connection lost!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
+        networkStateReceiverIsRegistered = true;
     }
 
     private void updateListview(String[] source) {
@@ -145,11 +189,6 @@ public class PodsActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 (adapter).getFilter().filter(s.toString());
-
-                if (s.toString().length()>3 && s.toString().contains("."))
-                    imgSelectPod.setVisibility(View.VISIBLE);
-                else
-                    imgSelectPod.setVisibility(View.GONE);
             }
 
             @Override
@@ -160,19 +199,11 @@ public class PodsActivity extends ActionBarActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
     }
 
     public void askConfirmation(final String podDomain) {
         if (Helpers.isOnline(PodsActivity.this)) {
-
-            // Show a warning when is connected using mobile Internet
-            if (Helpers.isUsingMobile(PodsActivity.this)) {
-                Toast.makeText(
-                        PodsActivity.this,
-                        "Warning: Connected via mobile",
-                        Toast.LENGTH_SHORT).show();
-            }
-
             new AlertDialog.Builder(PodsActivity.this)
                     .setTitle("Confirmation")
                     .setMessage("Do you want to use the pod: "+podDomain+"?")
@@ -215,6 +246,9 @@ public class PodsActivity extends ActionBarActivity {
 
     }
 
+
+
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -233,7 +267,9 @@ public class PodsActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(br);
+        unregisterReceiver(podListReceiver);
+        if (networkStateReceiverIsRegistered)
+            unregisterReceiver(networkStateReceiver);
         super.onDestroy();
     }
 
@@ -250,15 +286,10 @@ public class PodsActivity extends ActionBarActivity {
         if (id == R.id.reload) {
             if (Helpers.isOnline(PodsActivity.this)) {
 
-                // Show a warning when is connected using mobile Internet
-                if (Helpers.isUsingMobile(PodsActivity.this)) {
-                    Toast.makeText(
-                            PodsActivity.this,
-                            "Warning: Connected via mobile",
-                            Toast.LENGTH_SHORT).show();
-                }
+                if (Helpers.isUsingMobile(PodsActivity.this))
+                    Helpers.warningMobile(PodsActivity.this);
 
-                ringProgressDialog.show();
+                progressDialog.show();
                 Intent i= new Intent(PodsActivity.this, GetPodsService.class);
                 startService(i);
                 return true;
@@ -274,4 +305,9 @@ public class PodsActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
+
+

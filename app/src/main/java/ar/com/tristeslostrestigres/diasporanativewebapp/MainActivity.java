@@ -23,8 +23,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -39,13 +42,21 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import ar.com.tristeslostrestigres.diasporanativewebapp.receivers.NetworkChangeReceiver;
+import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
 public class MainActivity extends ActionBarActivity {
+    
     private WebView webView;
     private static final String TAG = "Diaspora Main";
-    private ProgressDialog progressBar;
+    private ProgressDialog progressDialog;
     private String podDomain;
+    private BroadcastReceiver networkStateReceiver;
+    private boolean networkStateReceiverIsRegistered;
+
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -53,12 +64,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar = new ProgressDialog(MainActivity.this);
-        progressBar.setCancelable(true);
-        progressBar.setTitle("Please Wait");
-        progressBar.setMessage("Loading...");
-        progressBar.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
-        progressBar.show();
+        regNetworkStateChangeReceiver();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(true);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Loading...");
+        progressDialog.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
@@ -80,22 +92,22 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(i);
                     return true;
                 } else {
-                    if (!progressBar.isShowing())progressBar.show();
+                    if (!progressDialog.isShowing()) progressDialog.show();
                     return false;
                 }
             }
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                if (progressBar.isShowing()) {
-                    progressBar.dismiss();
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
                 }
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e(TAG, "Error: " + description);
-                if (progressBar.isShowing()) {
-                    progressBar.dismiss();
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
                 }
 
                 new AlertDialog.Builder(MainActivity.this)
@@ -110,38 +122,52 @@ public class MainActivity extends ActionBarActivity {
         // This solution was taken from the Diaspora WebClient by Terkel Sørensen.
         // Source: https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/MainActivity.java
         webView.setWebChromeClient(new WebChromeClient() {
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result)
-            {
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
             }
         });
 
         webView.setWebViewClient(wc);
         if (savedInstanceState == null)
-            webView.loadUrl("https://"+podDomain);
+            if (Helpers.isOnline(MainActivity.this)) {
+                progressDialog.show();
+                webView.loadUrl("https://"+podDomain);
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet",
+                        Toast.LENGTH_LONG).show();
+            }
+
 
     }
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         webView.saveState(outState);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         webView.restoreState(savedInstanceState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (networkStateReceiverIsRegistered)
+            unregisterReceiver(networkStateReceiver);
     }
 
     @Override
     public void onBackPressed() {
         if (webView.getUrl().contains(podDomain + "/stream") ||
             webView.getUrl().contains(podDomain + "/users/sign_in") ||
-            webView.getUrl().equals("https://" + podDomain)) {
+            webView.getUrl().equals("https://" + podDomain) ||
+            webView.getUrl().equals(""))  {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setMessage("Are you sure you want to exit?")
@@ -159,6 +185,30 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+
+    private void regNetworkStateChangeReceiver() {
+        networkStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
+                        extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "Internet connection established! Please reload if necessary",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "Warning: Internet connection lost!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
+        networkStateReceiverIsRegistered = true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -170,27 +220,64 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.reload) {
-            progressBar.show();
-            webView.reload();
-            return true;
+            if (Helpers.isOnline(MainActivity.this)) {
+
+                if(Helpers.isUsingMobile(MainActivity.this))
+                    Helpers.warningMobile(MainActivity.this);
+
+                progressDialog.show();
+                webView.reload();
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+
         }
 
         if (id == R.id.liked) {
-            progressBar.show();
-            webView.loadUrl("https://" + podDomain + "/liked");
-            return true;
+            if (Helpers.isOnline(MainActivity.this)) {
+                progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/liked");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         if (id == R.id.commented) {
-            progressBar.show();
-            webView.loadUrl("https://"+podDomain+"/commented");
-            return true;
+            if (Helpers.isOnline(MainActivity.this)) {
+                progressDialog.show();
+                webView.loadUrl("https://"+podDomain+"/commented");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         if (id == R.id.followed_tags) {
-            progressBar.show();
-            webView.loadUrl("https://" + podDomain + "/followed_tags");
-            return true;
+            if (Helpers.isOnline(MainActivity.this)) {
+                progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/followed_tags");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         if (id == R.id.clearCookies) {
@@ -200,7 +287,7 @@ public class MainActivity extends ActionBarActivity {
                     .setPositiveButton("YES",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    progressBar.show();
+                                    progressDialog.show();
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         CookieManager.getInstance().removeAllCookies(null);
                                         CookieManager.getInstance().removeSessionCookies(null);
@@ -222,26 +309,36 @@ public class MainActivity extends ActionBarActivity {
         }
 
         if (id == R.id.changePod) {
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Confirmation")
-                    .setMessage("This will erase all cookies and session data. Do you really want to change pods?")
-                    .setPositiveButton("YES",
-                            new DialogInterface.OnClickListener() {
-                                @TargetApi(11)
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @TargetApi(11)
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    }).show();
-            return true;
+
+            if (Helpers.isOnline(MainActivity.this)) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Confirmation")
+                        .setMessage("This will erase all cookies and session data. Do you really want to change pods?")
+                        .setPositiveButton("YES",
+                                new DialogInterface.OnClickListener() {
+                                    @TargetApi(11)
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        Intent i = new Intent(MainActivity.this, PodsActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @TargetApi(11)
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        }).show();
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        "Sorry, you must be connected to the Internet to proceed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+
         }
 
         if (id == R.id.exit_app) {

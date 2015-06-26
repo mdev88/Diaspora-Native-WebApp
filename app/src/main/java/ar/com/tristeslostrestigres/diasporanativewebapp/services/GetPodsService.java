@@ -89,11 +89,8 @@ public class GetPodsService extends Service {
                         }
                     } else {
                         //TODO  Notify User about failure
-                        Log.e(TAG, "Failed to download file");
+                        Log.e(TAG, "Failed to download list of pods");
                     }
-                } catch (ClientProtocolException e) {
-                    //TODO handle network unreachable exception here
-                    e.printStackTrace();
                 } catch (IOException e) {
                     //TODO handle json buggy feed
                     e.printStackTrace();
@@ -116,13 +113,17 @@ public class GetPodsService extends Service {
                     //TODO Handle Parsing errors here
                     e.printStackTrace();
                 }
-                return list.toArray(new String[list.size()]);
+                if (list != null)
+                    return list.toArray(new String[list.size()]);
+                else
+                    return null;
             }
 
             @Override
             protected void onPostExecute(String[] strings) {
                 Intent broadcastIntent = new Intent(MESSAGE);
-                broadcastIntent.putExtra("pods", strings);
+                if (strings != null)
+                    broadcastIntent.putExtra("pods", strings);
                 sendBroadcast(broadcastIntent);
                 stopSelf();
             }
