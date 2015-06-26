@@ -22,7 +22,7 @@ For the moment, this app provides little aditional advantages
 The minimum version supported is KitKat, Android version 4.0.3 (or API 15)
 
 ### Permissions
-It only requires Internet access.
+It requires Internet access and to be able to monitor changes in the network state.
 
 ### Following the Development Process
 
