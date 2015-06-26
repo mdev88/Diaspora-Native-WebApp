@@ -138,8 +138,6 @@ public class MainActivity extends ActionBarActivity {
                         "Sorry, you must be connected to the Internet",
                         Toast.LENGTH_LONG).show();
             }
-
-
     }
 
 

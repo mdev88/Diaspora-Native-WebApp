@@ -21,10 +21,8 @@ package ar.com.tristeslostrestigres.diasporanativewebapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
