@@ -19,4 +19,5 @@
     <string name="edit_profile">Edit my profile</string>
     <string name="help">Help</string>
     <string name="confirm_url">Confirm pod url</string>
+    <string name="diaspora">Diaspora</string>
 </resources>

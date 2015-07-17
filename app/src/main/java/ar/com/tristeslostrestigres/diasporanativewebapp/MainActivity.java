@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         webView.setWebViewClient(wc);
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
                 progressDialog.show();
                 webView.loadUrl("https://"+podDomain);
@@ -138,8 +138,9 @@ public class MainActivity extends ActionBarActivity {
                         "Sorry, you must be connected to the Internet",
                         Toast.LENGTH_LONG).show();
             }
-    }
+        }
 
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -223,7 +224,7 @@ public class MainActivity extends ActionBarActivity {
                 if(Helpers.isUsingMobile(MainActivity.this))
                     Helpers.warningMobile(MainActivity.this);
 
-                progressDialog.show();
+                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.reload();
                 return true;
             } else {  // No Internet connection
