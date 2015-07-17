@@ -37,7 +37,6 @@ public class ShareActivity extends MainActivity {
         progressDialog.setCancelable(true);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Loading...");
-        progressDialog.setMax(50);
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
