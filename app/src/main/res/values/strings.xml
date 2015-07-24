@@ -1,23 +1,16 @@
 <resources>
     <string name="app_name">Diaspora Native WebApp</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="reload">Reload</string>
     <string name="title_activity_pods">Select Pod</string>
     <string name="filter_hint">Enter pod domain</string>
-    <string name="title_activity_splash">SplashActivity</string>
     <string name="changePod">Change Pod</string>
-    <string name="title_activity_compose">ComposeActivity</string>
-    <string name="action_settings">Settings</string>
     <string name="clear_cookies">Clear cookies</string>
     <string name="liked_posts">Liked posts</string>
     <string name="commented_posts">Commented posts</string>
-    <string name="title_activity_about">AboutActivity</string>
     <string name="followed_tags">Followed Tags</string>
     <string name="exit_app">Exit app</string>
-    <string name="metnions">Mentions</string>
-    <string name="edit_profile">Edit my profile</string>
-    <string name="help">Help</string>
+    <string name="mentions">Mentions</string>
     <string name="confirm_url">Confirm pod url</string>
     <string name="diaspora">Diaspora</string>
+    <string name="podlist_source_note">Note: This list is populated with only the secure pods from podupti.me</string>
 </resources>

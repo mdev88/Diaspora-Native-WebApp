@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Note: This list is populated with only the secure pods from podupti.me"
+        android:text="@string/podlist_source_note"
         android:id="@+id/textView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
