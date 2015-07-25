@@ -50,4 +50,15 @@ https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 - Diaspora: https://joindiaspora.com/people/7c39340ef7847d9c
 - Twitter: @martin_legion
 
+## Translations credits
+
+These notable gentlemen were kind to submit the first translations. 
+We shall remember their courage and honor until the end of times.
+
+- DE: vanitasvitae - https://github.com/vanitasvitae
+- IT: maestro davincius - https://joindiaspora.com/people/04a4ed10565201324fcf00163e010106
+- NL: Patrick Jenner - https://joindiaspora.com/people/fc39e210ee5b0132b73452545d5fe459
+- PT: Label Papinyan - https://joindiaspora.com/people/d353bed0144301337dc400145e5c073c
+- RU: Alexey Putz - https://joindiaspora.com/people/eba5d810ef1b0132ae7200505600750e
+- SL: Kristijan Tkalec - https://joindiaspora.com/people/b952e53c5abe5546
 

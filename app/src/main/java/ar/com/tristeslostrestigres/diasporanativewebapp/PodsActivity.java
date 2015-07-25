@@ -83,7 +83,7 @@ public class PodsActivity extends ActionBarActivity {
                 else
                     Toast.makeText(
                             PodsActivity.this,
-                            "Please enter a valid domain name",
+                            getString(R.string.valid_pod),
                             Toast.LENGTH_SHORT).show();
             }
         });
@@ -104,7 +104,7 @@ public class PodsActivity extends ActionBarActivity {
                         Log.d(TAG, "Could not retrieve list of pods");
                         Toast.makeText(
                                 PodsActivity.this,
-                                "Error: Could not retrieve list of pods!",
+                                getString(R.string.podlist_error),
                                 Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -119,14 +119,14 @@ public class PodsActivity extends ActionBarActivity {
         progressDialog = new ProgressDialog(PodsActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading pod list ...");
+        progressDialog.setMessage(getString(R.string.loading_podlist));
 
         if (Helpers.isOnline(PodsActivity.this)) {
             progressDialog.show();
         } else {
             Toast.makeText(
                     PodsActivity.this,
-                    "Sorry, you must be connected to the Internet to proceed",
+                    getString(R.string.no_internet),
                     Toast.LENGTH_LONG).show();
         }
 
@@ -150,12 +150,12 @@ public class PodsActivity extends ActionBarActivity {
                     extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
                     Toast.makeText(
                             PodsActivity.this,
-                            "Internet connection established! Please reload the list if necessary",
+                            getString(R.string.connection_established),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(
                             PodsActivity.this,
-                            "Warning: Internet connection lost!",
+                            getString(R.string.connection_lost),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -205,8 +205,8 @@ public class PodsActivity extends ActionBarActivity {
     public void askConfirmation(final String podDomain) {
         if (Helpers.isOnline(PodsActivity.this)) {
             new AlertDialog.Builder(PodsActivity.this)
-                    .setTitle("Confirmation")
-                    .setMessage("Do you want to use the pod: "+podDomain+"?")
+                    .setTitle(getString(R.string.confirmation))
+                    .setMessage(getString(R.string.confirm_pod)+podDomain+"?")
                     .setPositiveButton("YES",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -240,7 +240,7 @@ public class PodsActivity extends ActionBarActivity {
         } else { // No Internet connection
             Toast.makeText(
                     PodsActivity.this,
-                    "Sorry, you must be connected to the Internet to proceed",
+                    getString(R.string.no_internet),
                     Toast.LENGTH_LONG).show();
         }
 
@@ -253,15 +253,15 @@ public class PodsActivity extends ActionBarActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("YES", new DialogInterface.OnClickListener()
+                .setMessage(getString(R.string.confirm_exit))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 })
-                .setNegativeButton("NO", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
 
@@ -296,7 +296,7 @@ public class PodsActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         PodsActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }

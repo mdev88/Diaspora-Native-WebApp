@@ -68,8 +68,8 @@ public class MainActivity extends ActionBarActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
-        progressDialog.setTitle("Please Wait");
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle(getString(R.string.please_wait));
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
             }
         }
@@ -169,16 +169,15 @@ public class MainActivity extends ActionBarActivity {
             webView.getUrl().equals(""))  {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage("Are you sure you want to exit?")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener()
-                    {
+                    .setMessage(getString(R.string.confirm_exit))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     })
-                    .setNegativeButton("NO", null)
-                    .show();
+                            .setNegativeButton(getString(R.string.no), null)
+                            .show();
         } else {
             webView.goBack();
         }
@@ -194,12 +193,12 @@ public class MainActivity extends ActionBarActivity {
                         extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
                     Toast.makeText(
                             MainActivity.this,
-                            "Internet connection established! Please reload if necessary",
+                            getString(R.string.connection_established),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(
                             MainActivity.this,
-                            "Warning: Internet connection lost!",
+                            getString(R.string.connection_lost),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -230,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -245,7 +244,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -259,7 +258,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -273,7 +272,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -281,9 +280,9 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.clearCookies) {
             new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Confirmation")
-                    .setMessage("Clearing the cookies will log you out and clear all session data. Do you want to proceed?")
-                    .setPositiveButton("YES",
+                    .setTitle(getString(R.string.confirmation))
+                    .setMessage(getString(R.string.clear_cookies_warning))
+                    .setPositiveButton(getString(R.string.yes),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     progressDialog.show();
@@ -299,7 +298,7 @@ public class MainActivity extends ActionBarActivity {
                                     dialog.cancel();
                                 }
                             })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -311,9 +310,9 @@ public class MainActivity extends ActionBarActivity {
 
             if (Helpers.isOnline(MainActivity.this)) {
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Confirmation")
-                        .setMessage("This will erase all cookies and session data. Do you really want to change pods?")
-                        .setPositiveButton("YES",
+                        .setTitle(getString(R.string.confirmation))
+                        .setMessage(getString(R.string.change_pod_warning))
+                        .setPositiveButton(getString(R.string.yes),
                                 new DialogInterface.OnClickListener() {
                                     @TargetApi(11)
                                     public void onClick(DialogInterface dialog, int id) {
@@ -323,7 +322,7 @@ public class MainActivity extends ActionBarActivity {
                                         finish();
                                     }
                                 })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @TargetApi(11)
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -333,7 +332,7 @@ public class MainActivity extends ActionBarActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         MainActivity.this,
-                        "Sorry, you must be connected to the Internet to proceed",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -343,15 +342,15 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.exit_app) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage("Are you sure you want to exit?")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener()
+                    .setMessage(getString(R.string.confirm_exit))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     })
-                    .setNegativeButton("NO", null)
+                    .setNegativeButton(getString(R.string.no), null)
                     .show();
             return true;
         }

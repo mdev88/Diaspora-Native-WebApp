@@ -1,3 +1,22 @@
+/*
+    This file is part of the Diaspora Native WebApp.
+
+    Diaspora Native WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Diaspora Native WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
 import android.app.AlertDialog;
@@ -6,11 +25,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -35,8 +51,8 @@ public class ShareActivity extends MainActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
-        progressDialog.setTitle("Please Wait");
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle(getString(R.string.please_wait));
+        progressDialog.setMessage(getString(R.string.loading));
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
@@ -94,7 +110,7 @@ public class ShareActivity extends MainActivity {
             } else {  // No Internet connection
                 Toast.makeText(
                         ShareActivity.this,
-                        "Sorry, you must be connected to the Internet",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_LONG).show();
             }
         }
