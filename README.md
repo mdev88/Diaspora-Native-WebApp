@@ -57,7 +57,7 @@ We shall remember their courage and honor until the end of times.
 
 - DE: 
 vanitasvitae - https://github.com/vanitasvitae | 
-paskalito - https://github.com/paskalito
+Pascal - https://joindiaspora.com/people/dea2955ef6d84604
 - IT: 
 maestro davincius - https://joindiaspora.com/people/04a4ed10565201324fcf00163e010106
 - NL: 
