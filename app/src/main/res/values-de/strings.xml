@@ -14,17 +14,17 @@
     <string name="podlist_source_note">Anmerkung: Auf dieser Liste finden sich nur Einträge von podupti.me</string>
     <string name="valid_pod">Bitte einen gültigen Domain-Namen (URL) eingeben</string>
     <string name="podlist_error">Fehler: Konnte die Podliste nicht abfragen!</string>
-    <string name="loading_podlist">Podliste wird geladen ...</string>
-    <string name="no_internet">Entschuldigung, du musst mit dem Internet verbunden sein um fortzufahren</string>
-    <string name="connection_established">Internetverbindung hergestellt! Bitte lade die liste neu falls nötig.</string>
-    <string name="connection_lost">Warnung: Internet Verbindung verloren!</string>
+    <string name="loading_podlist">Podliste wird geladen...</string>
+    <string name="no_internet">Entschuldigung, du musst mit dem Internet verbunden sein um fortzufahren.</string>
+    <string name="connection_established">Internetverbindung hergestellt! Bitte lade die Liste neu falls nötig.</string>
+    <string name="connection_lost">Warnung: Internetverbindung verloren!</string>
     <string name="confirmation">Bestätigung</string>
     <string name="confirm_pod">Willst du folgenden Pod benutzen:</string>
     <string name="confirm_exit">Bist du sicher, dass du beenden willst?</string>
-    <string name="yes">JA</string>
-    <string name="no">NEIN</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     <string name="please_wait">Bitte Warten</string>
     <string name="loading">Laden...</string>
-    <string name="change_pod_warning">Das wird alle Cookies und Session Daten löschen. Willst du wirklich den Pod wechseln?</string>
-    <string name="clear_cookies_warning">Wenn du die Cookies löscht, wirst du ausgeloggt und verlierst deine Session-Daten. Willst du fortfahren?</string>
+    <string name="change_pod_warning">Das wird alle Cookies und Session-Daten löschen. Willst du wirklich den Pod wechseln?</string>
+    <string name="clear_cookies_warning">Wenn du die Cookies löschst, wirst du ausgeloggt und verlierst deine Session-Daten. Willst du fortfahren?</string>
 </resources>
