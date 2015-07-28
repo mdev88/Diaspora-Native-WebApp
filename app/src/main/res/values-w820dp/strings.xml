@@ -7,7 +7,7 @@
     <string name="connection_established">Internet connection established! Please reload the list if necessary</string>
     <string name="connection_lost">Warning: Internet connection lost!</string>
     <string name="confirmation">Confirmation</string>
-    <string name="confirm_pod">"Do you want to use the pod: "</string>
+    <string name="confirm_pod">Do you want to use the pod: </string>
     <string name="confirm_exit">Are you sure you want to exit?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
