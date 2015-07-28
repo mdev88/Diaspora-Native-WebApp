@@ -16,7 +16,6 @@ It's a WebApp because at this moment Diaspora doesn't have an API that can be us
 
 ### Why a WebApp is better than using the mobile site on a browser?
 Basically it provides better integration with the system (events coming into and going out of the app), notifications, customized interface and functions and a nice little icon that takes you directly to your favorite social network :)
-For the moment, this app provides little aditional advantages
 
 ### System Requirements
 The minimum version supported is KitKat, Android version 4.0.3 (or API 15)
