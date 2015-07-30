@@ -56,6 +56,7 @@ We shall remember their courage and honor until the end of times.
 
 - DE: vanitasvitae - https://github.com/vanitasvitae | 
 - DE: Pascal - https://joindiaspora.com/people/dea2955ef6d84604
+- FR: Sans Pseudo Fix - https://github.com/SansPseudoFix
 - IT: maestro davincius - https://joindiaspora.com/people/04a4ed10565201324fcf00163e010106
 - NL: Patrick Jenner - https://joindiaspora.com/people/fc39e210ee5b0132b73452545d5fe459
 - PT: Label Papinyan - https://joindiaspora.com/people/d353bed0144301337dc400145e5c073c
