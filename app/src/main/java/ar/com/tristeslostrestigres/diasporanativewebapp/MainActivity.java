@@ -281,24 +281,24 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if (webView.getUrl().contains(podDomain + "/stream") ||
-            webView.getUrl().contains(podDomain + "/users/sign_in") ||
-            webView.getUrl().equals("https://" + podDomain) ||
-            webView.getUrl().equals(""))  {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage(getString(R.string.confirm_exit))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                            .setNegativeButton(getString(R.string.no), null)
-                            .show();
-        } else {
+//        if (webView.getUrl().contains(podDomain + "/stream") ||
+//            webView.getUrl().contains(podDomain + "/users/sign_in") ||
+//            webView.getUrl().equals("https://" + podDomain) ||
+//            webView.getUrl().equals(""))  {
+//            new AlertDialog.Builder(this)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .setMessage(getString(R.string.confirm_exit))
+//                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+//                        }
+//                    })
+//                            .setNegativeButton(getString(R.string.no), null)
+//                            .show();
+//        } else {
             webView.goBack();
-        }
+//        }
     }
 
 
@@ -338,8 +338,8 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {
 
-                if(Helpers.isUsingMobile(MainActivity.this))
-                    Helpers.warningMobile(MainActivity.this);
+//                if(Helpers.isUsingMobile(MainActivity.this))
+//                    Helpers.warningMobile(MainActivity.this);
 
                 if (!progressDialog.isShowing()) progressDialog.show();
                 webView.reload();

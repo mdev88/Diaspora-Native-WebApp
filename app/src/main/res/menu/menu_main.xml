@@ -43,6 +43,7 @@
         android:id="@+id/exit_app"
         android:title="@string/exit_app"
         android:orderInCategory="120"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_exit_to_app_white_24dp"
+        app:showAsAction="ifRoom" />
 
 </menu>
