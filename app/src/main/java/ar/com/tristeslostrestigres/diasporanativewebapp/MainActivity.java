@@ -122,16 +122,13 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+                if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e(TAG, "Error: " + description);
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+
+                if (progressDialog.isShowing()) progressDialog.dismiss();
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -281,24 +278,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-//        if (webView.getUrl().contains(podDomain + "/stream") ||
-//            webView.getUrl().contains(podDomain + "/users/sign_in") ||
-//            webView.getUrl().equals("https://" + podDomain) ||
-//            webView.getUrl().equals(""))  {
-//            new AlertDialog.Builder(this)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .setMessage(getString(R.string.confirm_exit))
-//                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            finish();
-//                        }
-//                    })
-//                            .setNegativeButton(getString(R.string.no), null)
-//                            .show();
-//        } else {
+        if (!progressDialog.isShowing()) progressDialog.show();
             webView.goBack();
-//        }
     }
 
 
@@ -307,6 +288,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Bundle extras = intent.getExtras();
+
                 if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
                         extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
                     Toast.makeText(

@@ -6,7 +6,7 @@
     <item
         android:id="@+id/reload"
         android:title="@string/reload"
-        android:icon="@android:drawable/ic_popup_sync"
+        android:icon="@drawable/ic_sync_white_24dp"
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />
 </menu>

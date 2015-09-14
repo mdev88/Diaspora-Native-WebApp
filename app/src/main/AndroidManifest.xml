@@ -35,13 +35,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/diaspora"
             android:screenOrientation="portrait" >
-        </activity>
-
-        <activity
-            android:name=".ShareActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/diaspora"
-            android:screenOrientation="portrait" >
             <intent-filter android:label="@string/diaspora"
                 android:icon="@mipmap/ic_launcher">
                 <action android:name="android.intent.action.SEND" />
@@ -49,6 +42,19 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+        <!--<activity-->
+            <!--android:name=".ShareActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:label="@string/diaspora"-->
+            <!--android:screenOrientation="portrait" >-->
+            <!--<intent-filter android:label="@string/diaspora"-->
+                <!--android:icon="@mipmap/ic_launcher">-->
+                <!--<action android:name="android.intent.action.SEND" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<data android:mimeType="text/plain" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <service
             android:name=".services.GetPodsService"
