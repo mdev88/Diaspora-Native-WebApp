@@ -115,6 +115,12 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
+                view.loadUrl("javascript: function reformat_mobile() { " +
+                        "document.getElementById(\"main_nav\").parentNode.removeChild(" +
+                        "document.getElementById(\"main_nav\")); " +
+                        "document.querySelector(\"body\").style.paddingTop = \"-20px\"; " +
+                        "} " +
+                        "reformat_mobile(); ");
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
@@ -304,6 +310,49 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.stream) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/stream");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.notifications) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/notifications");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.conversations) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/conversations");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {

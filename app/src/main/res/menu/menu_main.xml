@@ -2,35 +2,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
+
+    <item
+        android:id="@+id/stream"
+        android:icon="@drawable/ic_home_variant_white_24dp"
+        android:title="@string/stream"
+        android:orderInCategory="107"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/ic_comment_alert_outline_white_24dp"
+        android:title="@string/notifications"
+        android:orderInCategory="108"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/conversations"
+        android:icon="@drawable/ic_email_outline_white_24dp"
+        android:title="@string/messages"
+        android:orderInCategory="109"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/reload"
         android:icon="@drawable/ic_sync_white_24dp"
         android:title="@string/reload"
-        android:orderInCategory="100"
+        android:orderInCategory="109"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/exit_app"
+        android:title="@string/exit_app"
+        android:orderInCategory="110"
+        android:icon="@drawable/ic_exit_to_app_white_24dp"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/liked"
         android:title="@string/liked_posts"
-        android:orderInCategory="101"
+        android:orderInCategory="111"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/commented"
         android:title="@string/commented_posts"
-        android:orderInCategory="102"
+        android:orderInCategory="112"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/followed_tags"
         android:title="@string/followed_tags"
-        android:orderInCategory="104"
+        android:orderInCategory="113"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/clearCookies"
         android:title="@string/clear_cookies"
-        android:orderInCategory="110"
+        android:orderInCategory="114"
         app:showAsAction="never" />
 
     <item
@@ -39,11 +68,6 @@
         android:orderInCategory="115"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/exit_app"
-        android:title="@string/exit_app"
-        android:orderInCategory="120"
-        android:icon="@drawable/ic_exit_to_app_white_24dp"
-        app:showAsAction="ifRoom" />
+
 
 </menu>
