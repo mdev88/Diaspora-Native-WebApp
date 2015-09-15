@@ -27,4 +27,5 @@
     <string name="loading">Laden...</string>
     <string name="change_pod_warning">Das wird alle Cookies und Session-Daten löschen. Willst du wirklich den Pod wechseln?</string>
     <string name="clear_cookies_warning">Wenn du die Cookies löschst, wirst du ausgeloggt und verlierst deine Session-Daten. Willst du fortfahren?</string>
+    <string name="new_post">New post</string>
 </resources>

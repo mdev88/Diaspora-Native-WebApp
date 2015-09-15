@@ -29,5 +29,4 @@
     <string name="clear_cookies_warning">Clearing the cookies will log you out and clear all session data. Do you want to proceed?</string>
     <string name="change_pod_warning">This will erase all cookies and session data. Do you really want to change pods?</string>
     <string name="new_post">New post</string>
-    <string name="published_ok">New post was published succesfully</string>
 </resources>

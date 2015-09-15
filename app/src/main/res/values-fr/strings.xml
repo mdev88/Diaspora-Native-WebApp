@@ -27,4 +27,5 @@
     <string name="title_activity_pods">Selectionnez un pod</string>
     <string name="valid_pod">Veuillez entrer un nom de domaine valide</string>
     <string name="yes">OUI</string>
+    <string name="new_post">New post</string>
 </resources>
