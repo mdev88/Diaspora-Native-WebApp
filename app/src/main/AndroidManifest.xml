@@ -32,8 +32,16 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleInstance"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/diaspora"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name=".ShareActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/new_post"
             android:screenOrientation="portrait" >
             <intent-filter android:label="@string/diaspora"
                 android:icon="@mipmap/ic_launcher">
@@ -43,32 +51,19 @@
             </intent-filter>
         </activity>
 
-        <!--<activity-->
-            <!--android:name=".ShareActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:label="@string/diaspora"-->
-            <!--android:screenOrientation="portrait" >-->
-            <!--<intent-filter android:label="@string/diaspora"-->
-                <!--android:icon="@mipmap/ic_launcher">-->
-                <!--<action android:name="android.intent.action.SEND" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<data android:mimeType="text/plain" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
         <service
             android:name=".services.GetPodsService"
             android:enabled="true"
             android:exported="false" >
         </service>
 
-        <receiver android:name=".receivers.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".receivers.NetworkChangeReceiver"-->
+            <!--android:label="NetworkChangeReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!--<activity-->
             <!--android:name=".AboutActivity"-->

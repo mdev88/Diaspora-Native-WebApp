@@ -24,11 +24,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -53,7 +50,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ar.com.tristeslostrestigres.diasporanativewebapp.receivers.NetworkChangeReceiver;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
@@ -63,13 +59,13 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Diaspora Main";
     private ProgressDialog progressDialog;
     private String podDomain;
-    private BroadcastReceiver networkStateReceiver;
-    private boolean networkStateReceiverIsRegistered;
+//    private BroadcastReceiver networkStateReceiver;
+//    private boolean networkStateReceiverIsRegistered;
 
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
-    public static final String EXTRA_FROM_NOTIFICATION = "EXTRA_FROM_NOTIFICATION";
+//    public static final String EXTRA_FROM_NOTIFICATION = "EXTRA_FROM_NOTIFICATION";
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -77,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        regNetworkStateChangeReceiver();
+//        regNetworkStateChangeReceiver();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -103,9 +99,6 @@ public class MainActivity extends ActionBarActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
-
-
 
         WebViewClient wc = new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -198,9 +191,10 @@ public class MainActivity extends ActionBarActivity {
         });
 
         webView.setWebViewClient(wc);
+
         if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
-                progressDialog.show();
+                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://"+podDomain);
             } else {  // No Internet connection
                 Toast.makeText(
@@ -233,13 +227,9 @@ public class MainActivity extends ActionBarActivity {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
-
         Uri[] results = null;
-
-        // Check that the response is a good one
         if(resultCode == Activity.RESULT_OK) {
             if(data == null) {
-                // If there is not data, then we may have taken a photo
                 if(mCameraPhotoPath != null) {
                     results = new Uri[]{Uri.parse(mCameraPhotoPath)};
                 }
@@ -253,9 +243,7 @@ public class MainActivity extends ActionBarActivity {
 
         mFilePathCallback.onReceiveValue(results);
         mFilePathCallback = null;
-        return;
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -269,12 +257,12 @@ public class MainActivity extends ActionBarActivity {
         webView.restoreState(savedInstanceState);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (networkStateReceiverIsRegistered)
-            unregisterReceiver(networkStateReceiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (networkStateReceiverIsRegistered)
+//            unregisterReceiver(networkStateReceiver);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -283,29 +271,29 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private void regNetworkStateChangeReceiver() {
-        networkStateReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Bundle extras = intent.getExtras();
-
-                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
-                        extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
-                    Toast.makeText(
-                            MainActivity.this,
-                            getString(R.string.connection_established),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(
-                            MainActivity.this,
-                            getString(R.string.connection_lost),
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
-        networkStateReceiverIsRegistered = true;
-    }
+//    private void regNetworkStateChangeReceiver() {
+//        networkStateReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                Bundle extras = intent.getExtras();
+//
+//                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
+//                        extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
+//                    Toast.makeText(
+//                            MainActivity.this,
+//                            getString(R.string.connection_established),
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(
+//                            MainActivity.this,
+//                            getString(R.string.connection_lost),
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
+//        networkStateReceiverIsRegistered = true;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -319,10 +307,6 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {
-
-//                if(Helpers.isUsingMobile(MainActivity.this))
-//                    Helpers.warningMobile(MainActivity.this);
-
                 if (!progressDialog.isShowing()) progressDialog.show();
                 webView.reload();
                 return true;
@@ -338,7 +322,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.liked) {
             if (Helpers.isOnline(MainActivity.this)) {
-                progressDialog.show();
+                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://" + podDomain + "/liked");
                 return true;
             } else {  // No Internet connection
@@ -352,7 +336,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.commented) {
             if (Helpers.isOnline(MainActivity.this)) {
-                progressDialog.show();
+                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://"+podDomain+"/commented");
                 return true;
             } else {  // No Internet connection
@@ -366,7 +350,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.followed_tags) {
             if (Helpers.isOnline(MainActivity.this)) {
-                progressDialog.show();
+                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://" + podDomain + "/followed_tags");
                 return true;
             } else {  // No Internet connection

@@ -49,7 +49,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ar.com.tristeslostrestigres.diasporanativewebapp.receivers.NetworkChangeReceiver;
 import ar.com.tristeslostrestigres.diasporanativewebapp.services.GetPodsService;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
@@ -114,7 +113,7 @@ public class PodsActivity extends ActionBarActivity {
         };
 
         registerReceiver(podListReceiver, new IntentFilter(GetPodsService.MESSAGE));
-        regNetworkStateChangeReceiver();
+//        regNetworkStateChangeReceiver();
 
         progressDialog = new ProgressDialog(PodsActivity.this);
         progressDialog.setCancelable(false);
@@ -141,28 +140,28 @@ public class PodsActivity extends ActionBarActivity {
     }
 
 
-    private void regNetworkStateChangeReceiver() {
-        networkStateReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Bundle extras = intent.getExtras();
-                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
-                    extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
-                    Toast.makeText(
-                            PodsActivity.this,
-                            getString(R.string.connection_established),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(
-                            PodsActivity.this,
-                            getString(R.string.connection_lost),
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
-        networkStateReceiverIsRegistered = true;
-    }
+//    private void regNetworkStateChangeReceiver() {
+//        networkStateReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                Bundle extras = intent.getExtras();
+//                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
+//                    extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
+//                    Toast.makeText(
+//                            PodsActivity.this,
+//                            getString(R.string.connection_established),
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(
+//                            PodsActivity.this,
+//                            getString(R.string.connection_lost),
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
+//        networkStateReceiverIsRegistered = true;
+//    }
 
     private void updateListview(String[] source) {
         final ArrayList<String> podList = new ArrayList<>();

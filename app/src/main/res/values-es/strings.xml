@@ -27,4 +27,6 @@
     <string name="loading">Cargando ...</string>
     <string name="change_pod_warning">Esto eliminará las cookies y datos de sesión. ¿realmente quieres cambiar de Pod?</string>
     <string name="clear_cookies_warning">Limpiar las cookies cerrará la sesión y toda su información. ¿Deseas continuar?</string>
+    <string name="new_post">Nueva publicación</string>
+    <string name="published_ok">Publicación realizada con éxito</string>
 </resources>

@@ -19,14 +19,21 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.CookieManager;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -44,6 +51,7 @@ public class ShareActivity extends MainActivity {
     private String podDomain;
     private ProgressDialog progressDialog;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,10 +111,13 @@ public class ShareActivity extends MainActivity {
         });
 
         webView.setWebViewClient(wc);
+
         if (savedInstanceState == null) {
             if (Helpers.isOnline(ShareActivity.this)) {
-                progressDialog.show();
+
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://"+podDomain+"/status_messages/new");
+
             } else {  // No Internet connection
                 Toast.makeText(
                         ShareActivity.this,
@@ -122,8 +133,10 @@ public class ShareActivity extends MainActivity {
         Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
         String action = intent.getAction();
+
         if (Intent.ACTION_SEND.equals(action)) {
             webView.setWebViewClient(new WebViewClient() {
+
                 public void onPageFinished(WebView view, String url) {
 
                     if (progressDialog.isShowing()) progressDialog.dismiss();
@@ -131,6 +144,23 @@ public class ShareActivity extends MainActivity {
                     if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) {
                         final String extraText = (String) extras.get(Intent.EXTRA_TEXT);
                         final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);
+
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                                finish();
+
+                                Toast.makeText(ShareActivity.this, "Please reload the stream", Toast.LENGTH_SHORT).show();
+
+                                Intent i = new Intent(ShareActivity.this, MainActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.putExtra("fromShare", true);
+                                startActivity(i);
+
+                                return false;
+                            }
+                        });
 
                         webView.loadUrl("javascript:(function() { " +
                                 "document.getElementsByTagName('textarea')[0].style.height='110px'; " +
@@ -166,25 +196,150 @@ public class ShareActivity extends MainActivity {
 //        }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_share, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.reload) {
+            if (Helpers.isOnline(ShareActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.reload();
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        ShareActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        }
+
+        if (id == R.id.liked) {
+            if (Helpers.isOnline(ShareActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/liked");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        ShareActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.commented) {
+            if (Helpers.isOnline(ShareActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://"+podDomain+"/commented");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        ShareActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.followed_tags) {
+            if (Helpers.isOnline(ShareActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/followed_tags");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        ShareActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.clearCookies) {
+            new AlertDialog.Builder(ShareActivity.this)
+                    .setTitle(getString(R.string.confirmation))
+                    .setMessage(getString(R.string.clear_cookies_warning))
+                    .setPositiveButton(getString(R.string.yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    progressDialog.show();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        CookieManager.getInstance().removeAllCookies(null);
+                                        CookieManager.getInstance().removeSessionCookies(null);
+                                    }
+                                    else {
+                                        CookieManager.getInstance().removeAllCookie();
+                                        CookieManager.getInstance().removeSessionCookie();
+                                    }
+                                    webView.reload();
+                                    dialog.cancel();
+                                }
+                            })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }).show();
+            return true;
+        }
+
+        if (id == R.id.changePod) {
+
+            if (Helpers.isOnline(ShareActivity.this)) {
+                new AlertDialog.Builder(ShareActivity.this)
+                        .setTitle(getString(R.string.confirmation))
+                        .setMessage(getString(R.string.change_pod_warning))
+                        .setPositiveButton(getString(R.string.yes),
+                                new DialogInterface.OnClickListener() {
+                                    @TargetApi(11)
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        Intent i = new Intent(ShareActivity.this, PodsActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                })
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                            @TargetApi(11)
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        }).show();
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        ShareActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        }
+
+        if (id == R.id.exit_app) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(getString(R.string.confirm_exit))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), null)
+                    .show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
