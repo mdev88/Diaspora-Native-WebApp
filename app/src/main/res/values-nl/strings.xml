@@ -27,5 +27,4 @@
     <string name="loading">Laden...</string>
     <string name="change_pod_warning">Dit verwijdert alle cookie en sessiedata. Wil je echt van pod wisselen?</string>
     <string name="clear_cookies_warning">Het verwijderen van cookies logt je uit en verwijdert sessiedata. Wil je verder gaan?</string>
-    <string name="new_post">New post</string>
 </resources>

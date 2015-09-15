@@ -17,7 +17,6 @@
     <string name="liked_posts">Messages aimés</string>
     <string name="loading">Chargement...</string>
     <string name="loading_podlist">Chargement de la liste des pods...</string>
-    <string name="mentions">Mentions</string>
     <string name="no">NON</string>
     <string name="no_internet">Désolé, vous devez être connecté à Internet pour continuer</string>
     <string name="please_wait">Veuillez patienter</string>
@@ -27,5 +26,5 @@
     <string name="title_activity_pods">Selectionnez un pod</string>
     <string name="valid_pod">Veuillez entrer un nom de domaine valide</string>
     <string name="yes">OUI</string>
-    <string name="new_post">New post</string>
+    <string name="mentions">Mentions</string>
 </resources>

@@ -27,5 +27,4 @@
     <string name="loading">Caricamento…</string>
     <string name="change_pod_warning">Verranno ora cancellati tutti i cookie e i dati di sessione. Si è sicuri di voler cambiare di pod?</string>
     <string name="clear_cookies_warning">Per poter effettuare la cancellazione completa dei cookie e dei dati di sessione, è necessario uscire dall’applicazione. Si è sicuri di voler procedere?</string>
-    <string name="new_post">New post</string>
 </resources>

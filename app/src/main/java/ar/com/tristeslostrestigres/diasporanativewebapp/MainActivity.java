@@ -115,12 +115,10 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                view.loadUrl("javascript: function reformat_mobile() { " +
+                view.loadUrl("javascript:( function() { " +
                         "document.getElementById(\"main_nav\").parentNode.removeChild(" +
                         "document.getElementById(\"main_nav\")); " +
-                        "document.querySelector(\"body\").style.paddingTop = \"-20px\"; " +
-                        "} " +
-                        "reformat_mobile(); ");
+                        "})();");
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 

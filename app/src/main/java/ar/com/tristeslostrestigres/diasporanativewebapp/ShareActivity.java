@@ -71,6 +71,7 @@ public class ShareActivity extends MainActivity {
         WebSettings wSettings = webView.getSettings();
         wSettings.setJavaScriptEnabled(true);
         wSettings.setBuiltInZoomControls(true);
+
         if (Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
@@ -165,7 +166,9 @@ public class ShareActivity extends MainActivity {
                         webView.loadUrl("javascript:(function() { " +
                                 "document.getElementsByTagName('textarea')[0].style.height='110px'; " +
                                 "document.getElementsByTagName('textarea')[0].innerHTML = '[" + extraSubject + "](" + extraText + ") #ViaDiasporaNativeWebApp'; " +
-                                "})()");
+                                "document.getElementById(\"main_nav\").parentNode.removeChild(" +
+                                "document.getElementById(\"main_nav\")); " +
+                                "})();");
                     }
                 }
             });
@@ -198,7 +201,7 @@ public class ShareActivity extends MainActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_compose, menu);
         return true;
     }
 
