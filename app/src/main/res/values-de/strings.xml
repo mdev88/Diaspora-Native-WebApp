@@ -5,8 +5,8 @@
     <string name="filter_hint">Pod-Domain eingeben</string>
     <string name="changePod">Pod wechseln</string>
     <string name="clear_cookies">Cookies löschen</string>
-    <string name="liked_posts">Gemochte Posts</string>
-    <string name="commented_posts">Kommentierte Posts</string>
+    <string name="liked_posts">Gelikete Beiträge</string>
+    <string name="commented_posts">Kommentierte Beiträge</string>
     <string name="followed_tags">Hashtags</string>
     <string name="exit_app">App beenden</string>
     <string name="mentions">Erwähnungen</string>
