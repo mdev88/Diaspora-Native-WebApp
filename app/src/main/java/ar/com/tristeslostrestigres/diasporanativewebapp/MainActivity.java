@@ -351,6 +351,21 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
+        if (id == R.id.compose) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/status_messages/new");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {

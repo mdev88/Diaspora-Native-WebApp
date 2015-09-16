@@ -7,22 +7,31 @@
         android:id="@+id/stream"
         android:icon="@drawable/ic_home_variant_white_24dp"
         android:title="@string/stream"
-        android:orderInCategory="107"
+        android:orderInCategory="105"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/notifications"
         android:icon="@drawable/ic_comment_alert_outline_white_24dp"
         android:title="@string/notifications"
-        android:orderInCategory="108"
+        android:orderInCategory="106"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/conversations"
         android:icon="@drawable/ic_email_outline_white_24dp"
         android:title="@string/messages"
-        android:orderInCategory="109"
+        android:orderInCategory="107"
         app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/compose"
+        android:icon="@drawable/ic_pencil_white_24dp"
+        android:title="@string/stream"
+        android:orderInCategory="108"
+        app:showAsAction="always" />
+
 
     <item
         android:id="@+id/reload"
@@ -30,13 +39,6 @@
         android:title="@string/reload"
         android:orderInCategory="109"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/exit_app"
-        android:title="@string/exit_app"
-        android:orderInCategory="110"
-        android:icon="@drawable/ic_exit_to_app_white_24dp"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/liked"
@@ -68,6 +70,12 @@
         android:orderInCategory="115"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/exit_app"
+        android:title="@string/exit_app"
+        android:orderInCategory="116"
+        android:icon="@drawable/ic_exit_to_app_white_24dp"
+        app:showAsAction="never" />
 
 
 </menu>
