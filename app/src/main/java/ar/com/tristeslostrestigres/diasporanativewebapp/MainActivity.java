@@ -118,6 +118,8 @@ public class MainActivity extends ActionBarActivity {
                 view.loadUrl("javascript:( function() { " +
                         "document.getElementById(\"main_nav\").parentNode.removeChild(" +
                         "document.getElementById(\"main_nav\")); " +
+                        "document.getElementById(\"main-nav\").parentNode.removeChild(" +
+                        "document.getElementById(\"main-nav\")); " +
                         "})();");
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }
