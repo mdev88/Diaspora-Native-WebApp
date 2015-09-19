@@ -166,8 +166,13 @@ public class ShareActivity extends MainActivity {
                         webView.loadUrl("javascript:(function() { " +
                                 "document.getElementsByTagName('textarea')[0].style.height='110px'; " +
                                 "document.getElementsByTagName('textarea')[0].innerHTML = '[" + extraSubject + "](" + extraText + ") #ViaDiasporaNativeWebApp'; " +
-                                "document.getElementById(\"main_nav\").parentNode.removeChild(" +
-                                "document.getElementById(\"main_nav\")); " +
+                                "    if(document.getElementById(\"main_nav\")) {" +
+                                "        document.getElementById(\"main_nav\").parentNode.removeChild(" +
+                                "        document.getElementById(\"main_nav\"));" +
+                                "    } else if (document.getElementById(\"main-nav\")) {" +
+                                "        document.getElementById(\"main-nav\").parentNode.removeChild(" +
+                                "        document.getElementById(\"main-nav\"));" +
+                                "    }" +
                                 "})();");
                     }
                 }
