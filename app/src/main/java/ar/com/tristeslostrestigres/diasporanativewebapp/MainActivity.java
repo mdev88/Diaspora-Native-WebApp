@@ -115,11 +115,14 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                view.loadUrl("javascript:( function() { " +
-                        "document.getElementById(\"main_nav\").parentNode.removeChild(" +
-                        "document.getElementById(\"main_nav\")); " +
-                        "document.getElementById(\"main-nav\").parentNode.removeChild(" +
-                        "document.getElementById(\"main-nav\")); " +
+                view.loadUrl("javascript: ( function() {\n" +
+                        "    if(document.getElementById(\"main_nav\")) {" +
+                        "        document.getElementById(\"main_nav\").parentNode.removeChild(" +
+                        "        document.getElementById(\"main_nav\"));" +
+                        "    } else if (document.getElementById(\"main-nav\")) {" +
+                        "        document.getElementById(\"main-nav\").parentNode.removeChild(" +
+                        "        document.getElementById(\"main-nav\"));" +
+                        "    }" +
                         "})();");
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }

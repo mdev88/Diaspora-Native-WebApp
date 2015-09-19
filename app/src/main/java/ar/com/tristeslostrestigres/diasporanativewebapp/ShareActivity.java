@@ -178,25 +178,9 @@ public class ShareActivity extends MainActivity {
     }
 
     @Override
-    public void onBackPressed() {
-//        if (webView.getUrl().contains(podDomain + "/stream") ||
-//            webView.getUrl().contains(podDomain + "/users/sign_in") ||
-//            webView.getUrl().equals("https://" + podDomain) ||
-//            webView.getUrl().equals(""))  {
-//            new AlertDialog.Builder(this)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .setMessage(getString(R.string.confirm_exit))
-//                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            finish();
-//                        }
-//                    })
-//                            .setNegativeButton(getString(R.string.no), null)
-//                            .show();
-//        } else {
-        webView.goBack();
-//        }
+    protected void onDestroy() {
+        if (progressDialog.isShowing()) progressDialog.dismiss();
+        super.onDestroy();
     }
 
     @Override
