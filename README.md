@@ -46,7 +46,7 @@ https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 
 - Martín Vukovic
 - Donations: http://martinv.tip.me
-- Diaspora: https://joindiaspora.com/people/7c39340ef7847d9c
+- Diaspora:  martinv@diasp.org
 - Twitter: @martin_legion
 
 ## Translations credits
