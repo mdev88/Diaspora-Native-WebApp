@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
         this.menu = menu;
         MenuItem itemNotification = menu.findItem(R.id.notifications);
         if (notificationCount > 0) {
-            itemNotification.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+            itemNotification.setIcon(R.drawable.ic_bell_ring_white_24dp);
         } else {
             itemNotification.setIcon(R.drawable.ic_bell_outline_white_24dp);
         }
@@ -646,7 +646,7 @@ public class MainActivity extends AppCompatActivity {
 
                     MenuItem item = menu.findItem(R.id.notifications);
                     if (notificationCount > 0) {
-                        item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+                        item.setIcon(R.drawable.ic_bell_ring_white_24dp);
 //                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     } else {
                         item.setIcon(R.drawable.ic_bell_outline_white_24dp);

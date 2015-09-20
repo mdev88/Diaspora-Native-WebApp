@@ -14,7 +14,7 @@
         android:id="@+id/notifications"
         android:icon="@drawable/ic_bell_outline_white_24dp"
         android:title="@string/notifications"
-        android:orderInCategory="106"
+        android:orderInCategory="102"
         app:showAsAction="always" />
 
     <item
