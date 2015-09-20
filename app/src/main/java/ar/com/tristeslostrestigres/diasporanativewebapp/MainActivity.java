@@ -373,7 +373,19 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-
+//        if (id == R.id.search) {
+//            if (Helpers.isOnline(MainActivity.this)) {
+//                if (!progressDialog.isShowing()) progressDialog.show();
+//                // TODO
+//                return true;
+//            } else {  // No Internet connection
+//                Toast.makeText(
+//                        MainActivity.this,
+//                        getString(R.string.no_internet),
+//                        Toast.LENGTH_LONG).show();
+//                return false;
+//            }
+//        }
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {
@@ -431,6 +443,21 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         }
+
+        if (id == R.id.mobile) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/mobile/toggle");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
 
         if (id == R.id.clearCookies) {
             new AlertDialog.Builder(MainActivity.this)

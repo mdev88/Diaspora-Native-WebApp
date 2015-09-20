@@ -7,7 +7,7 @@
         android:id="@+id/stream"
         android:icon="@drawable/ic_home_variant_white_24dp"
         android:title="@string/stream"
-        android:orderInCategory="105"
+        android:orderInCategory="100"
         app:showAsAction="always" />
 
     <item
@@ -21,7 +21,7 @@
         android:id="@+id/conversations"
         android:icon="@drawable/ic_email_outline_white_24dp"
         android:title="@string/messages"
-        android:orderInCategory="107"
+        android:orderInCategory="104"
         app:showAsAction="always" />
 
 
@@ -29,7 +29,7 @@
         android:id="@+id/compose"
         android:icon="@drawable/ic_pencil_white_24dp"
         android:title="@string/stream"
-        android:orderInCategory="108"
+        android:orderInCategory="106"
         app:showAsAction="always" />
 
 
@@ -37,43 +37,55 @@
         android:id="@+id/reload"
         android:icon="@drawable/ic_sync_white_24dp"
         android:title="@string/reload"
-        android:orderInCategory="109"
+        android:orderInCategory="108"
         app:showAsAction="ifRoom" />
+
+    <!--<item-->
+        <!--android:id="@+id/search"-->
+        <!--android:title="@string/search"-->
+        <!--android:orderInCategory="110"-->
+        <!--app:showAsAction="never" />-->
 
     <item
         android:id="@+id/liked"
         android:title="@string/liked_posts"
-        android:orderInCategory="111"
+        android:orderInCategory="112"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/commented"
         android:title="@string/commented_posts"
-        android:orderInCategory="112"
+        android:orderInCategory="114"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/followed_tags"
         android:title="@string/followed_tags"
-        android:orderInCategory="113"
+        android:orderInCategory="116"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mobile"
+        android:title="@string/mobile"
+        android:orderInCategory="117"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/clearCookies"
         android:title="@string/clear_cookies"
-        android:orderInCategory="114"
+        android:orderInCategory="118"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/changePod"
         android:title="@string/changePod"
-        android:orderInCategory="115"
+        android:orderInCategory="120"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/exit_app"
         android:title="@string/exit_app"
-        android:orderInCategory="116"
+        android:orderInCategory="122"
         android:icon="@drawable/ic_exit_to_app_white_24dp"
         app:showAsAction="never" />
 

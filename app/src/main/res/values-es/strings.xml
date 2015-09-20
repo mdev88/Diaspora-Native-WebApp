@@ -29,4 +29,6 @@
     <string name="clear_cookies_warning">Limpiar las cookies cerrará la sesión y toda su información. ¿Deseas continuar?</string>
     <string name="new_post">Nuevo</string>
     <string name="stream">Portada</string>
+    <string name="search">Buscar</string>
+    <string name="mobile">Alternar versión móvil</string>
 </resources>

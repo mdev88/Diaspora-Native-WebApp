@@ -32,4 +32,6 @@
     <string name="notifications">Notifications</string>
     <string name="messages">Conversations</string>
     <string name="stream">Stream</string>
+    <string name="search">Search</string>
+    <string name="mobile">Toggle Mobile</string>
 </resources>
