@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,13 +32,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -56,11 +56,14 @@ import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
 public class MainActivity extends ActionBarActivity {
-    
+    final Handler myHandler = new Handler();
     private WebView webView;
     private static final String TAG = "Diaspora Main";
     private ProgressDialog progressDialog;
     private String podDomain;
+    private Menu menu;
+    private int notificationCount = 0;
+
 //    private BroadcastReceiver networkStateReceiver;
 //    private boolean networkStateReceiverIsRegistered;
 
@@ -68,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
     private String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
 //    public static final String EXTRA_FROM_NOTIFICATION = "EXTRA_FROM_NOTIFICATION";
+
+
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -86,8 +91,12 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
+        final JavaScriptInterface myJavaScriptInterface = new JavaScriptInterface(this);
+
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+
+        webView.addJavascriptInterface(myJavaScriptInterface, "NotificationCounter");
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
@@ -117,15 +126,20 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                view.loadUrl("javascript: ( function() {\n" +
-                        "    if(document.getElementById(\"main_nav\")) {" +
-                        "        document.getElementById(\"main_nav\").parentNode.removeChild(" +
-                        "        document.getElementById(\"main_nav\"));" +
-                        "    } else if (document.getElementById(\"main-nav\")) {" +
-                        "        document.getElementById(\"main-nav\").parentNode.removeChild(" +
-                        "        document.getElementById(\"main-nav\"));" +
+                view.loadUrl("javascript: ( function() {" +
+                        "    if (document.getElementById('notification')) {" +
+                        "       var count = document.getElementById('notification').innerHTML;" +
+                        "       NotificationCounter.setCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+                        "    }"+
+                        "    if(document.getElementById('main_nav')) {" +
+                        "        document.getElementById('main_nav').parentNode.removeChild(" +
+                        "        document.getElementById('main_nav'));" +
+                        "    } else if (document.getElementById('main-nav')) {" +
+                        "        document.getElementById('main-nav').parentNode.removeChild(" +
+                        "        document.getElementById('main-nav'));" +
                         "    }" +
                         "})();");
+                webView.scrollTo(0,0);
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
@@ -144,6 +158,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         };
+
+
 
         // This fixes the inability to reshare posts.
         // This solution was taken from the Diaspora WebClient by Terkel Sørensen.
@@ -200,6 +216,10 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+//                if (message.contains("notifications")) {
+//                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+//                    return true;
+//                }
                 return super.onJsAlert(view, url, message, result);
             }
         });
@@ -263,12 +283,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         webView.saveState(outState);
+
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         webView.restoreState(savedInstanceState);
+
     }
 
     @Override
@@ -289,8 +311,19 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-//    private void regNetworkStateChangeReceiver() {
+//        MenuItem item = menu.findItem(R.id.notifications);
+//        if (notificationCount > 0) {
+//            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+//        } else {
+//            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+//        }
+    }
+
+    //    private void regNetworkStateChangeReceiver() {
 //        networkStateReceiver = new BroadcastReceiver() {
 //            @Override
 //            public void onReceive(Context context, Intent intent) {
@@ -317,6 +350,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
+        MenuItem item = menu.findItem(R.id.notifications);
+        if (notificationCount > 0) {
+            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+        } else {
+            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+        }
         return true;
     }
 
@@ -545,4 +585,33 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public class JavaScriptInterface {
+        Context mContext;
+        JavaScriptInterface(Context c) {
+            mContext = c;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void setCount(final String webMessage){
+            myHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    notificationCount = Integer.valueOf(webMessage);
+
+                    MenuItem item = menu.findItem(R.id.notifications);
+                    if (notificationCount > 0) {
+                        item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+                    } else {
+                        item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+
 }
