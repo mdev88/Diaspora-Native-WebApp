@@ -35,6 +35,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +56,7 @@ import java.util.Date;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     final Handler myHandler = new Handler();
     private WebView webView;
     private static final String TAG = "Diaspora Main";
@@ -96,7 +97,8 @@ public class MainActivity extends ActionBarActivity {
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
-        webView.addJavascriptInterface(myJavaScriptInterface, "NotificationCounter");
+        if (android.os.Build.VERSION.SDK_INT > 17)
+            webView.addJavascriptInterface(myJavaScriptInterface, "NotificationCounter");
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
@@ -130,7 +132,9 @@ public class MainActivity extends ActionBarActivity {
                         "    if (document.getElementById('notification')) {" +
                         "       var count = document.getElementById('notification').innerHTML;" +
                         "       NotificationCounter.setCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                        "    }"+
+                        "    } else {" +
+                        "       NotificationCounter.setCount('0');" +
+                        "    }" +
                         "    if(document.getElementById('main_nav')) {" +
                         "        document.getElementById('main_nav').parentNode.removeChild(" +
                         "        document.getElementById('main_nav'));" +
@@ -307,6 +311,19 @@ public class MainActivity extends ActionBarActivity {
         if (webView.canGoBack()) {
             if (!progressDialog.isShowing()) progressDialog.show();
             webView.goBack();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(getString(R.string.confirm_exit))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), null)
+                    .show();
         }
 
     }
@@ -350,6 +367,18 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+//        this.menu = menu;
+//        MenuItem item = menu.findItem(R.id.notifications);
+//        if (notificationCount > 0) {
+//            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+//        } else {
+//            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+//        }
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
         MenuItem item = menu.findItem(R.id.notifications);
         if (notificationCount > 0) {
@@ -357,7 +386,7 @@ public class MainActivity extends ActionBarActivity {
         } else {
             item.setIcon(R.drawable.ic_bell_outline_white_24dp);
         }
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -603,10 +632,10 @@ public class MainActivity extends ActionBarActivity {
                     MenuItem item = menu.findItem(R.id.notifications);
                     if (notificationCount > 0) {
                         item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
-                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     } else {
                         item.setIcon(R.drawable.ic_bell_outline_white_24dp);
-                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
