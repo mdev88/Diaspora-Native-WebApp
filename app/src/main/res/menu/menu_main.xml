@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/conversations"
-        android:icon="@drawable/ic_email_outline_white_24dp"
+        android:icon="@drawable/ic_message_text_outline_white_24dp"
         android:title="@string/messages"
         android:orderInCategory="104"
         app:showAsAction="always" />

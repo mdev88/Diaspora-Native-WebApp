@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private String podDomain;
     private Menu menu;
     private int notificationCount = 0;
+    private int conversationCount = 0;
+
 
 //    private BroadcastReceiver networkStateReceiver;
 //    private boolean networkStateReceiverIsRegistered;
@@ -131,9 +133,15 @@ public class MainActivity extends AppCompatActivity {
                 view.loadUrl("javascript: ( function() {" +
                         "    if (document.getElementById('notification')) {" +
                         "       var count = document.getElementById('notification').innerHTML;" +
-                        "       NotificationCounter.setCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+                        "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
                         "    } else {" +
-                        "       NotificationCounter.setCount('0');" +
+                        "       NotificationCounter.setNotificationCount('0');" +
+                        "    }" +
+                        "    if (document.getElementById('conversation')) {" +
+                        "       var count = document.getElementById('conversation').innerHTML;" +
+                        "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+                        "    } else {" +
+                        "       NotificationCounter.setConversationCount('0');" +
                         "    }" +
                         "    if(document.getElementById('main_nav')) {" +
                         "        document.getElementById('main_nav').parentNode.removeChild(" +
@@ -380,11 +388,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
-        MenuItem item = menu.findItem(R.id.notifications);
+        MenuItem itemNotification = menu.findItem(R.id.notifications);
         if (notificationCount > 0) {
-            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
+            itemNotification.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
         } else {
-            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+            itemNotification.setIcon(R.drawable.ic_bell_outline_white_24dp);
+        }
+
+        MenuItem itemConversation = menu.findItem(R.id.conversations);
+        if (conversationCount > 0) {
+            itemConversation.setIcon(R.drawable.ic_message_text_white_24dp);
+        } else {
+            itemConversation.setIcon(R.drawable.ic_message_text_outline_white_24dp);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -623,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @android.webkit.JavascriptInterface
-        public void setCount(final String webMessage){
+        public void setNotificationCount(final String webMessage){
             myHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -640,6 +655,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        @android.webkit.JavascriptInterface
+        public void setConversationCount(final String webMessage){
+            myHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    conversationCount = Integer.valueOf(webMessage);
+
+                    MenuItem item = menu.findItem(R.id.conversations);
+                    if (conversationCount > 0) {
+                        item.setIcon(R.drawable.ic_message_text_white_24dp);
+//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+                    } else {
+                        item.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
     }
 
 
