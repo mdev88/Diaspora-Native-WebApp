@@ -36,6 +36,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -269,17 +271,22 @@ public class MainActivity extends ActionBarActivity {
         webView.restoreState(savedInstanceState);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
+    @Override
+    protected void onDestroy() {
+        if (progressDialog.isShowing()) progressDialog.dismiss();
+        super.onDestroy();
 //        if (networkStateReceiverIsRegistered)
 //            unregisterReceiver(networkStateReceiver);
-//    }
+    }
 
     @Override
     public void onBackPressed() {
-        if (!progressDialog.isShowing()) progressDialog.show();
+
+        if (webView.canGoBack()) {
+            if (!progressDialog.isShowing()) progressDialog.show();
             webView.goBack();
+        }
+
     }
 
 
