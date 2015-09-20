@@ -138,6 +138,9 @@ public class MainActivity extends ActionBarActivity {
                         .setPositiveButton("CLOSE", null)
                         .show();
             }
+
+
+
         };
 
         // This fixes the inability to reshare posts.
