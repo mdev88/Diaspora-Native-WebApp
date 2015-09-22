@@ -34,12 +34,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @SuppressLint("SetJavaScriptEnabled")
+//    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         wSettings.setBuiltInZoomControls(true);
         wSettings.setUseWideViewPort(true);
         wSettings.setLoadWithOverviewMode(true);
+        wSettings.setDomStorageEnabled(true);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -258,12 +260,11 @@ public class MainActivity extends AppCompatActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        return imageFile;
     }
 
 
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         webView.restoreState(savedInstanceState);
 
@@ -637,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
             mContext = c;
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         public void setNotificationCount(final String webMessage){
             myHandler.post(new Runnable() {
                 @Override
@@ -656,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         public void setConversationCount(final String webMessage){
             myHandler.post(new Runnable() {
                 @Override
