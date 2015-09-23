@@ -19,7 +19,6 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -243,6 +242,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
                 if (!progressDialog.isShowing()) progressDialog.show();
+
+                webView.loadData("", "text/html", null);
                 webView.loadUrl("https://"+podDomain);
             } else {  // No Internet connection
                 Toast.makeText(
