@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
-        if (android.os.Build.VERSION.SDK_INT > 17)
+//        if (android.os.Build.VERSION.SDK_INT > 17)
             webView.addJavascriptInterface(myJavaScriptInterface, "NotificationCounter");
 
         if (savedInstanceState != null) {
