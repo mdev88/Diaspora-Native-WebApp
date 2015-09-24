@@ -19,11 +19,12 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
+//import android.annotation.SuppressLint;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -94,13 +95,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
-        final JavaScriptInterface myJavaScriptInterface = new JavaScriptInterface(this);
+//        JavaScriptInterface myJavaScriptInterface = new JavaScriptInterface(this);
 
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-
-//        if (android.os.Build.VERSION.SDK_INT > 17)
-            webView.addJavascriptInterface(myJavaScriptInterface, "NotificationCounter");
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
@@ -112,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         wSettings.setUseWideViewPort(true);
         wSettings.setLoadWithOverviewMode(true);
         wSettings.setDomStorageEnabled(true);
+
+        webView.addJavascriptInterface(new JavaScriptInterface(), "NotificationCounter");
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
+
                 view.loadUrl("javascript: ( function() {" +
                         "    if (document.getElementById('notification')) {" +
                         "       var count = document.getElementById('notification').innerHTML;" +
@@ -229,10 +230,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-//                if (message.contains("notifications")) {
-//                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-//                    return true;
-//                }
                 return super.onJsAlert(view, url, message, result);
             }
         });
@@ -634,10 +631,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public class JavaScriptInterface {
-        Context mContext;
-        JavaScriptInterface(Context c) {
-            mContext = c;
-        }
+//        Context mContext;
+//
+//        JavaScriptInterface(Context c) {
+//            mContext = c;
+//        }
 
         @JavascriptInterface
         public void setNotificationCount(final String webMessage){
@@ -647,12 +645,11 @@ public class MainActivity extends AppCompatActivity {
                     notificationCount = Integer.valueOf(webMessage);
 
                     MenuItem item = menu.findItem(R.id.notifications);
+
                     if (notificationCount > 0) {
                         item.setIcon(R.drawable.ic_bell_ring_white_24dp);
-//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     } else {
                         item.setIcon(R.drawable.ic_bell_outline_white_24dp);
-//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -668,10 +665,8 @@ public class MainActivity extends AppCompatActivity {
                     MenuItem item = menu.findItem(R.id.conversations);
                     if (conversationCount > 0) {
                         item.setIcon(R.drawable.ic_message_text_white_24dp);
-//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     } else {
                         item.setIcon(R.drawable.ic_message_text_outline_white_24dp);
-//                        Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
