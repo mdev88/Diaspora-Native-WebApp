@@ -174,6 +174,29 @@ public class ShareActivity extends MainActivity {
                                 "        document.getElementById(\"main-nav\"));" +
                                 "    }" +
                                 "})();");
+
+//                        view.loadUrl("javascript: ( function() {" +
+//                                "    if (document.getElementById('notification')) {" +
+//                                "       var count = document.getElementById('notification').innerHTML;" +
+//                                "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                                "    } else {" +
+//                                "       NotificationCounter.setNotificationCount('0');" +
+//                                "    }" +
+//                                "    if (document.getElementById('conversation')) {" +
+//                                "       var count = document.getElementById('conversation').innerHTML;" +
+//                                "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                                "    } else {" +
+//                                "       NotificationCounter.setConversationCount('0');" +
+//                                "    }" +
+//                                "    if(document.getElementById('main_nav')) {" +
+//                                "        document.getElementById('main_nav').parentNode.removeChild(" +
+//                                "        document.getElementById('main_nav'));" +
+//                                "    } else if (document.getElementById('main-nav')) {" +
+//                                "        document.getElementById('main-nav').parentNode.removeChild(" +
+//                                "        document.getElementById('main-nav'));" +
+//                                "    }" +
+//                                "})();");
+
                     }
                 }
             });

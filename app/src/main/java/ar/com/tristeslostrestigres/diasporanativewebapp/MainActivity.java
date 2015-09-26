@@ -327,17 +327,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
         MenuItem itemNotification = menu.findItem(R.id.notifications);
-        if (notificationCount > 0) {
-            itemNotification.setIcon(R.drawable.ic_bell_ring_white_24dp);
-        } else {
-            itemNotification.setIcon(R.drawable.ic_bell_outline_white_24dp);
-        }
+        if (itemNotification != null) {
+            if (notificationCount > 0) {
+                itemNotification.setIcon(R.drawable.ic_bell_ring_white_24dp);
+            } else {
+                itemNotification.setIcon(R.drawable.ic_bell_outline_white_24dp);
+            }
 
-        MenuItem itemConversation = menu.findItem(R.id.conversations);
-        if (conversationCount > 0) {
-            itemConversation.setIcon(R.drawable.ic_message_text_white_24dp);
-        } else {
-            itemConversation.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+            MenuItem itemConversation = menu.findItem(R.id.conversations);
+            if (conversationCount > 0) {
+                itemConversation.setIcon(R.drawable.ic_message_text_white_24dp);
+            } else {
+                itemConversation.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -579,11 +581,15 @@ public class MainActivity extends AppCompatActivity {
 
                     MenuItem item = menu.findItem(R.id.notifications);
 
-                    if (notificationCount > 0) {
-                        item.setIcon(R.drawable.ic_bell_ring_white_24dp);
-                    } else {
-                        item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+                    if (item != null) {
+                        if (notificationCount > 0) {
+                            item.setIcon(R.drawable.ic_bell_ring_white_24dp);
+                        } else {
+                            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
+                        }
                     }
+
+
                 }
             });
         }
@@ -596,11 +602,15 @@ public class MainActivity extends AppCompatActivity {
                     conversationCount = Integer.valueOf(webMessage);
 
                     MenuItem item = menu.findItem(R.id.conversations);
-                    if (conversationCount > 0) {
-                        item.setIcon(R.drawable.ic_message_text_white_24dp);
-                    } else {
-                        item.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+
+                    if (item != null) {
+                        if (conversationCount > 0) {
+                            item.setIcon(R.drawable.ic_message_text_white_24dp);
+                        } else {
+                            item.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+                        }
                     }
+
                 }
             });
         }
