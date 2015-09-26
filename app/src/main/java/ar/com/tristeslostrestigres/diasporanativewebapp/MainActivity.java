@@ -19,8 +19,7 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
-//import android.annotation.SuppressLint;
-
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -66,25 +65,15 @@ public class MainActivity extends AppCompatActivity {
     private Menu menu;
     private int notificationCount = 0;
     private int conversationCount = 0;
-
-
-//    private BroadcastReceiver networkStateReceiver;
-//    private boolean networkStateReceiverIsRegistered;
-
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
-//    public static final String EXTRA_FROM_NOTIFICATION = "EXTRA_FROM_NOTIFICATION";
 
-
-
-//    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        regNetworkStateChangeReceiver();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -94,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
-
-//        JavaScriptInterface myJavaScriptInterface = new JavaScriptInterface(this);
 
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -168,9 +155,6 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("CLOSE", null)
                         .show();
             }
-
-
-
         };
 
 
@@ -308,13 +292,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (progressDialog.isShowing()) progressDialog.dismiss();
         super.onDestroy();
-//        if (networkStateReceiverIsRegistered)
-//            unregisterReceiver(networkStateReceiver);
     }
 
     @Override
     public void onBackPressed() {
-
         if (webView.canGoBack()) {
             if (!progressDialog.isShowing()) progressDialog.show();
             webView.goBack();
@@ -332,55 +313,13 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton(getString(R.string.no), null)
                     .show();
         }
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-//        MenuItem item = menu.findItem(R.id.notifications);
-//        if (notificationCount > 0) {
-//            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
-//        } else {
-//            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
-//        }
-    }
-
-    //    private void regNetworkStateChangeReceiver() {
-//        networkStateReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                Bundle extras = intent.getExtras();
-//
-//                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
-//                        extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
-//                    Toast.makeText(
-//                            MainActivity.this,
-//                            getString(R.string.connection_established),
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(
-//                            MainActivity.this,
-//                            getString(R.string.connection_lost),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-//        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
-//        networkStateReceiverIsRegistered = true;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-//        this.menu = menu;
-//        MenuItem item = menu.findItem(R.id.notifications);
-//        if (notificationCount > 0) {
-//            item.setIcon(R.drawable.ic_bell_ring_outline_white_24dp);
-//        } else {
-//            item.setIcon(R.drawable.ic_bell_outline_white_24dp);
-//        }
         return true;
     }
 
@@ -631,12 +570,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public class JavaScriptInterface {
-//        Context mContext;
-//
-//        JavaScriptInterface(Context c) {
-//            mContext = c;
-//        }
-
         @JavascriptInterface
         public void setNotificationCount(final String webMessage){
             myHandler.post(new Runnable() {
@@ -673,6 +606,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
