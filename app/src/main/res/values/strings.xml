@@ -34,4 +34,80 @@
     <string name="stream">Stream</string>
     <string name="search">Search</string>
     <string name="mobile">Toggle Mobile</string>
+
+    // By me
+
+    // Drawer and App
+
+    <string name="app_copyright">your freedom | data | network</string>
+    <string name="closeDrawer">Navigation View</string>
+    <string name="openDrawer">Navigation View Closed</string>
+    <string name="jb_menu_0">Persanal sites</string>
+    <string name="jb_menu_1">Settings</string>
+    <string name="jb_menu_2">Application</string>
+    <string name="jb_about">About</string>
+    <string name="jb_license">License</string>
+    <string name="jb_stream">Stream</string>
+    <string name="jb_notifications">Notifications</string>
+    <string name="jb_conversations">Conversations</string>
+    <string name="jb_liked">Liked</string>
+    <string name="jb_commented">Commented</string>
+    <string name="jb_contacts">Contacts</string>
+    <string name="jb_mentions">Mentions</string>
+    <string name="jb_activities">My activities</string>
+    <string name="jb_followed_tags">Followed Hashtags</string>
+    <string name="jb_manage_tags">Manage Hashtags</string>
+    <string name="jb_settings">Personal settings</string>
+    <string name="jb_aspects">My aspects</string>
+    <string name="jb_pod">Change pod</string>
+
+    // Floating Action Buttons - Toasts
+
+    <string name="fab3_toast">Reload site ...</string>
+
+    // Floating Action Buttons - Titles
+
+    <string name="fab4_title">Clear cache and exit App</string>
+    <string name="fab3_title">New message</string>
+    <string name="fab2_title">Go to top</string>
+    <string name="fab1_title">Search by tags or persons</string>
+    <string name="fab1_title_tag">Search for tag #...</string>
+    <string name="fab1_title_person">Search for person ...</string>
+
+    <string name="search_alert_title">Search</string>
+    <string name="search_alert_tag">by tags</string>
+    <string name="search_alert_people">by people</string>
+    <string name="search_alert_bypeople_validate_needsomedata">Please add a name</string>
+    <string name="search_alert_bytags_validate_needsomedata">Try to add a tag like: #newhere or #art</string>
+
+    //Dialog
+
+    <string name="about_yes">Visit projectsite from *martinchodev*</string>
+    <string name="about_no">OK</string>
+    <string name="about_title">Diaspora Native WebApp</string>
+    <string name="about_text">First of all: I am not a developer. I understand a few basics and most of my work is done
+        by copy and paste. This app is build from the original *DiasporaNativeWebApp* Version 1.6.1
+        from *martinchodev*, which is released under the GPL-license. Because I wanted a better visual integration
+        with my personal phone-setup, I changed a few icons and the splashscreen. I also added the navigationdrawer
+        and the floating-action-buttons. I also did some minor changes. Nearly all of my changes are tagged with
+        "By_me" in my sourcecode. All of the rest is the work of *martinchodev*. Big thanks to him.</string>
+
+    //Dialog
+    <string name="license_yes">Visit projectsite from *scoute-dich*</string>
+    <string name="license_no">OK</string>
+    <string name="license_title">Diaspora Native WebApp</string>
+    <string name="license_text">Copyright (C) 2015  by scoute-dich\n\n
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see http://www.gnu.org/licenses/.</string>
 </resources>

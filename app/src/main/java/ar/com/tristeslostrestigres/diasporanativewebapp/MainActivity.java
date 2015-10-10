@@ -34,10 +34,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -46,6 +51,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -57,6 +63,14 @@ import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
 public class MainActivity extends AppCompatActivity {
+
+//By_me_start
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+//By_me_end
+
+
     final Handler myHandler = new Handler();
     private WebView webView;
     private static final String TAG = "Diaspora Main";
@@ -69,11 +83,401 @@ public class MainActivity extends AppCompatActivity {
     private String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
 
+    //By_me_start
+    public void fab1_click(View v){
+        // write your code here ..
+        if (Helpers.isOnline(MainActivity.this)) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            final EditText input = new EditText(this);
+            alert.setView(input);
+            alert.setTitle(R.string.search_alert_title);
+            alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String inputtag = input.getText().toString().trim();
+                    // this validate the input data for tagfind
+                    if(inputtag.equals("") || inputtag.equals(null))
+                    {
+                        dialog.cancel(); // if user don�t have added a tag
+                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
+                    }
+                    else // if user have added a search tag
+                    {
+                        setTitle(R.string.fab1_title_person);
+                        webView.loadUrl("https://"+podDomain+"/people.mobile?q="+inputtag);
+                    }
+                }
+            });
+            alert.setNegativeButton(R.string.search_alert_tag,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String inputtag = input.getText().toString().trim();
+                            // this validate the input data for tagfind
+                            if(inputtag == null || inputtag.length() == 0)
+                            {
+                                dialog.cancel(); // if user hasn't added a tag
+                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
+                            }
+                            else // if user have added a search tag
+                            {
+                                setTitle(R.string.fab1_title_tag);
+                                webView.loadUrl("https://" +podDomain+ "/tags/" + inputtag);
+                            }
+                        }
+                    });
+            alert.show();
+        }
+    }
+
+    public void fab2_click(View v){
+        // write your code here ..
+        if (Helpers.isOnline(MainActivity.this)) {
+            webView.scrollTo(0, 65);
+        }
+    }
+
+    public void fab3_click(View v){
+        // write your code here ..
+        if (Helpers.isOnline(MainActivity.this)) {
+            setTitle(R.string.fab4_title);
+            if (!progressDialog.isShowing()) progressDialog.show();
+            setTitle(R.string.fab3_title);
+            webView.loadUrl("https://" + podDomain + "/status_messages/new");
+        } else {  // No Internet connection
+            Toast.makeText(
+                    MainActivity.this,
+                    getString(R.string.no_internet),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void fab4_click(View v){
+        // write your code here ..
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(getString(R.string.confirm_exit))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        webView.clearCache(true);
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
+//By_me_end
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//By_me_start
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //Initializing NavigationView
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            // This method will trigger on item Click of navigation menu
+
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if(menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+
+                //Closing drawer on item click
+                drawerLayout.closeDrawers();
+
+                //Check to see which item was being clicked and perform appropriate action
+                switch (menuItem.getItemId()){
+
+                    default:
+                        Toast.makeText(getApplicationContext(),"Ups ...",Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    //Replacing the main content with Ort1Fragment Which is our Inbox View;
+
+                    case R.id.jb_stream:
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            setTitle(R.string.jb_stream);
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/stream");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_notifications:
+
+                        setTitle(R.string.jb_notifications);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/notifications");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_conversations:
+                        setTitle(R.string.jb_conversations);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/conversations");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_liked:
+                        setTitle(R.string.jb_liked);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/liked");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_commented:
+                        setTitle(R.string.jb_commented);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://"+podDomain+"/commented");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_contacts:
+                        setTitle(R.string.jb_contacts);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/contacts");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_mentions:
+                        setTitle(R.string.jb_mentions);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/mentions");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_activities:
+                        setTitle(R.string.jb_activities);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://"+podDomain+"/activity");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_followed_tags:
+                        setTitle(R.string.jb_followed_tags);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/followed_tags");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_manage_tags:
+
+                        setTitle(R.string.jb_manage_tags);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_about:
+                        setTitle(R.string.jb_about);
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.about_title))
+                                .setMessage(getString(R.string.about_text))
+                                .setPositiveButton(getString(R.string.about_yes),
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                webView.loadUrl("https://github.com/martinchodev/Diaspora-Native-WebApp");
+                                                dialog.cancel();
+                                            }
+                                        })
+                                .setNegativeButton(getString(R.string.about_no), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+                        return true;
+
+                    case R.id.jb_license:
+                        setTitle(R.string.jb_license);
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.license_title))
+                                .setMessage(getString(R.string.license_text))
+                                .setPositiveButton(getString(R.string.license_yes),
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                webView.loadUrl("https://github.com/scoute-dich/Diaspora-Native-WebApp-1.5.4");
+                                                dialog.cancel();
+                                            }
+                                        })
+                                .setNegativeButton(getString(R.string.license_no), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+                        return true;
+
+                    case R.id.jb_aspects:
+                        setTitle(R.string.jb_aspects);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/aspects");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_settings:
+                        setTitle(R.string.jb_settings);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            if (!progressDialog.isShowing()) progressDialog.show();
+                            webView.loadUrl("https://" + podDomain + "/user/edit");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                    case R.id.jb_pod:
+                        setTitle(R.string.jb_pod);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle(getString(R.string.confirmation))
+                                    .setMessage(getString(R.string.change_pod_warning))
+                                    .setPositiveButton(getString(R.string.yes),
+                                            new DialogInterface.OnClickListener() {
+                                                @TargetApi(11)
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
+                                                    startActivity(i);
+                                                    finish();
+                                                }
+                                            })
+                                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                        @TargetApi(11)
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    }).show();
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+
+                }
+            }
+        });
+
+        // Initializing Drawer Layout and ActionBarToggle
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+//By_me_end
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -140,7 +544,11 @@ public class MainActivity extends AppCompatActivity {
                         "        document.getElementById('main-nav'));" +
                         "    }" +
                         "})();");
-                webView.scrollTo(0,0);
+
+//By_me_start
+                webView.scrollTo(0,65);
+//By_me_end
+
                 if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 

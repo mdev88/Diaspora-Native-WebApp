@@ -8,7 +8,7 @@
         android:icon="@drawable/ic_home_variant_white_24dp"
         android:title="@string/stream"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/notifications"
@@ -30,7 +30,7 @@
         android:icon="@drawable/ic_pencil_white_24dp"
         android:title="@string/stream"
         android:orderInCategory="106"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
 
     <item
@@ -38,7 +38,7 @@
         android:icon="@drawable/ic_sync_white_24dp"
         android:title="@string/reload"
         android:orderInCategory="108"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <!--<item-->
         <!--android:id="@+id/search"-->
