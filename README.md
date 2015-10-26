@@ -2,6 +2,12 @@
 
 This is a fork of [Diaspora-Native-WebApp](https://github.com/martinchodev/Diaspora-Native-WebApp) from [martinchodev](https://github.com/martinchodev).
 
+
+- Download [Sourcecode/APK](https://github.com/scoute-dich/Diaspora-Native-WebApp/releases)
+- Watch [Changelog](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/CHANGELOG.md)
+- See [license](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/licence.md)
+- See [screenshots](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/screenshots.md)
+
 # Readme file from original project:
 
 ### About
