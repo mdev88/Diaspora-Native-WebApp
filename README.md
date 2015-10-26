@@ -1,5 +1,9 @@
 # Diaspora Native WebApp
 
+This is a fork of [Diaspora-Native-WebApp](https://github.com/martinchodev/Diaspora-Native-WebApp) from [martinchodev](https://github.com/martinchodev).
+
+# Readme file from original project:
+
 ### About
 This is an unofficial client developed just for the lulz.
 It's currently under development and should be used with that in mind. Please submit any bugs you might find.
