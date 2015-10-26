@@ -1,0 +1,3 @@
+![1](https://github.com/scoute-dich/Baumann_Theme/blob/master/Screenshots/Screenshot_2015-07-28-07-17-12.png?raw=true)
+![2](https://github.com/scoute-dich/Baumann_Theme/blob/master/Screenshots/Screenshot_2015-07-28-07-17-46.png?raw=true)
+![3](https://github.com/scoute-dich/Baumann_Theme/blob/master/Screenshots/Screenshot_2015-07-28-07-18-02.png?raw=true)
