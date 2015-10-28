@@ -1,5 +1,15 @@
 # Diaspora Native WebApp
 
+This is a fork of [Diaspora-Native-WebApp](https://github.com/martinchodev/Diaspora-Native-WebApp) from [martinchodev](https://github.com/martinchodev).
+
+
+- Download [Sourcecode/APK](https://github.com/scoute-dich/Diaspora-Native-WebApp/releases)
+- Watch [Changelog](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/CHANGELOG.md)
+- See [license](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/licence.md)
+- See [screenshots](https://github.com/scoute-dich/Diaspora-Native-WebApp/blob/master/screenshots.md)
+
+# Readme file from original project:
+
 ### About
 This is an unofficial client developed just for the lulz.
 It's currently under development and should be used with that in mind. Please submit any bugs you might find.
