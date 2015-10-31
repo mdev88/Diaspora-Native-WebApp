@@ -757,33 +757,33 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 
-//        if (id == R.id.notifications) {
-//            if (Helpers.isOnline(MainActivity.this)) {
-//                if (!progressDialog.isShowing()) progressDialog.show();
-//                webView.loadUrl("https://" + podDomain + "/notifications");
-//                return true;
-//            } else {  // No Internet connection
-//                Toast.makeText(
-//                        MainActivity.this,
-//                        getString(R.string.no_internet),
-//                        Toast.LENGTH_LONG).show();
-//                return false;
-//            }
-//        }
+        if (id == R.id.notifications) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/notifications");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
 
-//        if (id == R.id.conversations) {
-//            if (Helpers.isOnline(MainActivity.this)) {
-//                if (!progressDialog.isShowing()) progressDialog.show();
-//                webView.loadUrl("https://" + podDomain + "/conversations");
-//                return true;
-//            } else {  // No Internet connection
-//                Toast.makeText(
-//                        MainActivity.this,
-//                        getString(R.string.no_internet),
-//                        Toast.LENGTH_LONG).show();
-//                return false;
-//            }
-//        }
+        if (id == R.id.conversations) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                if (!progressDialog.isShowing()) progressDialog.show();
+                webView.loadUrl("https://" + podDomain + "/conversations");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
 
 //        if (id == R.id.compose) {
 //            if (Helpers.isOnline(MainActivity.this)) {
