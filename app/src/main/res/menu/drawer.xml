@@ -19,15 +19,15 @@
                 android:icon="@drawable/jb_aspects"
                 android:title="@string/jb_aspects" />
 
-            <item
-                android:id="@+id/jb_notifications"
-                android:icon="@drawable/jb_notification"
-                android:title="@string/jb_notifications" />
+            <!--<item-->
+                <!--android:id="@+id/jb_notifications"-->
+                <!--android:icon="@drawable/jb_notification"-->
+                <!--android:title="@string/jb_notifications" />-->
 
-            <item
-                android:id="@+id/jb_conversations"
-                android:icon="@drawable/jb_conversation"
-                android:title="@string/jb_conversations" />
+            <!--<item-->
+                <!--android:id="@+id/jb_conversations"-->
+                <!--android:icon="@drawable/jb_conversation"-->
+                <!--android:title="@string/jb_conversations" />-->
 
             <item
                 android:id="@+id/jb_activities"
@@ -80,10 +80,10 @@
 
     <item android:title="@string/jb_menu_2">
         <menu>
-            <item
-                android:id="@+id/jb_about"
-                android:icon="@drawable/jb_info"
-                android:title="@string/jb_about" />
+            <!--<item-->
+                <!--android:id="@+id/jb_about"-->
+                <!--android:icon="@drawable/jb_info"-->
+                <!--android:title="@string/jb_about" />-->
 
             <item
                 android:id="@+id/jb_license"

@@ -216,11 +216,19 @@ public class PodsActivity extends ActionBarActivity {
                                     editor.apply();
 
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        CookieManager.getInstance().removeAllCookies(null);
-                                        CookieManager.getInstance().removeSessionCookies(null);
+                                        try {
+                                            CookieManager.getInstance().removeAllCookies(null);
+                                            CookieManager.getInstance().removeSessionCookies(null);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     } else {
-                                        CookieManager.getInstance().removeAllCookie();
-                                        CookieManager.getInstance().removeSessionCookie();
+                                        try {
+                                            CookieManager.getInstance().removeAllCookie();
+                                            CookieManager.getInstance().removeSessionCookie();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
 
                                     Intent i = new Intent(PodsActivity.this, MainActivity.class);

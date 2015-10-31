@@ -236,21 +236,21 @@ public class ShareActivity extends MainActivity {
 
         }
 
-        if (id == R.id.exit_app) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage(getString(R.string.confirm_exit))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.no), null)
-                    .show();
-            return true;
-        }
+//        if (id == R.id.exit_app) {
+//            new AlertDialog.Builder(this)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .setMessage(getString(R.string.confirm_exit))
+//                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+//                        }
+//                    })
+//                    .setNegativeButton(getString(R.string.no), null)
+//                    .show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

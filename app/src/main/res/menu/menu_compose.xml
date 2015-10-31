@@ -9,12 +9,12 @@
         android:orderInCategory="109"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/exit_app"
-        android:title="@string/exit_app"
-        android:orderInCategory="110"
-        android:icon="@drawable/ic_exit_to_app_white_24dp"
-        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/exit_app"-->
+        <!--android:title="@string/exit_app"-->
+        <!--android:orderInCategory="110"-->
+        <!--android:icon="@drawable/ic_exit_to_app_white_24dp"-->
+        <!--app:showAsAction="always" />-->
 
 
 </menu>

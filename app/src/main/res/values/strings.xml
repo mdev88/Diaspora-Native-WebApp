@@ -54,7 +54,7 @@
     <string name="jb_commented">Commented</string>
     <string name="jb_contacts">Contacts</string>
     <string name="jb_mentions">Mentions</string>
-    <string name="jb_activities">My activities</string>
+    <string name="jb_activities">My activity</string>
     <string name="jb_followed_tags">Followed Hashtags</string>
     <string name="jb_manage_tags">Manage Hashtags</string>
     <string name="jb_settings">Personal settings</string>
@@ -71,7 +71,7 @@
     <string name="fab3_title">New message</string>
     <string name="fab2_title">Go to top</string>
     <string name="fab1_title">Search by tags or persons</string>
-    <string name="fab1_title_tag">Search for tag #...</string>
+    <string name="fab1_title_tag">Search for tag ...</string>
     <string name="fab1_title_person">Search for person ...</string>
 
     <string name="search_alert_title">Search</string>
@@ -93,10 +93,10 @@
         "By_me" in my sourcecode. All of the rest is the work of *martinchodev*. Big thanks to him.</string>
 
     //Dialog
-    <string name="license_yes">Visit projectsite from *scoute-dich*</string>
-    <string name="license_no">OK</string>
+    <string name="license_yes" translatable="false">Visit project on GitHub</string>
+    <string name="license_no" translatable="false">OK</string>
     <string name="license_title">Diaspora Native WebApp</string>
-    <string name="license_text">Copyright (C) 2015  by scoute-dich\n\n
+    <string name="license_text">Copyright (C) 2015  by martinchodev\n\n
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

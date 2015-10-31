@@ -33,4 +33,5 @@
     <string name="stream">Flux</string>
     <string name="search">Recherche</string>
     <string name="mobile">Activer/désactiver la version mobile</string>
+    <string name="closeDrawer"></string>
 </resources>

@@ -75,7 +75,6 @@
 
     //Dialog
 
-    <string name="about_yes">Besuche die Projektseite von *martinchodev*</string>
     <string name="about_no">OK</string>
     <string name="about_title">Diaspora Native WebApp</string>
     <string name="about_text">Zuerst einmal: ich bin kein Entwickler. Ich verstehe ein paar Grundlagen und
@@ -88,10 +87,10 @@
         geleistet. Mein großer Dank gilt ihm.</string>
 
     //Dialog
-    <string name="license_yes">Besuche die Projektseite von *scoute-dich*</string>
+    <string name="license_yes">Besuche die Projektseite von *martinchodev*</string>
     <string name="license_no">OK</string>
     <string name="license_title">Diaspora Native WebApp</string>
-    <string name="license_text">Copyright (C) 2015  by scoute-dich\n\n
+    <string name="license_text">Copyright (C) 2015  by martinchodev\n\n
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
