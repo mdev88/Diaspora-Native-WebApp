@@ -35,6 +35,7 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/diaspora"
             android:screenOrientation="portrait" >

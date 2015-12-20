@@ -28,7 +28,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -43,7 +42,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -52,7 +50,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,88 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
-
-
-    public void fab1_click(View v){
-
-        if (Helpers.isOnline(MainActivity.this)) {
-            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            final EditText input = new EditText(this);
-            alert.setView(input);
-            alert.setTitle(R.string.search_alert_title);
-            alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    String inputtag = input.getText().toString().trim();
-                    // this validate the input data for tagfind
-                    if(inputtag.equals("") || inputtag.equals(null))
-                    {
-                        dialog.cancel(); // if user don�t have added a tag
-                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
-                    }
-                    else // if user have added a search tag
-                    {
-                        setTitle(R.string.fab1_title_person);
-                        webView.loadUrl("https://"+podDomain+"/people.mobile?q="+inputtag);
-                    }
-                }
-            });
-            alert.setNegativeButton(R.string.search_alert_tag,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String inputtag = input.getText().toString().trim();
-                            // this validate the input data for tagfind
-                            if(inputtag == null || inputtag.length() == 0)
-                            {
-                                dialog.cancel(); // if user hasn't added a tag
-                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
-                            }
-                            else // if user have added a search tag
-                            {
-                                setTitle(R.string.fab1_title_tag);
-                                webView.loadUrl("https://" +podDomain+ "/tags/" + inputtag);
-                            }
-                        }
-                    });
-            alert.show();
-        }
-    }
-
-    public void fab2_click(View v){
-        if (Helpers.isOnline(MainActivity.this)) {
-            webView.scrollTo(0, 65);
-        }
-    }
-
-    public void fab3_click(View v){
-        if (Helpers.isOnline(MainActivity.this)) {
-            setTitle(R.string.fab4_title);
-            if (!progressDialog.isShowing()) progressDialog.show();
-            setTitle(R.string.fab3_title);
-            webView.loadUrl("https://" + podDomain + "/status_messages/new");
-        } else {  // No Internet connection
-            Toast.makeText(
-                    MainActivity.this,
-                    getString(R.string.no_internet),
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void fab4_click(View v){
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage(getString(R.string.confirm_exit))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        webView.clearCache(true);
-                        finish();
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), null)
-                .show();
-    }
-//By_me_end
+    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
+    private TextView txtTitle;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -167,9 +89,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        fab.setVisibility(View.GONE);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
+        txtTitle = (TextView) findViewById(R.id.toolbar_title);
+        txtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Helpers.isOnline(MainActivity.this)) {
+                    txtTitle.setText(R.string.jb_stream);
+                    if (!progressDialog.isShowing()) progressDialog.show();
+                    webView.loadUrl("https://" + podDomain + "/stream");
+                } else {  // No Internet connection
+                    Toast.makeText(
+                            MainActivity.this,
+                            getString(R.string.no_internet),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -202,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.jb_stream:
                         if (Helpers.isOnline(MainActivity.this)) {
-                            setTitle(R.string.jb_stream);
+                            txtTitle.setText(R.string.jb_stream);
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/stream");
                             return true;
@@ -244,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 
                     case R.id.jb_liked:
-                        setTitle(R.string.jb_liked);
+                        txtTitle.setText(R.string.jb_liked);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/liked");
@@ -258,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_commented:
-                        setTitle(R.string.jb_commented);
+                        txtTitle.setText(R.string.jb_commented);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://"+podDomain+"/commented");
@@ -272,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_contacts:
-                        setTitle(R.string.jb_contacts);
+                        txtTitle.setText(R.string.jb_contacts);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/contacts");
@@ -286,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_mentions:
-                        setTitle(R.string.jb_mentions);
+                        txtTitle.setText(R.string.jb_mentions);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/mentions");
@@ -300,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_activities:
-                        setTitle(R.string.jb_activities);
+                        txtTitle.setText(R.string.jb_activities);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://"+podDomain+"/activity");
@@ -314,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_followed_tags:
-                        setTitle(R.string.jb_followed_tags);
+                        txtTitle.setText(R.string.jb_followed_tags);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/followed_tags");
@@ -329,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.jb_manage_tags:
 
-                        setTitle(R.string.jb_manage_tags);
+                        txtTitle.setText(R.string.jb_manage_tags);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
@@ -363,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
 //                        return true;
 
                     case R.id.jb_license:
-                        setTitle(R.string.jb_license);
+                        txtTitle.setText(R.string.jb_license);
                         new AlertDialog.Builder(MainActivity.this)
                                 .setTitle(getString(R.string.license_title))
                                 .setMessage(getString(R.string.license_text))
@@ -383,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.jb_aspects:
-                        setTitle(R.string.jb_aspects);
+                        txtTitle.setText(R.string.jb_aspects);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/aspects");
@@ -397,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_settings:
-                        setTitle(R.string.jb_settings);
+                        txtTitle.setText(R.string.jb_settings);
                         if (Helpers.isOnline(MainActivity.this)) {
                             if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/user/edit");
@@ -411,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     case R.id.jb_pod:
-                        setTitle(R.string.jb_pod);
+                        txtTitle.setText(R.string.jb_pod);
                         if (Helpers.isOnline(MainActivity.this)) {
                             new AlertDialog.Builder(MainActivity.this)
                                     .setTitle(getString(R.string.confirmation))
@@ -513,6 +455,12 @@ public class MainActivity extends AppCompatActivity {
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
+
+                if (url.contains("/new")) {
+                    fab.setVisibility(View.GONE);
+                } else {
+                    fab.setVisibility(View.VISIBLE);
+                }
 
                 view.loadUrl("javascript: ( function() {" +
                         "    if (document.getElementById('notification')) {" +
@@ -630,6 +578,91 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+    public void fab1_click(View v){
+
+        if (Helpers.isOnline(MainActivity.this)) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            final EditText input = new EditText(this);
+            alert.setView(input);
+            alert.setTitle(R.string.search_alert_title);
+            alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String inputtag = input.getText().toString().trim();
+                    String limpio = inputtag.replaceAll("\\*","");
+                    // this validate the input data for tagfind
+                    if(limpio == null || limpio.equals(""))
+                    {
+                        dialog.cancel(); // if user don�t have added a tag
+                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
+                    }
+                    else // if user have added a search tag
+                    {
+                        txtTitle.setText(R.string.fab1_title_person);
+                        webView.loadUrl("https://"+podDomain+"/people.mobile?q="+limpio);
+                    }
+                }
+            });
+            alert.setNegativeButton(R.string.search_alert_tag,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String inputtag = input.getText().toString().trim();
+                            String limpio = inputtag.replaceAll("\\#", "");
+                            // this validate the input data for tagfind
+                            if(limpio == null || limpio.equals(""))
+                            {
+                                dialog.cancel(); // if user hasn't added a tag
+                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
+                            }
+                            else // if user have added a search tag
+                            {
+                                txtTitle.setText(R.string.fab1_title_tag);
+                                webView.loadUrl("https://" +podDomain+ "/tags/" + limpio);
+                            }
+                        }
+                    });
+            alert.show();
+        }
+    }
+
+    public void fab2_click(View v){
+        if (Helpers.isOnline(MainActivity.this)) {
+            webView.scrollTo(0, 65);
+        }
+    }
+
+    public void fab3_click(View v){
+        if (Helpers.isOnline(MainActivity.this)) {
+            txtTitle.setText(R.string.fab4_title);
+            if (!progressDialog.isShowing()) progressDialog.show();
+            txtTitle.setText(R.string.fab3_title);
+            webView.loadUrl("https://" + podDomain + "/status_messages/new");
+        } else {  // No Internet connection
+            Toast.makeText(
+                    MainActivity.this,
+                    getString(R.string.no_internet),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void fab4_click(View v){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(getString(R.string.confirm_exit))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        webView.clearCache(true);
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
+
 
     private File createImageFile() throws IOException {
         // Create an image file name

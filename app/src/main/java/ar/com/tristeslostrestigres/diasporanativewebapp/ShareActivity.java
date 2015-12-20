@@ -33,12 +33,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
@@ -50,6 +52,9 @@ public class ShareActivity extends MainActivity {
     private static final String TAG = "Diaspora Share";
     private String podDomain;
     private ProgressDialog progressDialog;
+    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
+    private TextView txtTitle;
+
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -62,8 +67,28 @@ public class ShareActivity extends MainActivity {
         progressDialog.setTitle(getString(R.string.please_wait));
         progressDialog.setMessage(getString(R.string.loading));
 
+        txtTitle = (TextView) findViewById(R.id.toolbar_title);
+        txtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Helpers.isOnline(ShareActivity.this)) {
+                    txtTitle.setText(R.string.jb_stream);
+                    if (!progressDialog.isShowing()) progressDialog.show();
+                    webView.loadUrl("https://" + podDomain + "/stream");
+                } else {  // No Internet connection
+                    Toast.makeText(
+                            ShareActivity.this,
+                            getString(R.string.no_internet),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
+
+        fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        fab.setVisibility(View.GONE);
 
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -115,8 +140,6 @@ public class ShareActivity extends MainActivity {
 
         if (savedInstanceState == null) {
             if (Helpers.isOnline(ShareActivity.this)) {
-
-//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://"+podDomain+"/status_messages/new");
 
             } else {  // No Internet connection
@@ -175,27 +198,6 @@ public class ShareActivity extends MainActivity {
                                 "    }" +
                                 "})();");
 
-//                        view.loadUrl("javascript: ( function() {" +
-//                                "    if (document.getElementById('notification')) {" +
-//                                "       var count = document.getElementById('notification').innerHTML;" +
-//                                "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-//                                "    } else {" +
-//                                "       NotificationCounter.setNotificationCount('0');" +
-//                                "    }" +
-//                                "    if (document.getElementById('conversation')) {" +
-//                                "       var count = document.getElementById('conversation').innerHTML;" +
-//                                "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-//                                "    } else {" +
-//                                "       NotificationCounter.setConversationCount('0');" +
-//                                "    }" +
-//                                "    if(document.getElementById('main_nav')) {" +
-//                                "        document.getElementById('main_nav').parentNode.removeChild(" +
-//                                "        document.getElementById('main_nav'));" +
-//                                "    } else if (document.getElementById('main-nav')) {" +
-//                                "        document.getElementById('main-nav').parentNode.removeChild(" +
-//                                "        document.getElementById('main-nav'));" +
-//                                "    }" +
-//                                "})();");
 
                     }
                 }

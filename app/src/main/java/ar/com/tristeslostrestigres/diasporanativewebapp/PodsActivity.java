@@ -31,6 +31,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -53,7 +54,7 @@ import ar.com.tristeslostrestigres.diasporanativewebapp.services.GetPodsService;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
 
-public class PodsActivity extends ActionBarActivity {
+public class PodsActivity extends AppCompatActivity {
 
     BroadcastReceiver podListReceiver;
     EditText filter;
