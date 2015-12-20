@@ -78,18 +78,12 @@ public class ShareActivity extends MainActivity {
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setCancelable(true);
-//        progressDialog.setTitle(getString(R.string.please_wait));
-//        progressDialog.setMessage(getString(R.string.loading));
-
         txtTitle = (TextView) findViewById(R.id.toolbar_title);
         txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Helpers.isOnline(ShareActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
-//                    if (!progressDialog.isShowing()) progressDialog.show();
                     webView.loadUrl("https://" + podDomain + "/stream");
                 } else {  // No Internet connection
                     Toast.makeText(
@@ -123,20 +117,17 @@ public class ShareActivity extends MainActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(i);
                     return true;
-                } else {
-//                    if (!progressDialog.isShowing()) progressDialog.show();
-                    return false;
                 }
+                return false;
+
             }
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-//                if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e(TAG, "Error: " + description);
-//                if (progressDialog.isShowing()) progressDialog.dismiss();
 
                 new AlertDialog.Builder(ShareActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -241,8 +232,6 @@ public class ShareActivity extends MainActivity {
 
                 public void onPageFinished(WebView view, String url) {
 
-//                    if (progressDialog.isShowing()) progressDialog.dismiss();
-
                     if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) {
                         final String extraText = (String) extras.get(Intent.EXTRA_TEXT);
                         final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);
@@ -329,21 +318,6 @@ public class ShareActivity extends MainActivity {
 
         }
 
-//        if (id == R.id.exit_app) {
-//            new AlertDialog.Builder(this)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .setMessage(getString(R.string.confirm_exit))
-//                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
-//                    {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            finish();
-//                        }
-//                    })
-//                    .setNegativeButton(getString(R.string.no), null)
-//                    .show();
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }
