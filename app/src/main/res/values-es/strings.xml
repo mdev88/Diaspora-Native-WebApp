@@ -65,4 +65,5 @@
     <string name="search_alert_people">personas</string>
     <string name="search_alert_tag">etiquetas</string>
     <string name="search_alert_title">Buscar</string>
+    <string name="jb_public">Actividad pública</string>
 </resources>

@@ -23,7 +23,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,11 +49,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     final Handler myHandler = new Handler();
     private WebView webView;
     private static final String TAG = "Diaspora Main";
-    private ProgressDialog progressDialog;
+//    private ProgressDialog progressDialog;
     private String podDomain;
     private Menu menu;
     private int notificationCount = 0;
@@ -82,12 +79,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int INPUT_FILE_REQUEST_CODE = 1;
     private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     private TextView txtTitle;
+    private ProgressBar progressBar;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Helpers.isOnline(MainActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
-                    if (!progressDialog.isShowing()) progressDialog.show();
+//                    if (!progressDialog.isShowing()) progressDialog.show();
                     webView.loadUrl("https://" + podDomain + "/stream");
                 } else {  // No Internet connection
                     Toast.makeText(
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_stream:
                         if (Helpers.isOnline(MainActivity.this)) {
                             txtTitle.setText(R.string.jb_stream);
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/stream");
                             return true;
                         } else {  // No Internet connection
@@ -156,39 +156,23 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                         }
 
-//                    case R.id.jb_notifications:
-//
-//                        setTitle(R.string.jb_notifications);
-//                        if (Helpers.isOnline(MainActivity.this)) {
-//                            if (!progressDialog.isShowing()) progressDialog.show();
-//                            webView.loadUrl("https://" + podDomain + "/notifications");
-//                            return true;
-//                        } else {  // No Internet connection
-//                            Toast.makeText(
-//                                    MainActivity.this,
-//                                    getString(R.string.no_internet),
-//                                    Toast.LENGTH_LONG).show();
-//                            return false;
-//                        }
-
-//                    case R.id.jb_conversations:
-//                        setTitle(R.string.jb_conversations);
-//                        if (Helpers.isOnline(MainActivity.this)) {
-//                            if (!progressDialog.isShowing()) progressDialog.show();
-//                            webView.loadUrl("https://" + podDomain + "/conversations");
-//                            return true;
-//                        } else {  // No Internet connection
-//                            Toast.makeText(
-//                                    MainActivity.this,
-//                                    getString(R.string.no_internet),
-//                                    Toast.LENGTH_LONG).show();
-//                            return false;
-//                        }
+                    case R.id.jb_public:
+                        setTitle(R.string.jb_public);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/public");
+                            return true;
+                        } else {  // No Internet connection
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    getString(R.string.no_internet),
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
 
                     case R.id.jb_liked:
                         txtTitle.setText(R.string.jb_liked);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/liked");
                             return true;
                         } else {  // No Internet connection
@@ -202,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_commented:
                         txtTitle.setText(R.string.jb_commented);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://"+podDomain+"/commented");
                             return true;
                         } else {  // No Internet connection
@@ -216,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_contacts:
                         txtTitle.setText(R.string.jb_contacts);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/contacts");
                             return true;
                         } else {  // No Internet connection
@@ -230,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_mentions:
                         txtTitle.setText(R.string.jb_mentions);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/mentions");
                             return true;
                         } else {  // No Internet connection
@@ -244,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_activities:
                         txtTitle.setText(R.string.jb_activities);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://"+podDomain+"/activity");
                             return true;
                         } else {  // No Internet connection
@@ -258,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_followed_tags:
                         txtTitle.setText(R.string.jb_followed_tags);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/followed_tags");
                             return true;
                         } else {  // No Internet connection
@@ -273,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
                         txtTitle.setText(R.string.jb_manage_tags);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
                             return true;
                         } else {  // No Internet connection
@@ -327,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_aspects:
                         txtTitle.setText(R.string.jb_aspects);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/aspects");
                             return true;
                         } else {  // No Internet connection
@@ -341,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_settings:
                         txtTitle.setText(R.string.jb_settings);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            if (!progressDialog.isShowing()) progressDialog.show();
+//                            if (!progressDialog.isShowing()) progressDialog.show();
                             webView.loadUrl("https://" + podDomain + "/user/edit");
                             return true;
                         } else {  // No Internet connection
@@ -412,11 +396,11 @@ public class MainActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(true);
-        progressDialog.setTitle(getString(R.string.please_wait));
-        progressDialog.setMessage(getString(R.string.loading));
-        progressDialog.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(true);
+//        progressDialog.setTitle(getString(R.string.please_wait));
+//        progressDialog.setMessage(getString(R.string.loading));
+//        progressDialog.setMax(50);  // A little cheat to make things appear to load a bit faster ;)
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
@@ -448,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                     return true;
                 } else {
-                    if (!progressDialog.isShowing()) progressDialog.show();
+//                    if (!progressDialog.isShowing()) progressDialog.show();
                     return false;
                 }
             }
@@ -484,13 +468,13 @@ public class MainActivity extends AppCompatActivity {
                         "    }" +
                         "})();");
 
-                if (progressDialog.isShowing()) progressDialog.dismiss();
+//                if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e(TAG, "Error: " + description);
 
-                if (progressDialog.isShowing()) progressDialog.dismiss();
+//                if (progressDialog.isShowing()) progressDialog.dismiss();
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -506,6 +490,16 @@ public class MainActivity extends AppCompatActivity {
         // This solution was taken from the Diaspora WebClient by Terkel Sørensen.
         // Source: https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/MainActivity.java
         webView.setWebChromeClient(new WebChromeClient() {
+
+            public void onProgressChanged(WebView view, int progress) {
+                progressBar.setProgress(progress);
+                if (progress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }
+
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 if(mFilePathCallback != null) {
@@ -565,7 +559,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
 
                 webView.loadData("", "text/html", null);
                 webView.loadUrl("https://"+podDomain);
@@ -636,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
     public void fab3_click(View v){
         if (Helpers.isOnline(MainActivity.this)) {
             txtTitle.setText(R.string.fab4_title);
-            if (!progressDialog.isShowing()) progressDialog.show();
+//            if (!progressDialog.isShowing()) progressDialog.show();
             txtTitle.setText(R.string.fab3_title);
             webView.loadUrl("https://" + podDomain + "/status_messages/new");
         } else {  // No Internet connection
@@ -718,14 +712,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (progressDialog.isShowing()) progressDialog.dismiss();
+//        if (progressDialog.isShowing()) progressDialog.dismiss();
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
-            if (!progressDialog.isShowing()) progressDialog.show();
+//            if (!progressDialog.isShowing()) progressDialog.show();
             webView.goBack();
         } else {
             new AlertDialog.Builder(this)
@@ -792,7 +786,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.notifications) {
             if (Helpers.isOnline(MainActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
             } else {  // No Internet connection
@@ -806,7 +800,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.conversations) {
             if (Helpers.isOnline(MainActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://" + podDomain + "/conversations");
                 return true;
             } else {  // No Internet connection
@@ -836,7 +830,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.reload();
                 return true;
             } else {  // No Internet connection
@@ -893,7 +887,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.mobile) {
             if (Helpers.isOnline(MainActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.loadUrl("https://" + podDomain + "/mobile/toggle");
                 return true;
             } else {  // No Internet connection

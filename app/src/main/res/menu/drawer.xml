@@ -19,16 +19,6 @@
                 android:icon="@drawable/jb_aspects"
                 android:title="@string/jb_aspects" />
 
-            <!--<item-->
-                <!--android:id="@+id/jb_notifications"-->
-                <!--android:icon="@drawable/jb_notification"-->
-                <!--android:title="@string/jb_notifications" />-->
-
-            <!--<item-->
-                <!--android:id="@+id/jb_conversations"-->
-                <!--android:icon="@drawable/jb_conversation"-->
-                <!--android:title="@string/jb_conversations" />-->
-
             <item
                 android:id="@+id/jb_activities"
                 android:icon="@drawable/jb_activities"
@@ -48,6 +38,12 @@
                 android:id="@+id/jb_mentions"
                 android:icon="@drawable/jb_mentions"
                 android:title="@string/jb_mentions" />
+
+            <item
+                android:id="@+id/jb_public"
+                android:icon="@drawable/jb_aspects"
+                android:title="@string/jb_public" />
+
 
         </menu>
     </item>

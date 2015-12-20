@@ -30,18 +30,27 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JsResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
@@ -51,9 +60,14 @@ public class ShareActivity extends MainActivity {
     private WebView webView;
     private static final String TAG = "Diaspora Share";
     private String podDomain;
-    private ProgressDialog progressDialog;
+    private ValueCallback<Uri[]> mFilePathCallback;
+    private String mCameraPhotoPath;
+
+    //    private ProgressDialog progressDialog;
     private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     private TextView txtTitle;
+    private ProgressBar progressBar;
+
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -62,10 +76,12 @@ public class ShareActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(true);
-        progressDialog.setTitle(getString(R.string.please_wait));
-        progressDialog.setMessage(getString(R.string.loading));
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(true);
+//        progressDialog.setTitle(getString(R.string.please_wait));
+//        progressDialog.setMessage(getString(R.string.loading));
 
         txtTitle = (TextView) findViewById(R.id.toolbar_title);
         txtTitle.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +89,7 @@ public class ShareActivity extends MainActivity {
             public void onClick(View v) {
                 if (Helpers.isOnline(ShareActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
-                    if (!progressDialog.isShowing()) progressDialog.show();
+//                    if (!progressDialog.isShowing()) progressDialog.show();
                     webView.loadUrl("https://" + podDomain + "/stream");
                 } else {  // No Internet connection
                     Toast.makeText(
@@ -108,19 +124,19 @@ public class ShareActivity extends MainActivity {
                     startActivity(i);
                     return true;
                 } else {
-                    if (!progressDialog.isShowing()) progressDialog.show();
+//                    if (!progressDialog.isShowing()) progressDialog.show();
                     return false;
                 }
             }
 
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
-                if (progressDialog.isShowing()) progressDialog.dismiss();
+//                if (progressDialog.isShowing()) progressDialog.dismiss();
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e(TAG, "Error: " + description);
-                if (progressDialog.isShowing()) progressDialog.dismiss();
+//                if (progressDialog.isShowing()) progressDialog.dismiss();
 
                 new AlertDialog.Builder(ShareActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -130,7 +146,69 @@ public class ShareActivity extends MainActivity {
             }
         };
 
+
+
         webView.setWebChromeClient(new WebChromeClient() {
+
+            public void onProgressChanged(WebView view, int progress) {
+                progressBar.setProgress(progress);
+                if (progress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                if(mFilePathCallback != null) {
+                    mFilePathCallback.onReceiveValue(null);
+                }
+                mFilePathCallback = filePathCallback;
+
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                        takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
+                    } catch (IOException ex) {
+                        // Error occurred while creating the File
+                        Log.e(TAG, "Unable to create Image File", ex);
+                    }
+
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                Uri.fromFile(photoFile));
+                    } else {
+                        takePictureIntent = null;
+                    }
+                }
+
+                Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                contentSelectionIntent.setType("image/*");
+
+                Intent[] intentArray;
+                if(takePictureIntent != null) {
+                    intentArray = new Intent[]{takePictureIntent};
+                } else {
+                    intentArray = new Intent[0];
+                }
+
+                Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+                chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+                chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+
+                startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
+
+                return true;
+            }
+
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
             }
@@ -163,7 +241,7 @@ public class ShareActivity extends MainActivity {
 
                 public void onPageFinished(WebView view, String url) {
 
-                    if (progressDialog.isShowing()) progressDialog.dismiss();
+//                    if (progressDialog.isShowing()) progressDialog.dismiss();
 
                     if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) {
                         final String extraText = (String) extras.get(Intent.EXTRA_TEXT);
@@ -207,9 +285,22 @@ public class ShareActivity extends MainActivity {
 
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+    }
+
     @Override
     protected void onDestroy() {
-        if (progressDialog.isShowing()) progressDialog.dismiss();
+//        if (progressDialog.isShowing()) progressDialog.dismiss();
         super.onDestroy();
     }
 
@@ -225,7 +316,7 @@ public class ShareActivity extends MainActivity {
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(ShareActivity.this)) {
-                if (!progressDialog.isShowing()) progressDialog.show();
+//                if (!progressDialog.isShowing()) progressDialog.show();
                 webView.reload();
                 return true;
             } else {  // No Internet connection

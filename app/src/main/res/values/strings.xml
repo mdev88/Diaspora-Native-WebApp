@@ -60,6 +60,7 @@
     <string name="jb_settings">Personal settings</string>
     <string name="jb_aspects">My aspects</string>
     <string name="jb_pod">Change pod</string>
+    <string name="jb_public">Public activities</string>
 
     // Floating Action Buttons - Toasts
 
