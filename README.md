@@ -21,14 +21,10 @@ Basically it provides better integration with the system (events coming into and
 customized interface and functions and a nice little icon that takes you directly to your favorite social network :)
 
 ### System Requirements
-The minimum version supported is KitKat, Android version 4.0.3 (or API 15)
+The minimum version supported is Ice Cream Sandwitch, Android version 4.0.3 (or API 15)
 
 ### Permissions
 It requires Internet access and to be able to monitor changes in the network state.
-
-### Following the Development Process
-
-Public Trello board: https://trello.com/b/8z6gzo05
 
 ## Where to get the app
 
@@ -71,4 +67,5 @@ We shall remember their courage and honor until the end of times.
 - RU: Alexey Putz - https://joindiaspora.com/people/eba5d810ef1b0132ae7200505600750e
 - SL: Kristijan Tkalec - https://joindiaspora.com/people/b952e53c5abe5546
 
+And to all the people who helped me build this humble app from the ground up. Thanks!
 
