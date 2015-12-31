@@ -19,7 +19,7 @@
     <string name="connection_established">Подключение к интернету установлено! Пожалуйста перезагрузите список при необходимости</string>
     <string name="connection_lost">Внимание: Подключение к интернету потеряно!</string>
     <string name="confirmation">Подтверждение</string>
-    <string name="confirm_pod">Вы хотите использовать стручок:</string>
+    <string name="confirm_pod">Вы хотите использовать стручок: </string>
     <string name="confirm_exit">Вы уверены что хотите выйти?</string>
     <string name="yes">ДА</string>
     <string name="no">НЕТ</string>

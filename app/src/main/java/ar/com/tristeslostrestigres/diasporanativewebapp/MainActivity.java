@@ -59,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
+import ar.com.tristeslostrestigres.diasporanativewebapp.utils.PrefManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     private TextView txtTitle;
     private ProgressBar progressBar;
+    private WebSettings wSettings;
+    private PrefManager pm;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -87,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
+        pm = new PrefManager(MainActivity.this);
 
         fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
@@ -375,12 +380,13 @@ public class MainActivity extends AppCompatActivity {
             webView.restoreState(savedInstanceState);
         }
 
-        WebSettings wSettings = webView.getSettings();
+        wSettings = webView.getSettings();
         wSettings.setJavaScriptEnabled(true);
         wSettings.setBuiltInZoomControls(true);
         wSettings.setUseWideViewPort(true);
         wSettings.setLoadWithOverviewMode(true);
         wSettings.setDomStorageEnabled(true);
+        wSettings.setLoadsImagesAutomatically(pm.getLoadImages());
 
         webView.addJavascriptInterface(new JavaScriptInterface(), "NotificationCounter");
 
@@ -401,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
 
-                if (url.contains("/new")) {
+                if (url.contains("/new") || url.contains("/sign_in")) {
                     fab.setVisibility(View.GONE);
                 } else {
                     fab.setVisibility(View.VISIBLE);
@@ -451,6 +457,34 @@ public class MainActivity extends AppCompatActivity {
 
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
+
+                if (progress > 10) {
+
+                    view.loadUrl("javascript: ( function() {" +
+                            "    if (document.getElementById('notification')) {" +
+                            "       var count = document.getElementById('notification').innerHTML;" +
+                            "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+                            "    } else {" +
+                            "       NotificationCounter.setNotificationCount('0');" +
+                            "    }" +
+                            "    if (document.getElementById('conversation')) {" +
+                            "       var count = document.getElementById('conversation').innerHTML;" +
+                            "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+                            "    } else {" +
+                            "       NotificationCounter.setConversationCount('0');" +
+                            "    }" +
+                            "    if(document.getElementById('main_nav')) {" +
+                            "        document.getElementById('main_nav').parentNode.removeChild(" +
+                            "        document.getElementById('main_nav'));" +
+                            "    } else if (document.getElementById('main-nav')) {" +
+                            "        document.getElementById('main-nav').parentNode.removeChild(" +
+                            "        document.getElementById('main-nav'));" +
+                            "    }" +
+                            "})();");
+
+                    //view.scrollTo(0, 70);
+
+                }
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
                 } else {
@@ -580,7 +614,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void fab2_click(View v){
         if (Helpers.isOnline(MainActivity.this)) {
-            webView.scrollTo(0, 65);
+            webView.scrollTo(0, 70);
         }
     }
 
@@ -758,13 +792,27 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
                 return false;
             }
-
         }
 
 
         if (id == R.id.mobile) {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/mobile/toggle");
+                return true;
+            } else {  // No Internet connection
+                Toast.makeText(
+                        MainActivity.this,
+                        getString(R.string.no_internet),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        if (id == R.id.loadImg) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                wSettings.setLoadsImagesAutomatically(!pm.getLoadImages());
+                pm.setLoadImages(!pm.getLoadImages());
+                webView.loadUrl(webView.getUrl());
                 return true;
             } else {  // No Internet connection
                 Toast.makeText(

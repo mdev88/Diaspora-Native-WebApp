@@ -19,7 +19,7 @@
     <string name="connection_established">Internet verbinding gerealiseerd! Herlaad de lijst indien nodig</string>
     <string name="connection_lost">Waarschuwing: Internet verbinding verbroken!</string>
     <string name="confirmation">Bevestiging</string>
-    <string name="confirm_pod">Wil je deze pod gebruiken:</string>
+    <string name="confirm_pod">Wil je deze pod gebruiken: </string>
     <string name="confirm_exit">Weet je zeker dat je wilt sluiten?</string>
     <string name="yes">JA</string>
     <string name="no">NEE</string>

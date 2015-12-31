@@ -66,4 +66,7 @@
     <string name="search_alert_tag">etiquetas</string>
     <string name="search_alert_title">Buscar</string>
     <string name="jb_public">Actividad pública</string>
+    <string name="toggle_img">Alternar cargar imágenes</string>
+    <string name="splash_screen_description">Pantalla de bienvenida</string>
+    <string name="openDrawer">Vista de navegación cerrada</string>
 </resources>

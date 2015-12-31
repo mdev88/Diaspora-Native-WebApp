@@ -19,7 +19,7 @@
     <string name="connection_established">Connexion Internet établie. Rafraîchissez la liste si nécessaire</string>
     <string name="connection_lost">Attention : connexion Internet perdue !</string>
     <string name="confirmation">Confirmation</string>
-    <string name="confirm_pod">Voulez-vous utiliser le pod : </string>
+    <string name="confirm_pod">Voulez-vous utiliser le pod: </string>
     <string name="confirm_exit">Êtes-vous sûr de vouloir quitter l\'application ?</string>
     <string name="yes">OUI</string>
     <string name="no">NON</string>
