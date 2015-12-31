@@ -21,8 +21,10 @@ package ar.com.tristeslostrestigres.diasporanativewebapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,10 +32,19 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
+    ImageView imgSplash;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        imgSplash = (ImageView) findViewById(R.id.imgSplash);
+
+        TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
+        int choice = (int) (Math.random() * images.length());
+        imgSplash.setImageResource(images.getResourceId(choice, R.drawable.splash1));
+        images.recycle();
 
         final SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
 

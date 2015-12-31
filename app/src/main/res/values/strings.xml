@@ -111,4 +111,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/.</string>
+    <array name="splash_images">
+        <item>@drawable/splash1</item>
+        <item>@drawable/splash2</item>
+        <item>@drawable/splash3</item>
+        <item>@drawable/splash4</item>
+        <item>@drawable/splash5</item>
+        <item>@drawable/splash6</item>
+    </array>
 </resources>

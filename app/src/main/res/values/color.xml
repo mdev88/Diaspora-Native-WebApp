@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#607d8b</color>
-    <color name="ColorPrimaryDark">#607d8b</color>
+    <color name="ColorPrimary">#ed175e</color>
+    <color name="ColorPrimaryDark">#cc1451</color>
 
-    <color name="fab_big">#ff9800</color>
-    <color name="fab_big_pressed">#ffcc80</color>
+    <color name="fab_big">#F1D302</color>
+    <color name="fab_big_pressed">#ffdd02</color>
 
-    <color name="fab_small">#607d8b</color>
-    <color name="fab_small_pressed">#b0bec5</color>
+    <color name="fab_small">#F1D302</color>
+    <color name="fab_small_pressed">#ffdd02</color>
 
     <color name="label_background">#7F000000</color>
     <color name="label_text">#ffffff</color>
