@@ -413,27 +413,27 @@ public class MainActivity extends AppCompatActivity {
                     fab.setVisibility(View.VISIBLE);
                 }
 
-                view.loadUrl("javascript: ( function() {" +
-                        "    if (document.getElementById('notification')) {" +
-                        "       var count = document.getElementById('notification').innerHTML;" +
-                        "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                        "    } else {" +
-                        "       NotificationCounter.setNotificationCount('0');" +
-                        "    }" +
-                        "    if (document.getElementById('conversation')) {" +
-                        "       var count = document.getElementById('conversation').innerHTML;" +
-                        "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                        "    } else {" +
-                        "       NotificationCounter.setConversationCount('0');" +
-                        "    }" +
-                        "    if(document.getElementById('main_nav')) {" +
-                        "        document.getElementById('main_nav').parentNode.removeChild(" +
-                        "        document.getElementById('main_nav'));" +
-                        "    } else if (document.getElementById('main-nav')) {" +
-                        "        document.getElementById('main-nav').parentNode.removeChild(" +
-                        "        document.getElementById('main-nav'));" +
-                        "    }" +
-                        "})();");
+//                view.loadUrl("javascript: ( function() {" +
+//                        "    if (document.getElementById('notification')) {" +
+//                        "       var count = document.getElementById('notification').innerHTML;" +
+//                        "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                        "    } else {" +
+//                        "       NotificationCounter.setNotificationCount('0');" +
+//                        "    }" +
+//                        "    if (document.getElementById('conversation')) {" +
+//                        "       var count = document.getElementById('conversation').innerHTML;" +
+//                        "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                        "    } else {" +
+//                        "       NotificationCounter.setConversationCount('0');" +
+//                        "    }" +
+//                        "    if(document.getElementById('main_nav')) {" +
+//                        "        document.getElementById('main_nav').parentNode.removeChild(" +
+//                        "        document.getElementById('main_nav'));" +
+//                        "    } else if (document.getElementById('main-nav')) {" +
+//                        "        document.getElementById('main-nav').parentNode.removeChild(" +
+//                        "        document.getElementById('main-nav'));" +
+//                        "    }" +
+//                        "})();");
 
             }
 
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
 
-                if (progress > 10) {
+                if (progress > 0 && progress <= 60) {
 
                     view.loadUrl("javascript: ( function() {" +
                             "    if (document.getElementById('notification')) {" +
@@ -473,6 +473,12 @@ public class MainActivity extends AppCompatActivity {
                             "    } else {" +
                             "       NotificationCounter.setConversationCount('0');" +
                             "    }" +
+                            "})();");
+                }
+
+                if (progress > 60) {
+
+                    view.loadUrl("javascript: ( function() {" +
                             "    if(document.getElementById('main_nav')) {" +
                             "        document.getElementById('main_nav').parentNode.removeChild(" +
                             "        document.getElementById('main_nav'));" +
@@ -482,9 +488,8 @@ public class MainActivity extends AppCompatActivity {
                             "    }" +
                             "})();");
 
-                    //view.scrollTo(0, 70);
-
                 }
+
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
                 } else {

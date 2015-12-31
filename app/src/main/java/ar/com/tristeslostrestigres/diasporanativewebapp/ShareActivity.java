@@ -20,13 +20,9 @@
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -63,10 +59,12 @@ public class ShareActivity extends MainActivity {
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
 
-    //    private ProgressDialog progressDialog;
-    //private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
+    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     private TextView txtTitle;
     private ProgressBar progressBar;
+    private int notificationCount = 0;
+    private int conversationCount = 0;
+    private Menu menu;
 
 
 
@@ -84,7 +82,12 @@ public class ShareActivity extends MainActivity {
             public void onClick(View v) {
                 if (Helpers.isOnline(ShareActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
-                    webView.loadUrl("https://" + podDomain + "/stream");
+                    //webView.loadUrl("https://" + podDomain + "/stream");
+                    Intent i = new Intent(ShareActivity.this, MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("fromShare", true);
+                    startActivity(i);
+                    finish();
                 } else {  // No Internet connection
                     Toast.makeText(
                             ShareActivity.this,
@@ -97,8 +100,8 @@ public class ShareActivity extends MainActivity {
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
-        //fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
-        //fab.setVisibility(View.GONE);
+        fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        fab.setVisibility(View.GONE);
 
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -144,7 +147,7 @@ public class ShareActivity extends MainActivity {
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
 
-                if (progress > 10) {
+                if (progress > 0 && progress <= 60) {
 
                     view.loadUrl("javascript: ( function() {" +
                             "    if (document.getElementById('notification')) {" +
@@ -159,6 +162,12 @@ public class ShareActivity extends MainActivity {
                             "    } else {" +
                             "       NotificationCounter.setConversationCount('0');" +
                             "    }" +
+                            "})();");
+                }
+
+                if (progress > 60) {
+
+                    view.loadUrl("javascript: ( function() {" +
                             "    if(document.getElementById('main_nav')) {" +
                             "        document.getElementById('main_nav').parentNode.removeChild(" +
                             "        document.getElementById('main_nav'));" +
@@ -167,8 +176,6 @@ public class ShareActivity extends MainActivity {
                             "        document.getElementById('main-nav'));" +
                             "    }" +
                             "})();");
-
-                    view.scrollTo(0, 70);
 
                 }
 
@@ -294,6 +301,29 @@ public class ShareActivity extends MainActivity {
                                 "    }" +
                                 "})();");
 
+//                        view.loadUrl("javascript: ( function() {" +
+//                                "    if (document.getElementById('notification')) {" +
+//                                "       var count = document.getElementById('notification').innerHTML;" +
+//                                "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                                "    } else {" +
+//                                "       NotificationCounter.setNotificationCount('0');" +
+//                                "    }" +
+//                                "    if (document.getElementById('conversation')) {" +
+//                                "       var count = document.getElementById('conversation').innerHTML;" +
+//                                "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+//                                "    } else {" +
+//                                "       NotificationCounter.setConversationCount('0');" +
+//                                "    }" +
+//                                "    if(document.getElementById('main_nav')) {" +
+//                                "        document.getElementById('main_nav').parentNode.removeChild(" +
+//                                "        document.getElementById('main_nav'));" +
+//                                "    } else if (document.getElementById('main-nav')) {" +
+//                                "        document.getElementById('main-nav').parentNode.removeChild(" +
+//                                "        document.getElementById('main-nav'));" +
+//                                "    }" +
+//                                "})();");
+
+
 
                     }
                 }
@@ -350,4 +380,26 @@ public class ShareActivity extends MainActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @JavascriptInterface
+    public void setConversationCount(final String webMessage){
+        myHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                conversationCount = Integer.valueOf(webMessage);
+
+                MenuItem item = menu.findItem(R.id.conversations);
+
+                if (item != null) {
+                    if (conversationCount > 0) {
+                        item.setIcon(R.drawable.ic_message_text_white_24dp);
+                    } else {
+                        item.setIcon(R.drawable.ic_message_text_outline_white_24dp);
+                    }
+                }
+
+            }
+        });
+    }
+
 }
