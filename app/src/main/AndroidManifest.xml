@@ -48,7 +48,7 @@
             android:label="@string/new_post"
             android:screenOrientation="portrait" >
             <intent-filter android:label="@string/diaspora"
-                android:icon="@mipmap/ic_launcher">
+                android:icon="@drawable/ic_launcher">
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
