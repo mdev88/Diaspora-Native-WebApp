@@ -61,18 +61,6 @@
             android:exported="false" >
         </service>
 
-        <!--<receiver android:name=".receivers.NetworkChangeReceiver"-->
-            <!--android:label="NetworkChangeReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
-
-        <!--<activity-->
-            <!--android:name=".AboutActivity"-->
-            <!--android:label="@string/title_activity_about" >-->
-        <!--</activity>-->
     </application>
 
 </manifest>
