@@ -37,8 +37,7 @@
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:id="@+id/progressBar"
-                android:progressTint="@color/fab_big"
-                android:progressBackgroundTint="#00ffffff" />
+                android:progressTint="@color/ColorPrimaryDark" />
 
             <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/multiple_actions"

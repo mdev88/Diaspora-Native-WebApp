@@ -488,9 +488,13 @@ public class MainActivity extends AppCompatActivity {
                             "    }" +
                             "})();");
 
+
+                    fab.setVisibility(View.VISIBLE);
+
                 }
 
                 if (progress == 100) {
+                    fab.collapse();
                     progressBar.setVisibility(View.GONE);
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
@@ -573,6 +577,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void fab1_click(View v){
 
+        fab.collapse();
+
         if (Helpers.isOnline(MainActivity.this)) {
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
@@ -591,7 +597,7 @@ public class MainActivity extends AppCompatActivity {
                     else // if user have added a search tag
                     {
                         txtTitle.setText(R.string.fab1_title_person);
-                        webView.loadUrl("https://"+podDomain+"/people.mobile?q="+limpio);
+                        webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + limpio);
                     }
                 }
             });
@@ -609,7 +615,7 @@ public class MainActivity extends AppCompatActivity {
                             else // if user have added a search tag
                             {
                                 txtTitle.setText(R.string.fab1_title_tag);
-                                webView.loadUrl("https://" +podDomain+ "/tags/" + limpio);
+                                webView.loadUrl("https://" + podDomain + "/tags/" + limpio);
                             }
                         }
                     });
@@ -618,14 +624,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fab2_click(View v){
-        if (Helpers.isOnline(MainActivity.this)) {
-            webView.scrollTo(0, 70);
-        }
+        fab.collapse();
+        webView.scrollTo(0, 70);
     }
 
     public void fab3_click(View v){
+        fab.collapse();
         if (Helpers.isOnline(MainActivity.this)) {
-            txtTitle.setText(R.string.fab4_title);
             txtTitle.setText(R.string.fab3_title);
             webView.loadUrl("https://" + podDomain + "/status_messages/new");
         } else {  // No Internet connection
@@ -637,6 +642,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fab4_click(View v){
+        fab.collapse();
+
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(getString(R.string.confirm_exit))
@@ -708,6 +715,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        fab.collapse();
         if (webView.canGoBack()) {
             webView.goBack();
         } else {

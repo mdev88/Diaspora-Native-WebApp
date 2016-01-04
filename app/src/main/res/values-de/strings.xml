@@ -32,7 +32,6 @@
 
     // Drawer and App
 
-    <string name="app_copyright">Deine Freiheit | Deine Inhalte | Dein Netzwerk</string>
     <string name="closeDrawer">Navigation View</string>
     <string name="openDrawer">Navigation View Closed</string>
     <string name="jb_menu_0">Persönliche Inhalte</string>
@@ -43,7 +42,7 @@
     <string name="jb_stream">Stream</string>
     <string name="jb_notifications">Benachrichtigungen</string>
     <string name="jb_conversations">Unterhaltungen</string>
-    <string name="jb_liked">*Daumen hoch* Beiträge</string>
+    <string name="jb_liked">Gelikete Beiträge</string>
     <string name="jb_commented">Kommentierte Beiträge</string>
     <string name="jb_contacts">Kontakte</string>
     <string name="jb_mentions">Erwähnungen</string>
@@ -90,7 +89,7 @@
         geleistet. Mein großer Dank gilt ihm.</string>
 
     //Dialog
-    <string name="license_yes">Besuche die Projektseite von *martinchodev*</string>
+    <string name="license_yes">Besuche die Projektseite auf GitHub</string>
     <string name="license_no">OK</string>
     <string name="license_title">Diaspora Native WebApp</string>
     <string name="license_text">Copyright (C) 2015  by martinchodev\n\n
@@ -113,4 +112,5 @@ along with this program.  If not, see http://www.gnu.org/licenses/.</string>
         <string name="notifications">Benachrichtigungen</string>
         <string name="search">Suche</string>
         <string name="stream">Stream</string>
+    <string name="toggle_img">Bilder laden umschalten</string>
 </resources>
