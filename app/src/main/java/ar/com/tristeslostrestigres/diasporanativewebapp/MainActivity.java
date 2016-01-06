@@ -560,7 +560,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
-
                 webView.loadData("", "text/html", null);
                 webView.loadUrl("https://"+podDomain);
             } else {  // No Internet connection
