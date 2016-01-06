@@ -45,9 +45,10 @@ https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 ## About the author
 
 - Martín Vukovic
-- Donations (Bitcoin): http://martinv.tip.me
 - Diaspora:  martinv@diasp.org
 - Twitter: @martin_legion
+- Donations (Bitcoin): http://martinv.tip.me
+- Donations (PayPal): juangalt12@gmail.com
 
 ## Special thanks
 
