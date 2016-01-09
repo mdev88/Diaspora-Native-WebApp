@@ -52,7 +52,6 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-//import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +60,6 @@ import java.util.Date;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.PrefManager;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         pm = new PrefManager(MainActivity.this);
+        SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
+        podDomain = config.getString("podDomain", null);
 
         fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
@@ -108,229 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 if (Helpers.isOnline(MainActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
                     webView.loadUrl("https://" + podDomain + "/stream");
-                } else {  // No Internet connection
+                } else {  
                     Snackbar.make(v, R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
 
-        //Initializing NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                //Checking if the item is in checked state or not, if not make it in checked state
-                if(menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-
-                //Closing drawer on item click
-                drawerLayout.closeDrawers();
-
-                //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()){
-
-                    default:
-                        Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                        return true;
-
-
-                    case R.id.jb_stream:
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            txtTitle.setText(R.string.jb_stream);
-                            webView.loadUrl("https://" + podDomain + "/stream");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_public:
-                        setTitle(R.string.jb_public);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/public");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_liked:
-                        txtTitle.setText(R.string.jb_liked);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/liked");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_commented:
-                        txtTitle.setText(R.string.jb_commented);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://"+podDomain+"/commented");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_contacts:
-                        txtTitle.setText(R.string.jb_contacts);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/contacts");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_mentions:
-                        txtTitle.setText(R.string.jb_mentions);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/mentions");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_activities:
-                        txtTitle.setText(R.string.jb_activities);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://"+podDomain+"/activity");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_followed_tags:
-                        txtTitle.setText(R.string.jb_followed_tags);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/followed_tags");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_manage_tags:
-
-                        txtTitle.setText(R.string.jb_manage_tags);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-
-                    case R.id.jb_license:
-                        txtTitle.setText(R.string.jb_license);
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle(getString(R.string.license_title))
-                                .setMessage(getString(R.string.license_text))
-                                .setPositiveButton(getString(R.string.license_yes),
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                webView.loadUrl("https://github.com/martinchodev/Diaspora-Native-WebApp");
-                                                dialog.cancel();
-                                            }
-                                        })
-                                .setNegativeButton(getString(R.string.license_no), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                }).show();
-
-                        return true;
-
-                    case R.id.jb_aspects:
-                        txtTitle.setText(R.string.jb_aspects);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/aspects");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    case R.id.jb_settings:
-                        txtTitle.setText(R.string.jb_settings);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://" + podDomain + "/user/edit");
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-
-                            return false;
-                        }
-
-                    case R.id.jb_pod:
-                        txtTitle.setText(R.string.jb_pod);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle(getString(R.string.confirmation))
-                                    .setMessage(getString(R.string.change_pod_warning))
-                                    .setPositiveButton(getString(R.string.yes),
-                                            new DialogInterface.OnClickListener() {
-                                                @TargetApi(11)
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    dialog.cancel();
-                                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
-                                                    startActivity(i);
-                                                    finish();
-                                                }
-                                            })
-                                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                                        @TargetApi(11)
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-                            return true;
-                        } else {  // No Internet connection
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-
-                }
-            }
-        });
-
-        // Initializing Drawer Layout and ActionBarToggle
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        //Setting the actionbarToggle to drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
-
-        SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
-        podDomain = config.getString("podDomain", null);
 
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -500,10 +284,219 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadData("", "text/html", null);
                 webView.loadUrl("https://"+podDomain);
-            } else {  // No Internet connection
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
             }
         }
+
+
+
+
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if(menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+
+                drawerLayout.closeDrawers();
+
+                switch (menuItem.getItemId()){
+                    default:
+                        Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.jb_stream:
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            txtTitle.setText(R.string.jb_stream);
+                            webView.loadUrl("https://" + podDomain + "/stream");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_public:
+                        setTitle(R.string.jb_public);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/public");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_liked:
+                        txtTitle.setText(R.string.jb_liked);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/liked");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_commented:
+                        txtTitle.setText(R.string.jb_commented);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://"+podDomain+"/commented");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_contacts:
+                        txtTitle.setText(R.string.jb_contacts);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/contacts");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_mentions:
+                        txtTitle.setText(R.string.jb_mentions);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/mentions");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_activities:
+                        txtTitle.setText(R.string.jb_activities);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://"+podDomain+"/activity");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_followed_tags:
+                        txtTitle.setText(R.string.jb_followed_tags);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/followed_tags");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_manage_tags:
+
+                        txtTitle.setText(R.string.jb_manage_tags);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+
+                    case R.id.jb_license:
+                        txtTitle.setText(R.string.jb_license);
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.license_title))
+                                .setMessage(getString(R.string.license_text))
+                                .setPositiveButton(getString(R.string.license_yes),
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/martinchodev/Diaspora-Native-WebApp"));
+                                                startActivity(i);
+                                                dialog.cancel();
+                                            }
+                                        })
+                                .setNegativeButton(getString(R.string.license_no), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+                        return true;
+
+                    case R.id.jb_aspects:
+                        txtTitle.setText(R.string.jb_aspects);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/aspects");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    case R.id.jb_settings:
+                        txtTitle.setText(R.string.jb_settings);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl("https://" + podDomain + "/user/edit");
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+
+                            return false;
+                        }
+
+                    case R.id.jb_pod:
+                        txtTitle.setText(R.string.jb_pod);
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle(getString(R.string.confirmation))
+                                    .setMessage(getString(R.string.change_pod_warning))
+                                    .setPositiveButton(getString(R.string.yes),
+                                            new DialogInterface.OnClickListener() {
+                                                @TargetApi(11)
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    webView.clearCache(true);
+                                                    dialog.cancel();
+                                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
+                                                    startActivity(i);
+                                                    finish();
+                                                }
+                                            })
+                                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                        @TargetApi(11)
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    }).show();
+                            return true;
+                        } else {  
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+
+                }
+            }
+        });
+
+        // Initializing Drawer Layout and ActionBarToggle
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+//                super.onDrawerClosed(drawerView);
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+//
+//                super.onDrawerOpened(drawerView);
+//            }
+        };
+
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+
 
     }
 
@@ -566,7 +559,7 @@ public class MainActivity extends AppCompatActivity {
         if (Helpers.isOnline(MainActivity.this)) {
             txtTitle.setText(R.string.fab3_title);
             webView.loadUrl("https://" + podDomain + "/status_messages/new");
-        } else {  // No Internet connection
+        } else {  
             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -699,7 +692,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
-            } else {  // No Internet connection
+            } else {  
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -709,7 +702,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/conversations");
                 return true;
-            } else {  // No Internet connection
+            } else {  
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -720,7 +713,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.reload();
                 return true;
-            } else {  // No Internet connection
+            } else {  
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -731,7 +724,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/mobile/toggle");
                 return true;
-            } else {  // No Internet connection
+            } else {  
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -743,7 +736,7 @@ public class MainActivity extends AppCompatActivity {
                 pm.setLoadImages(!pm.getLoadImages());
                 webView.loadUrl(webView.getUrl());
                 return true;
-            } else {  // No Internet connection
+            } else {  
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }

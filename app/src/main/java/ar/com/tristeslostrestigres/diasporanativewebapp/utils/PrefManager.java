@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 public class PrefManager {
 
-	private boolean welcome = true;
+//	private boolean welcome = true;
 	private boolean loadImages = true;
     private final Context context;
 	
@@ -21,25 +21,25 @@ public class PrefManager {
 		}
 
 		if (sp != null) {
-			welcome = sp.getBoolean("welcome", true);
+//			welcome = sp.getBoolean("welcome", true);
 			loadImages = sp.getBoolean("loadImages", true);
 		}
 	}
 	
 
-	public void setWelcome(Boolean valor) {
-		welcome = valor;
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        Editor edit = sp.edit();
-        edit.putBoolean("welcome", valor);
-        edit.apply();
-	}
-	
-	public boolean getWelcome() {
-		return welcome;
-	}
-	
-	
+//	public void setWelcome(Boolean valor) {
+////		welcome = valor;
+//		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//        Editor edit = sp.edit();
+//        edit.putBoolean("welcome", valor);
+//        edit.apply();
+//	}
+//
+//	public boolean getWelcome() {
+//		return welcome;
+//	}
+
+
 
 
 	public boolean getLoadImages() {
