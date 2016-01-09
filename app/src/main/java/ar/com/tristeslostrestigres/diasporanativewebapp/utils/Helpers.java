@@ -32,20 +32,4 @@ public class Helpers {
         NetworkInfo ni = cnm.getActiveNetworkInfo();
         return ni != null && ni.isConnectedOrConnecting();
     }
-
-    public static boolean isUsingMobile(Context context) {
-        ConnectivityManager cnm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cnm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        return ni != null && ni.isConnectedOrConnecting();
-    }
-
-    // Show a warning when is connected using mobile Internet
-    public static void warningMobile(Context ctx) {
-        if (Helpers.isUsingMobile(ctx)) {
-            Toast.makeText(
-                    ctx,
-                    "Warning: Connected via mobile",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 }

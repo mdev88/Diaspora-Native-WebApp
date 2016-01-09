@@ -30,10 +30,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +44,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,8 +60,6 @@ public class PodsActivity extends ActionBarActivity {
     ImageView imgSelectPod;
     ProgressDialog progressDialog;
     private static final String TAG = "Diaspora Pods";
-    private boolean networkStateReceiverIsRegistered;
-    private BroadcastReceiver networkStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +77,7 @@ public class PodsActivity extends ActionBarActivity {
                 if (filter.getText().length() > 4 && filter.getText().toString().contains("."))
                     askConfirmation(filter.getText().toString());
                 else
-                    Toast.makeText(
-                            PodsActivity.this,
-                            getString(R.string.valid_pod),
-                            Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getWindow().findViewById(R.id.podsLayout), R.string.valid_pod, Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -100,11 +94,7 @@ public class PodsActivity extends ActionBarActivity {
                     if (pods != null && pods.length>0)
                         updateListview(pods);
                     else {
-                        Log.d(TAG, "Could not retrieve list of pods");
-                        Toast.makeText(
-                                PodsActivity.this,
-                                getString(R.string.podlist_error),
-                                Toast.LENGTH_LONG).show();
+                        Snackbar.make(getWindow().findViewById(R.id.podsLayout), R.string.podlist_error, Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
                     // List of pods empty
@@ -113,7 +103,6 @@ public class PodsActivity extends ActionBarActivity {
         };
 
         registerReceiver(podListReceiver, new IntentFilter(GetPodsService.MESSAGE));
-//        regNetworkStateChangeReceiver();
 
         progressDialog = new ProgressDialog(PodsActivity.this);
         progressDialog.setCancelable(false);
@@ -123,12 +112,8 @@ public class PodsActivity extends ActionBarActivity {
         if (Helpers.isOnline(PodsActivity.this)) {
             progressDialog.show();
         } else {
-            Toast.makeText(
-                    PodsActivity.this,
-                    getString(R.string.no_internet),
-                    Toast.LENGTH_LONG).show();
+            Snackbar.make(getWindow().findViewById(R.id.podsLayout), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
         }
-
 
     }
 
@@ -139,29 +124,6 @@ public class PodsActivity extends ActionBarActivity {
         startService(i);
     }
 
-
-//    private void regNetworkStateChangeReceiver() {
-//        networkStateReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                Bundle extras = intent.getExtras();
-//                if (extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Wifi enabled") ||
-//                    extras.getString(NetworkChangeReceiver.CONNECTION_STATE_CHANGE).equals("Mobile data enabled")) {
-//                    Toast.makeText(
-//                            PodsActivity.this,
-//                            getString(R.string.connection_established),
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(
-//                            PodsActivity.this,
-//                            getString(R.string.connection_lost),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-//        registerReceiver(networkStateReceiver, new IntentFilter(NetworkChangeReceiver.CONNECTION_STATE_CHANGE));
-//        networkStateReceiverIsRegistered = true;
-//    }
 
     private void updateListview(String[] source) {
         final ArrayList<String> podList = new ArrayList<>();
@@ -244,16 +206,10 @@ public class PodsActivity extends ActionBarActivity {
                         }
                     }).show();
 
-        } else { // No Internet connection
-            Toast.makeText(
-                    PodsActivity.this,
-                    getString(R.string.no_internet),
-                    Toast.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(getWindow().findViewById(R.id.podsLayout), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
         }
-
     }
-
-
 
 
     @Override
@@ -275,8 +231,6 @@ public class PodsActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(podListReceiver);
-        if (networkStateReceiverIsRegistered)
-            unregisterReceiver(networkStateReceiver);
         super.onDestroy();
     }
 
@@ -292,27 +246,18 @@ public class PodsActivity extends ActionBarActivity {
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(PodsActivity.this)) {
-
-                if (Helpers.isUsingMobile(PodsActivity.this))
-                    Helpers.warningMobile(PodsActivity.this);
-
                 progressDialog.show();
                 Intent i= new Intent(PodsActivity.this, GetPodsService.class);
                 startService(i);
                 return true;
-            } else {  // No Internet connection
-                Toast.makeText(
-                        PodsActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(getWindow().findViewById(R.id.podsLayout), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

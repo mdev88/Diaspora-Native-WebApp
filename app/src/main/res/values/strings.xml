@@ -113,6 +113,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/.</string>
     <string name="splash_screen_description">Splash screen</string>
     <string name="toggle_img">Toggle loading images</string>
+    <string name="please_reload">Please reload the stream</string>
     <array name="splash_images">
         <item>@drawable/splash1</item>
         <item>@drawable/splash2</item>
