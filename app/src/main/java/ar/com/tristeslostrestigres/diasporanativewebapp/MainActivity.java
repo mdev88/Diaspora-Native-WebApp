@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void fab1_click(View v){
+    public void fab_search_click(View v){
 
         fab.collapse();
 
@@ -556,12 +556,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void fab2_click(View v){
+    public void fab_top_click(View v){
         fab.collapse();
         webView.scrollTo(0, 70);
     }
 
-    public void fab3_click(View v){
+    public void fab_compose_click(View v){
         fab.collapse();
         if (Helpers.isOnline(MainActivity.this)) {
             txtTitle.setText(R.string.fab3_title);
@@ -571,9 +571,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void fab4_click(View v){
+    public void fab_exit_click(View v){
         fab.collapse();
-
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(getString(R.string.confirm_exit))
@@ -632,14 +631,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         webView.saveState(outState);
-
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         webView.restoreState(savedInstanceState);
-
     }
 
 
@@ -656,6 +653,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            webView.clearCache(true);
                             finish();
                         }
                     })

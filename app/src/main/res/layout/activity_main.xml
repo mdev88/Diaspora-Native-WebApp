@@ -58,7 +58,7 @@
                     android:id="@+id/fab_exit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="fab4_click"
+                    android:onClick="fab_exit_click"
                     fab:fab_colorNormal="@color/fab_small"
                     fab:fab_icon="@drawable/fab_exit"
                     fab:fab_title="@string/fab4_title"
@@ -67,22 +67,22 @@
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab3_action"
+                    android:id="@+id/fab_compose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="fab3_click"
+                    android:onClick="fab_compose_click"
                     fab:fab_colorNormal="@color/fab_small"
-                    fab:fab_icon="@drawable/fab_edit"
+                    fab:fab_icon="@drawable/fab_compose"
                     fab:fab_title="@string/fab3_title"
                     fab:fab_colorPressed="@color/fab_small_pressed"
                     fab:fab_labelStyle="@style/menu_labels_style"
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab2_action"
+                    android:id="@+id/fab_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="fab2_click"
+                    android:onClick="fab_top_click"
                     fab:fab_colorNormal="@color/fab_small"
                     fab:fab_icon="@drawable/fab_top"
                     fab:fab_title="@string/fab2_title"
@@ -90,10 +90,10 @@
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab1_action"
+                    android:id="@+id/fab_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="fab1_click"
+                    android:onClick="fab_search_click"
                     fab:fab_colorNormal="@color/fab_small"
                     fab:fab_icon="@drawable/fab_search"
                     fab:fab_title="@string/fab1_title"
