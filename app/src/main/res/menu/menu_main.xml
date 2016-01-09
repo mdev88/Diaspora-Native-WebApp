@@ -17,6 +17,14 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/search"
+        android:icon="@drawable/fab_search"
+        android:title="@string/search"
+        android:orderInCategory="105"
+        app:showAsAction="always" />
+
+
+    <item
         android:id="@+id/reload"
         android:icon="@drawable/ic_sync_white_24dp"
         android:title="@string/reload"
@@ -33,6 +41,12 @@
         android:id="@+id/loadImg"
         android:title="@string/toggle_img"
         android:orderInCategory="119"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/fontSize"
+        android:title="@string/font_size"
+        android:orderInCategory="122"
         app:showAsAction="never" />
 
 

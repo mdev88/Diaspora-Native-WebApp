@@ -7,11 +7,11 @@ import android.preference.PreferenceManager;
 
 public class PrefManager {
 
-//	private boolean welcome = true;
-	private boolean loadImages = true;
     private final Context context;
-	
-	public PrefManager(Context ctx) {
+	private boolean loadImages = true;
+    private int minimumFontSize = 0;
+
+    public PrefManager(Context ctx) {
 		SharedPreferences sp = null;
 		this.context = ctx;
 		try {
@@ -21,23 +21,12 @@ public class PrefManager {
 		}
 
 		if (sp != null) {
-//			welcome = sp.getBoolean("welcome", true);
 			loadImages = sp.getBoolean("loadImages", true);
+            minimumFontSize = sp.getInt("minimumFontSize", 8);
 		}
 	}
 	
 
-//	public void setWelcome(Boolean valor) {
-////		welcome = valor;
-//		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-//        Editor edit = sp.edit();
-//        edit.putBoolean("welcome", valor);
-//        edit.apply();
-//	}
-//
-//	public boolean getWelcome() {
-//		return welcome;
-//	}
 
 
 
@@ -56,4 +45,15 @@ public class PrefManager {
 	}
 
 
+    public int getMinimumFontSize() {
+        return minimumFontSize;
+    }
+
+    public void setMinimumFontSize(int minimumFontSize) {
+        this.minimumFontSize = minimumFontSize;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor edit = sp.edit();
+        edit.putInt("minimumFontSize", minimumFontSize);
+        edit.commit();
+    }
 }

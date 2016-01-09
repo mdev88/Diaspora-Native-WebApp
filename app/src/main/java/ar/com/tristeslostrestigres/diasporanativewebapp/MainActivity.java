@@ -23,8 +23,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,8 +41,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -48,8 +54,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.io.File;
@@ -62,24 +71,26 @@ import ar.com.tristeslostrestigres.diasporanativewebapp.utils.PrefManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+    private static final String URL_MESSAGE = "URL_MESSAGE";
+    Toolbar toolbar;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
     final Handler myHandler = new Handler();
-    private WebView webView;
-    private static final String TAG = "Diaspora Main";
-    private String podDomain;
-    private Menu menu;
-    private int notificationCount = 0;
-    private int conversationCount = 0;
-    private ValueCallback<Uri[]> mFilePathCallback;
-    private String mCameraPhotoPath;
+    WebView webView;
+    static final String TAG = "Diaspora Main";
+    String podDomain;
+    Menu menu;
+    int notificationCount = 0;
+    int conversationCount = 0;
+    ValueCallback<Uri[]> mFilePathCallback;
+    String mCameraPhotoPath;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
-    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
-    private TextView txtTitle;
-    private ProgressBar progressBar;
-    private WebSettings wSettings;
-    private PrefManager pm;
+    com.getbase.floatingactionbutton.FloatingActionsMenu fab;
+    TextView txtTitle;
+    Button btnNormal, btnLarge, btnLarger;
+    ProgressBar progressBar;
+    WebSettings wSettings;
+    PrefManager pm;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -125,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
 
         wSettings = webView.getSettings();
         wSettings.setJavaScriptEnabled(true);
-        wSettings.setBuiltInZoomControls(true);
+//        wSettings.setBuiltInZoomControls(true);
         wSettings.setUseWideViewPort(true);
         wSettings.setLoadWithOverviewMode(true);
         wSettings.setDomStorageEnabled(true);
+        wSettings.setMinimumFontSize(pm.getMinimumFontSize());
         wSettings.setLoadsImagesAutomatically(pm.getLoadImages());
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
 
         /*
          * WebViewClient
@@ -479,45 +490,6 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Fab button events
      */
-    public void fab_search_click(View v){
-        fab.collapse();
-        if (Helpers.isOnline(MainActivity.this)) {
-            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            final EditText input = new EditText(this);
-            alert.setView(input);
-            alert.setTitle(R.string.search_alert_title);
-            alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    String inputTag = input.getText().toString().trim();
-                    String cleanTag = inputTag.replaceAll("\\*", "");
-                    // this validate the input data for tagfind
-                    if (cleanTag == null || cleanTag.equals("")) {
-                        dialog.cancel(); // if user don�t have added a tag
-                        Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bypeople_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-                    } else { // User have added a search tag
-                        txtTitle.setText(R.string.fab1_title_person);
-                        webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + cleanTag);
-                    }
-                }
-            }).setNegativeButton(R.string.search_alert_tag,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String inputTag = input.getText().toString().trim();
-                            String cleanTag = inputTag.replaceAll("\\#", "");
-                            // this validate the input data for tagfind
-                            if (cleanTag == null || cleanTag.equals("")) {
-                                dialog.cancel(); // if user hasn't added a tag
-                                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-                            } else { // User have added a search tag
-                                txtTitle.setText(R.string.fab1_title_tag);
-                                webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
-                            }
-                        }
-                    });
-            alert.show();
-        }
-    }
-
     public void fab_top_click(View v){
         fab.collapse();
         webView.scrollTo(0, 70);
@@ -601,6 +573,11 @@ public class MainActivity extends AppCompatActivity {
         webView.restoreState(savedInstanceState);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(brLoadUrl, new IntentFilter(URL_MESSAGE));
+    }
 
     @Override
     public void onBackPressed() {
@@ -625,6 +602,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private BroadcastReceiver brLoadUrl = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String url = intent.getStringExtra("url");
+            txtTitle.setText(R.string.app_name);
+            webView.loadUrl(url);
+
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(brLoadUrl);
+        super.onPause();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -658,7 +652,46 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.notifications) {
+
             if (Helpers.isOnline(MainActivity.this)) {
+
+//                WebView wvNotifications = new WebView(MainActivity.this);
+//                wvNotifications.loadUrl("https://" + podDomain + "/notifications");
+//
+//                final AlertDialog d = new AlertDialog.Builder(MainActivity.this).setView(wvNotifications)
+//                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+//                            @TargetApi(11)
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//
+//                        }).show();
+//
+//                wvNotifications.setWebViewClient(new WebViewClient() {
+//                    @Override
+//                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//
+//                        if (!url.equals("https://" + podDomain + "/notifications")) {
+//                            Intent urlIntent = new Intent(MainActivity.URL_MESSAGE);
+//                            urlIntent.putExtra("url", url);
+//                            sendBroadcast(urlIntent);
+//                        }
+//                        return true;
+//                    }
+//                });
+//
+//
+//                wvNotifications.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//
+//                        d.dismiss();
+//                        return false;
+//                    }
+//                });
+
+
+
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
             } else {  
@@ -677,6 +710,45 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        if (id == R.id.search) {
+            fab.collapse();
+            if (Helpers.isOnline(MainActivity.this)) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                final EditText input = new EditText(this);
+                alert.setView(input);
+                alert.setTitle(R.string.search_alert_title);
+                alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String inputTag = input.getText().toString().trim();
+                        String cleanTag = inputTag.replaceAll("\\*", "");
+                        // this validate the input data for tagfind
+                        if (cleanTag == null || cleanTag.equals("")) {
+                            dialog.cancel(); // if user don�t have added a tag
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bypeople_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+                        } else { // User have added a search tag
+                            txtTitle.setText(R.string.fab1_title_person);
+                            webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + cleanTag);
+                        }
+                    }
+                }).setNegativeButton(R.string.search_alert_tag,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputTag = input.getText().toString().trim();
+                                String cleanTag = inputTag.replaceAll("\\#", "");
+                                // this validate the input data for tagfind
+                                if (cleanTag == null || cleanTag.equals("")) {
+                                    dialog.cancel(); // if user hasn't added a tag
+                                    Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+                                } else { // User have added a search tag
+                                    txtTitle.setText(R.string.fab1_title_tag);
+                                    webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
+                                }
+                            }
+                        });
+                alert.show();
+            }
+        }
 
         if (id == R.id.reload) {
             if (Helpers.isOnline(MainActivity.this)) {
@@ -711,9 +783,69 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if (id == R.id.fontSize) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                alertFormElements();
+                return true;
+            } else {
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    public void alertFormElements() {
+
+    /*
+     * Inflate the XML view. activity_main is in
+     * res/layout/form_elements.xml
+     */
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View formElementsView = inflater.inflate(R.layout.font_size_chooser,
+                null, false);
+
+        final RadioGroup rgFontSize = (RadioGroup) formElementsView
+                .findViewById(R.id.genderRadioGroup);
+
+        // the alert dialog
+        new AlertDialog.Builder(MainActivity.this).setView(formElementsView)
+                .setTitle("Set Font Size")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @TargetApi(11)
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        int selectedId = rgFontSize
+                                .getCheckedRadioButtonId();
+
+                        // find the radiobutton by returned id
+                        RadioButton selectedRadioButton = (RadioButton) formElementsView
+                                .findViewById(selectedId);
+
+                        if (selectedRadioButton.getId() == R.id.radNormal) {
+                            pm.setMinimumFontSize(8);
+                        } else if (selectedRadioButton.getId() == R.id.radLarge) {
+                            pm.setMinimumFontSize(16);
+                        } else if (selectedRadioButton.getId() == R.id.radLarger) {
+                            pm.setMinimumFontSize(20);
+                        }
+
+                        wSettings.setMinimumFontSize(pm.getMinimumFontSize());
+
+                        if (Helpers.isOnline(MainActivity.this)) {
+                            webView.loadUrl(webView.getUrl());
+                        } else {
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_LONG).show();
+                        }
+
+
+                        dialog.cancel();
+                    }
+                }).show();
+    }
 
     public class JavaScriptInterface {
         @JavascriptInterface
@@ -762,3 +894,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+

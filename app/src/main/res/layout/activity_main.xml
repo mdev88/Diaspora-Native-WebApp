@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:id="@+id/progressBar"
-                android:progressTint="@color/ColorPrimaryDark" />
+                android:progressTint="@color/colorAccent" />
 
             <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/multiple_actions"
@@ -89,17 +89,17 @@
                     fab:fab_colorPressed="@color/fab_small_pressed"
                     fab:fab_size="mini" />
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="fab_search_click"
-                    fab:fab_colorNormal="@color/fab_small"
-                    fab:fab_icon="@drawable/fab_search"
-                    fab:fab_title="@string/fab1_title"
-                    fab:fab_colorPressed="@color/fab_small_pressed"
-                    fab:fab_labelStyle="@style/menu_labels_style"
-                    fab:fab_size="mini" />
+                <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                    <!--android:id="@+id/fab_search"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:onClick="fab_search_click"-->
+                    <!--fab:fab_colorNormal="@color/fab_small"-->
+                    <!--fab:fab_icon="@drawable/fab_search"-->
+                    <!--fab:fab_title="@string/fab1_title"-->
+                    <!--fab:fab_colorPressed="@color/fab_small_pressed"-->
+                    <!--fab:fab_labelStyle="@style/menu_labels_style"-->
+                    <!--fab:fab_size="mini" />-->
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
