@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +52,7 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,13 +107,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Helpers.isOnline(MainActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
-//                    if (!progressDialog.isShowing()) progressDialog.show();
                     webView.loadUrl("https://" + podDomain + "/stream");
                 } else {  // No Internet connection
-                    Toast.makeText(
-                            MainActivity.this,
-                            getString(R.string.no_internet),
-                            Toast.LENGTH_LONG).show();
+                    Snackbar.make(v, R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -124,11 +121,8 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
-
-
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
 
                 //Checking if the item is in checked state or not, if not make it in checked state
                 if(menuItem.isChecked()) menuItem.setChecked(false);
@@ -141,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
 
                     default:
-                        Toast.makeText(getApplicationContext(),"Ups ...",Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                         return true;
 
 
@@ -151,10 +145,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/stream");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -164,10 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/public");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -177,10 +165,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/liked");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -190,10 +175,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://"+podDomain+"/commented");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -203,10 +185,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/contacts");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -216,10 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/mentions");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -229,10 +205,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://"+podDomain+"/activity");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -242,10 +215,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/followed_tags");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -256,10 +226,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -290,10 +257,7 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/aspects");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -303,10 +267,8 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/user/edit");
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+
                             return false;
                         }
 
@@ -334,10 +296,7 @@ public class MainActivity extends AppCompatActivity {
                                     }).show();
                             return true;
                         } else {  // No Internet connection
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    getString(R.string.no_internet),
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
 
@@ -413,27 +372,6 @@ public class MainActivity extends AppCompatActivity {
                     fab.setVisibility(View.VISIBLE);
                 }
 
-//                view.loadUrl("javascript: ( function() {" +
-//                        "    if (document.getElementById('notification')) {" +
-//                        "       var count = document.getElementById('notification').innerHTML;" +
-//                        "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-//                        "    } else {" +
-//                        "       NotificationCounter.setNotificationCount('0');" +
-//                        "    }" +
-//                        "    if (document.getElementById('conversation')) {" +
-//                        "       var count = document.getElementById('conversation').innerHTML;" +
-//                        "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-//                        "    } else {" +
-//                        "       NotificationCounter.setConversationCount('0');" +
-//                        "    }" +
-//                        "    if(document.getElementById('main_nav')) {" +
-//                        "        document.getElementById('main_nav').parentNode.removeChild(" +
-//                        "        document.getElementById('main_nav'));" +
-//                        "    } else if (document.getElementById('main-nav')) {" +
-//                        "        document.getElementById('main-nav').parentNode.removeChild(" +
-//                        "        document.getElementById('main-nav'));" +
-//                        "    }" +
-//                        "})();");
 
             }
 
@@ -563,10 +501,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadData("", "text/html", null);
                 webView.loadUrl("https://"+podDomain);
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
             }
         }
 
@@ -586,15 +521,14 @@ public class MainActivity extends AppCompatActivity {
             alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String inputtag = input.getText().toString().trim();
-                    String limpio = inputtag.replaceAll("\\*","");
+                    String limpio = inputtag.replaceAll("\\*", "");
                     // this validate the input data for tagfind
-                    if(limpio == null || limpio.equals(""))
-                    {
+                    if (limpio == null || limpio.equals("")) {
                         dialog.cancel(); // if user don�t have added a tag
-                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
-                    }
-                    else // if user have added a search tag
-                    {
+                        Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bypeople_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+
+//                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
+                    } else { // if user have added a search tag
                         txtTitle.setText(R.string.fab1_title_person);
                         webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + limpio);
                     }
@@ -606,12 +540,12 @@ public class MainActivity extends AppCompatActivity {
                             String inputtag = input.getText().toString().trim();
                             String limpio = inputtag.replaceAll("\\#", "");
                             // this validate the input data for tagfind
-                            if(limpio == null || limpio.equals(""))
-                            {
+                            if (limpio == null || limpio.equals("")) {
                                 dialog.cancel(); // if user hasn't added a tag
-                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
-                            }
-                            else // if user have added a search tag
+                                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+
+//                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
+                            } else // if user have added a search tag
                             {
                                 txtTitle.setText(R.string.fab1_title_tag);
                                 webView.loadUrl("https://" + podDomain + "/tags/" + limpio);
@@ -633,10 +567,7 @@ public class MainActivity extends AppCompatActivity {
             txtTitle.setText(R.string.fab3_title);
             webView.loadUrl("https://" + podDomain + "/status_messages/new");
         } else {  // No Internet connection
-            Toast.makeText(
-                    MainActivity.this,
-                    getString(R.string.no_internet),
-                    Toast.LENGTH_LONG).show();
+            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -771,10 +702,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -784,10 +712,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadUrl("https://" + podDomain + "/conversations");
                 return true;
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -798,10 +723,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.reload();
                 return true;
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -812,10 +734,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadUrl("https://" + podDomain + "/mobile/toggle");
                 return true;
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -827,10 +746,7 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadUrl(webView.getUrl());
                 return true;
             } else {  // No Internet connection
-                Toast.makeText(
-                        MainActivity.this,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         }

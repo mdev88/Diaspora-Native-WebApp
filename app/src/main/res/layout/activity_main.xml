@@ -55,7 +55,7 @@
                 android:layout_marginEnd="16dp">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab4_action"
+                    android:id="@+id/fab_exit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="fab4_click"
