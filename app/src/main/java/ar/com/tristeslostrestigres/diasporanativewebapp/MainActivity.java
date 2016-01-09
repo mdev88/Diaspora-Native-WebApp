@@ -38,7 +38,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         pm = new PrefManager(MainActivity.this);
+
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         webView = (WebView)findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.addJavascriptInterface(new JavaScriptInterface(), "NotificationCounter");
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
@@ -131,14 +131,15 @@ public class MainActivity extends AppCompatActivity {
         wSettings.setDomStorageEnabled(true);
         wSettings.setLoadsImagesAutomatically(pm.getLoadImages());
 
-        webView.addJavascriptInterface(new JavaScriptInterface(), "NotificationCounter");
-
         if (android.os.Build.VERSION.SDK_INT >= 21)
             wSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        WebViewClient wc = new WebViewClient() {
+
+        /*
+         * WebViewClient
+         */
+        webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d(TAG, url);
                 if (!url.contains(podDomain)) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(i);
@@ -148,40 +149,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onPageFinished(WebView view, String url) {
-                Log.i(TAG, "Finished loading URL: " + url);
-
                 if (url.contains("/new") || url.contains("/sign_in")) {
                     fab.setVisibility(View.GONE);
                 } else {
                     fab.setVisibility(View.VISIBLE);
                 }
-
-
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Log.e(TAG, "Error: " + description);
-
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setMessage(description)
                         .setPositiveButton("CLOSE", null)
                         .show();
             }
-        };
+        });
 
 
 
-        // This fixes the inability to reshare posts.
-        // This solution was taken from the Diaspora WebClient by Terkel Sørensen.
-        // Source: https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/MainActivity.java
+        /*
+         * WebChromeClient
+         */
         webView.setWebChromeClient(new WebChromeClient() {
 
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
 
                 if (progress > 0 && progress <= 60) {
-
                     view.loadUrl("javascript: ( function() {" +
                             "    if (document.getElementById('notification')) {" +
                             "       var count = document.getElementById('notification').innerHTML;" +
@@ -199,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (progress > 60) {
-
                     view.loadUrl("javascript: ( function() {" +
                             "    if(document.getElementById('main_nav')) {" +
                             "        document.getElementById('main_nav').parentNode.removeChild(" +
@@ -209,10 +202,7 @@ public class MainActivity extends AppCompatActivity {
                             "        document.getElementById('main-nav'));" +
                             "    }" +
                             "})();");
-
-
                     fab.setVisibility(View.VISIBLE);
-
                 }
 
                 if (progress == 100) {
@@ -225,9 +215,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                if(mFilePathCallback != null) {
-                    mFilePathCallback.onReceiveValue(null);
-                }
+                if (mFilePathCallback != null) mFilePathCallback.onReceiveValue(null);
+
                 mFilePathCallback = filePathCallback;
 
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -239,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                         takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
                     } catch (IOException ex) {
                         // Error occurred while creating the File
-                        Log.e(TAG, "Unable to create Image File", ex);
+                        Snackbar.make(getWindow().findViewById(R.id.drawer), "Unable to get image", Snackbar.LENGTH_SHORT).show();
                     }
 
                     // Continue only if the File was successfully created
@@ -257,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 contentSelectionIntent.setType("image/*");
 
                 Intent[] intentArray;
-                if(takePictureIntent != null) {
+                if (takePictureIntent != null) {
                     intentArray = new Intent[]{takePictureIntent};
                 } else {
                     intentArray = new Intent[0];
@@ -278,20 +267,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        webView.setWebViewClient(wc);
 
-        if (savedInstanceState == null) {
-            if (Helpers.isOnline(MainActivity.this)) {
-                webView.loadData("", "text/html", null);
-                webView.loadUrl("https://"+podDomain);
-            } else {
-                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-            }
-        }
-
-
-
-
+        /*
+         * NavigationView
+         */
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -474,38 +453,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Initializing Drawer Layout and ActionBarToggle
+
+        /*
+         * DrawerLayout
+         */
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
-
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-//                super.onDrawerClosed(drawerView);
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-//
-//                super.onDrawerOpened(drawerView);
-//            }
-        };
-
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
+        //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
+        if (savedInstanceState == null) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                webView.loadData("", "text/html", null);
+                webView.loadUrl("https://"+podDomain);
+            } else {
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+            }
+        }
 
     }
 
 
 
+    /*
+     * Fab button events
+     */
     public void fab_search_click(View v){
-
         fab.collapse();
-
         if (Helpers.isOnline(MainActivity.this)) {
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
@@ -513,35 +488,29 @@ public class MainActivity extends AppCompatActivity {
             alert.setTitle(R.string.search_alert_title);
             alert.setPositiveButton(R.string.search_alert_people, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    String inputtag = input.getText().toString().trim();
-                    String limpio = inputtag.replaceAll("\\*", "");
+                    String inputTag = input.getText().toString().trim();
+                    String cleanTag = inputTag.replaceAll("\\*", "");
                     // this validate the input data for tagfind
-                    if (limpio == null || limpio.equals("")) {
+                    if (cleanTag == null || cleanTag.equals("")) {
                         dialog.cancel(); // if user don�t have added a tag
                         Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bypeople_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-
-//                        Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
-                    } else { // if user have added a search tag
+                    } else { // User have added a search tag
                         txtTitle.setText(R.string.fab1_title_person);
-                        webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + limpio);
+                        webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + cleanTag);
                     }
                 }
-            });
-            alert.setNegativeButton(R.string.search_alert_tag,
+            }).setNegativeButton(R.string.search_alert_tag,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            String inputtag = input.getText().toString().trim();
-                            String limpio = inputtag.replaceAll("\\#", "");
+                            String inputTag = input.getText().toString().trim();
+                            String cleanTag = inputTag.replaceAll("\\#", "");
                             // this validate the input data for tagfind
-                            if (limpio == null || limpio.equals("")) {
+                            if (cleanTag == null || cleanTag.equals("")) {
                                 dialog.cancel(); // if user hasn't added a tag
                                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-
-//                                Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
-                            } else // if user have added a search tag
-                            {
+                            } else { // User have added a search tag
                                 txtTitle.setText(R.string.fab1_title_tag);
-                                webView.loadUrl("https://" + podDomain + "/tags/" + limpio);
+                                webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
                             }
                         }
                     });
