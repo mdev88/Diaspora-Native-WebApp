@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,6 +57,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -655,6 +657,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (Helpers.isOnline(MainActivity.this)) {
 
+//                webView.stopLoading();
+//
 //                WebView wvNotifications = new WebView(MainActivity.this);
 //                wvNotifications.loadUrl("https://" + podDomain + "/notifications");
 //
@@ -664,33 +668,64 @@ public class MainActivity extends AppCompatActivity {
 //                            public void onClick(DialogInterface dialog, int id) {
 //                                dialog.cancel();
 //                            }
-//
 //                        }).show();
 //
-//                wvNotifications.setWebViewClient(new WebViewClient() {
-//                    @Override
-//                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+////                wvNotifications.setWebChromeClient(new WebChromeClient() {
+////
+////                   public void onProgressChanged(WebView view, int progress) {
+////                       progressBar.setProgress(progress);
 //
-//                        if (!url.equals("https://" + podDomain + "/notifications")) {
-//                            Intent urlIntent = new Intent(MainActivity.URL_MESSAGE);
-//                            urlIntent.putExtra("url", url);
-//                            sendBroadcast(urlIntent);
-//                        }
-//                        return true;
-//                    }
-//                });
+////                       if (progress > 0 && progress <= 60) {
+////                           view.loadUrl("javascript: ( function() {" +
+////                                   "    if (document.getElementById('notification')) {" +
+////                                   "       var count = document.getElementById('notification').innerHTML;" +
+////                                   "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+////                                   "    } else {" +
+////                                   "       NotificationCounter.setNotificationCount('0');" +
+////                                   "    }" +
+////                                   "    if (document.getElementById('conversation')) {" +
+////                                   "       var count = document.getElementById('conversation').innerHTML;" +
+////                                   "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
+////                                   "    } else {" +
+////                                   "       NotificationCounter.setConversationCount('0');" +
+////                                   "    }" +
+////                                   "})();");
+////                       }
 //
+////                       if (progress > 60) {
+////                           view.loadUrl("javascript: ( function() {" +
+////                                   "    if(document.getElementById('main_nav')) {" +
+////                                   "        document.getElementById('main_nav').parentNode.removeChild(" +
+////                                   "        document.getElementById('main_nav'));" +
+////                                   "    } else if (document.getElementById('main-nav')) {" +
+////                                   "        document.getElementById('main-nav').parentNode.removeChild(" +
+////                                   "        document.getElementById('main-nav'));" +
+////                                   "    }" +
+////                                   "})();");
+//////                           fab.setVisibility(View.VISIBLE);
+////                       }
 //
-//                wvNotifications.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
+////                       if (progress == 100) {
+////                           fab.collapse();
+////                           progressBar.setVisibility(View.GONE);
+////                       } else {
+////                           progressBar.setVisibility(View.VISIBLE);
+////                       }
+////                   }
+////               });
 //
-//                        d.dismiss();
-//                        return false;
-//                    }
-//                });
-
-
+//                        wvNotifications.setWebViewClient(new WebViewClient() {
+//                            @Override
+//                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                                if (!url.equals("https://" + podDomain + "/notifications")) {
+//                                    Intent urlIntent = new Intent(MainActivity.URL_MESSAGE);
+//                                    urlIntent.putExtra("url", url);
+//                                    sendBroadcast(urlIntent);
+//                                }
+//                                d.dismiss();
+//                                return true;
+//                            }
+//                        });
 
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
