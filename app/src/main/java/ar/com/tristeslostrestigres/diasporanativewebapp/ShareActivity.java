@@ -19,6 +19,7 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,8 +62,8 @@ public class ShareActivity extends MainActivity {
     private TextView txtTitle;
     private ProgressBar progressBar;
 
-//    @SuppressLint("SetJavaScriptEnabled")
-//    @Override
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -138,38 +139,15 @@ public class ShareActivity extends MainActivity {
          */
         webView.setWebChromeClient(new WebChromeClient() {
 
-            public void onProgressChanged(WebView view, int progress) {
+            public void onProgressChanged(WebView wv, int progress) {
                 progressBar.setProgress(progress);
 
                 if (progress > 0 && progress <= 60) {
-
-                    view.loadUrl("javascript: ( function() {" +
-                            "    if (document.getElementById('notification')) {" +
-                            "       var count = document.getElementById('notification').innerHTML;" +
-                            "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                            "    } else {" +
-                            "       NotificationCounter.setNotificationCount('0');" +
-                            "    }" +
-                            "    if (document.getElementById('conversation')) {" +
-                            "       var count = document.getElementById('conversation').innerHTML;" +
-                            "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                            "    } else {" +
-                            "       NotificationCounter.setConversationCount('0');" +
-                            "    }" +
-                            "})();");
+                    Helpers.getNotificationCount(wv);
                 }
 
                 if (progress > 60) {
-
-                    view.loadUrl("javascript: ( function() {" +
-                            "    if(document.getElementById('main_nav')) {" +
-                            "        document.getElementById('main_nav').parentNode.removeChild(" +
-                            "        document.getElementById('main_nav'));" +
-                            "    } else if (document.getElementById('main-nav')) {" +
-                            "        document.getElementById('main-nav').parentNode.removeChild(" +
-                            "        document.getElementById('main-nav'));" +
-                            "    }" +
-                            "})();");
+                    Helpers.hideTopBar(wv);
                 }
 
                 if (progress == 100) {

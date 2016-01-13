@@ -23,7 +23,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,11 +41,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -57,7 +54,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -89,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int INPUT_FILE_REQUEST_CODE = 1;
     com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     TextView txtTitle;
-    Button btnNormal, btnLarge, btnLarger;
     ProgressBar progressBar;
     WebSettings wSettings;
     PrefManager pm;
@@ -138,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
         wSettings = webView.getSettings();
         wSettings.setJavaScriptEnabled(true);
-//        wSettings.setBuiltInZoomControls(true);
         wSettings.setUseWideViewPort(true);
         wSettings.setLoadWithOverviewMode(true);
         wSettings.setDomStorageEnabled(true);
@@ -185,36 +179,15 @@ public class MainActivity extends AppCompatActivity {
          */
         webView.setWebChromeClient(new WebChromeClient() {
 
-            public void onProgressChanged(WebView view, int progress) {
+            public void onProgressChanged(WebView wv, int progress) {
                 progressBar.setProgress(progress);
 
                 if (progress > 0 && progress <= 60) {
-                    view.loadUrl("javascript: ( function() {" +
-                            "    if (document.getElementById('notification')) {" +
-                            "       var count = document.getElementById('notification').innerHTML;" +
-                            "       NotificationCounter.setNotificationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                            "    } else {" +
-                            "       NotificationCounter.setNotificationCount('0');" +
-                            "    }" +
-                            "    if (document.getElementById('conversation')) {" +
-                            "       var count = document.getElementById('conversation').innerHTML;" +
-                            "       NotificationCounter.setConversationCount(count.replace(/(\\r\\n|\\n|\\r)/gm, \"\"));" +
-                            "    } else {" +
-                            "       NotificationCounter.setConversationCount('0');" +
-                            "    }" +
-                            "})();");
+                    Helpers.getNotificationCount(wv);
                 }
 
                 if (progress > 60) {
-                    view.loadUrl("javascript: ( function() {" +
-                            "    if(document.getElementById('main_nav')) {" +
-                            "        document.getElementById('main_nav').parentNode.removeChild(" +
-                            "        document.getElementById('main_nav'));" +
-                            "    } else if (document.getElementById('main-nav')) {" +
-                            "        document.getElementById('main-nav').parentNode.removeChild(" +
-                            "        document.getElementById('main-nav'));" +
-                            "    }" +
-                            "})();");
+                    Helpers.hideTopBar(wv);
                     fab.setVisibility(View.VISIBLE);
                 }
 
@@ -486,6 +459,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 
 

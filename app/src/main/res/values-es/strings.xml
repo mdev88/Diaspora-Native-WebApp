@@ -69,4 +69,8 @@
     <string name="toggle_img">Alternar cargar imágenes</string>
     <string name="splash_screen_description">Pantalla de bienvenida</string>
     <string name="openDrawer">Vista de navegación cerrada</string>
+    <string name="large">Grande</string>
+    <string name="huge">Enorme</string>
+    <string name="font_size">Tamaño de letra</string>
+    <string name="normal"></string>
 </resources>

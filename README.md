@@ -24,7 +24,12 @@ customized interface and functions and a nice little icon that takes you directl
 The minimum version supported is Ice Cream Sandwitch, Android version 4.0.3 (or API 15)
 
 ### Permissions
-It requires Internet access and to be able to monitor changes in the network state.
+It requires access to the Internet and to external storage to be able to upload photos when creating a new post.
+
+### Third party libraries
+I use the following third party libraries:
+- https://github.com/futuresimple/android-floating-action-button
+
 
 ## Where to get the app
 
