@@ -646,7 +646,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(getString(R.string.confirm_exit))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
+                .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -654,7 +654,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                 })
-                .setNegativeButton(getString(R.string.no), null)
+                .setNegativeButton(getString(android.R.string.no).toUpperCase(), null)
                 .show();
     }
 

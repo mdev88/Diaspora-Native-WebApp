@@ -21,8 +21,6 @@
     <string name="confirmation">Подтверждение</string>
     <string name="confirm_pod">Вы хотите использовать стручок: </string>
     <string name="confirm_exit">Вы уверены что хотите выйти?</string>
-    <string name="yes">ДА</string>
-    <string name="no">НЕТ</string>
     <string name="please_wait">Пожалуйста подождите</string>
     <string name="loading">Загрузка...</string>
     <string name="change_pod_warning">Это действие приведет к удалению всех куков и данных сеанса. Вы действительно хотите сменить стручок?</string>
