@@ -21,8 +21,6 @@
     <string name="confirmation">Bevestiging</string>
     <string name="confirm_pod">Wil je deze pod gebruiken: </string>
     <string name="confirm_exit">Weet je zeker dat je wilt sluiten?</string>
-    <string name="yes">JA</string>
-    <string name="no">NEE</string>
     <string name="please_wait">Even geduld AUB</string>
     <string name="loading">Laden...</string>
     <string name="change_pod_warning">Dit verwijdert alle cookie en sessiedata. Wil je echt van pod wisselen?</string>

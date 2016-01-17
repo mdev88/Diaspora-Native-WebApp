@@ -21,8 +21,6 @@
     <string name="confirmation">Confirmation</string>
     <string name="confirm_pod">Voulez-vous utiliser le pod: </string>
     <string name="confirm_exit">Êtes-vous sûr de vouloir quitter l\'application ?</string>
-    <string name="yes">OUI</string>
-    <string name="no">NON</string>
     <string name="please_wait">Veuillez patienter</string>
     <string name="loading">Chargement...</string>
     <string name="clear_cookies_warning">Effacer les cookies va vous déconnecter et effacer toutes les données de la session. Voulez-vous continuer ?</string>
