@@ -21,8 +21,6 @@
     <string name="confirmation">Confirmación</string>
     <string name="confirm_pod">Se usará el pod: </string>
     <string name="confirm_exit">¿Estás seguro de que quieres salir?</string>
-    <string name="yes">SÍ</string>
-    <string name="no">NO</string>
     <string name="please_wait">Por favor, espera</string>
     <string name="loading">Cargando ...</string>
     <string name="change_pod_warning">Esto eliminará las cookies y datos de sesión. ¿realmente quieres cambiar de Pod?</string>
@@ -57,7 +55,6 @@
     <string name="jb_pod">Cambiar de Pod</string>
     <string name="jb_settings">Configuración personal</string>
     <string name="jb_stream">Portada</string>
-    <string name="license_yes" translatable="false">Ver proyecto en GitHub</string>
     <string name="messages">Conversaciones</string>
     <string name="notifications">Notificaciones</string>
     <string name="search_alert_bypeople_validate_needsomedata">Escribe un numbre</string>
