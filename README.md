@@ -1,5 +1,9 @@
 # Diaspora Native WebApp
 
+## IMPORTANTE NOTICE:
+### This project has been merged with Diaspora For Android
+### https://github.com/Diaspora-for-Android
+
 ### About
 This is an unofficial client developed just for the lulz.
 It's currently under development and should be used with that in mind. Please submit any bugs you might find.
