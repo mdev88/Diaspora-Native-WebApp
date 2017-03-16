@@ -1,6 +1,6 @@
 # Diaspora Native WebApp
 
-## IMPORTANTE NOTICE:
+## IMPORTANT NOTICE:
 ### This project has been merged with Diaspora For Android
 ### https://github.com/Diaspora-for-Android
 
@@ -31,7 +31,7 @@ The minimum version supported is Ice Cream Sandwitch, Android version 4.0.3 (or 
 It requires access to the Internet and to external storage to be able to upload photos when creating a new post.
 
 ### Third party libraries
-I use the following third party libraries:
+It uses the following third party libraries:
 - https://github.com/futuresimple/android-floating-action-button
 
 
