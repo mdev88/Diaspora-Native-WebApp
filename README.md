@@ -51,14 +51,6 @@ You can also download the latest generated APK (which may or may not be the same
 "release" folder:
 https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
 
-## About the author
-
-- Martín Vukovic
-- Diaspora:  martinv@diasp.org
-- Twitter: @martin_legion
-- Donations (Bitcoin): http://martinv.tip.me
-- Donations (PayPal): juangalt12@gmail.com
-
 ## Special thanks
 
 - Scoute Dich (https://github.com/scoute-dich) for forking the app and submitting some great features.
