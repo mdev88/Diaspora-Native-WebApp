@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     WebSettings wSettings;
     PrefManager pm;
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 if (Helpers.isOnline(MainActivity.this)) {
                     txtTitle.setText(R.string.jb_stream);
                     webView.loadUrl("https://" + podDomain + "/stream");
-                } else {  
+                } else {
                     Snackbar.make(v, R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -258,12 +258,12 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.isChecked()) menuItem.setChecked(false);
+                if (menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
 
                 drawerLayout.closeDrawers();
 
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     default:
                         Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                         return true;
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                             txtTitle.setText(R.string.jb_stream);
                             webView.loadUrl("https://" + podDomain + "/stream");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/public");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/liked");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -301,9 +301,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_commented:
                         txtTitle.setText(R.string.jb_commented);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://"+podDomain+"/commented");
+                            webView.loadUrl("https://" + podDomain + "/commented");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/contacts");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/mentions");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -331,9 +331,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.jb_activities:
                         txtTitle.setText(R.string.jb_activities);
                         if (Helpers.isOnline(MainActivity.this)) {
-                            webView.loadUrl("https://"+podDomain+"/activity");
+                            webView.loadUrl("https://" + podDomain + "/activity");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/followed_tags");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/tag_followings/manage");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/aspects");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Helpers.isOnline(MainActivity.this)) {
                             webView.loadUrl("https://" + podDomain + "/user/edit");
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
 
                             return false;
@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }).show();
                             return true;
-                        } else {  
+                        } else {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
          * DrawerLayout
          */
         drawerLayout = findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadData("", "text/html", null);
-                webView.loadUrl("https://"+podDomain);
+                webView.loadUrl("https://" + podDomain);
             } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
             }
@@ -456,33 +456,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     /*
      * Fab button events
      */
-    public void fab_top_click(View v){
+    public void fab_top_click(View v) {
         fab.collapse();
         webView.scrollTo(0, 70);
     }
 
-    public void fab_compose_click(View v){
+    public void fab_compose_click(View v) {
         fab.collapse();
         if (Helpers.isOnline(MainActivity.this)) {
             txtTitle.setText(R.string.fab3_title);
             webView.loadUrl("https://" + podDomain + "/status_messages/new");
-        } else {  
+        } else {
             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    public void fab_exit_click(View v){
+    public void fab_exit_click(View v) {
         fab.collapse();
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(getString(R.string.confirm_exit))
-                .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         webView.clearCache(true);
@@ -509,15 +506,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if(requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
         Uri[] results = null;
-        if(resultCode == Activity.RESULT_OK) {
-            if(data == null) {
-                if(mCameraPhotoPath != null) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                if (mCameraPhotoPath != null) {
                     results = new Uri[]{Uri.parse(mCameraPhotoPath)};
                 }
             } else {
@@ -559,8 +556,7 @@ public class MainActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setMessage(getString(R.string.confirm_exit))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
-                    {
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             webView.clearCache(true);
@@ -696,7 +692,7 @@ public class MainActivity extends AppCompatActivity {
 
                 webView.loadUrl("https://" + podDomain + "/notifications");
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -706,7 +702,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/conversations");
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -733,21 +729,28 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl("https://" + podDomain + "/people.mobile?q=" + cleanTag);
                         }
                     }
-                }).setNegativeButton(R.string.search_alert_tag,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTag = input.getText().toString().trim();
-                                String cleanTag = inputTag.replaceAll("\\#", "");
-                                // this validate the input data for tagfind
-                                if (cleanTag.isEmpty()) {
-                                    dialog.cancel(); // if user hasn't added a tag
-                                    Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-                                } else { // User have added a search tag
-                                    txtTitle.setText(R.string.fab1_title_tag);
-                                    webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
-                                }
+                })
+                .setNegativeButton(R.string.search_alert_tag,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String inputTag = input.getText().toString().trim();
+                            String cleanTag = inputTag.replaceAll("\\#", "");
+                            // this validate the input data for tagfind
+                            if (cleanTag.isEmpty()) {
+                                dialog.cancel(); // if user hasn't added a tag
+                                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+                            } else { // User have added a search tag
+                                txtTitle.setText(R.string.fab1_title_tag);
+                                webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
                             }
-                        });
+                        }
+                    })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //
+                    }
+                });
                 alert.show();
             }
         }
@@ -756,7 +759,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.reload();
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -767,7 +770,7 @@ public class MainActivity extends AppCompatActivity {
             if (Helpers.isOnline(MainActivity.this)) {
                 webView.loadUrl("https://" + podDomain + "/mobile/toggle");
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -779,7 +782,7 @@ public class MainActivity extends AppCompatActivity {
                 pm.setLoadImages(!pm.getLoadImages());
                 webView.loadUrl(webView.getUrl());
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
@@ -799,13 +802,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void alertFormElements() {
 
-    /*
-     * Inflate the XML view. activity_main is in
-     * res/layout/form_elements.xml
-     */
+        /*
+         * Inflate the XML view. activity_main is in
+         * res/layout/form_elements.xml
+         */
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View formElementsView = inflater.inflate(R.layout.font_size_chooser,
                 null, false);
@@ -851,7 +853,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class JavaScriptInterface {
         @JavascriptInterface
-        public void setNotificationCount(final String webMessage){
+        public void setNotificationCount(final String webMessage) {
             myHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -873,7 +875,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void setConversationCount(final String webMessage){
+        public void setConversationCount(final String webMessage) {
             myHandler.post(new Runnable() {
                 @Override
                 public void run() {
