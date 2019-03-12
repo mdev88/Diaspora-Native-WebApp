@@ -55,18 +55,6 @@
                 fab:fab_labelStyle="@style/menu_labels_style">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_exit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="fab_exit_click"
-                    fab:fab_colorNormal="@color/fab_small"
-                    fab:fab_colorPressed="@color/fab_small_pressed"
-                    fab:fab_icon="@drawable/fab_exit"
-                    fab:fab_labelStyle="@style/menu_labels_style"
-                    fab:fab_size="mini"
-                    fab:fab_title="@string/fab4_title" />
-
-                <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_compose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

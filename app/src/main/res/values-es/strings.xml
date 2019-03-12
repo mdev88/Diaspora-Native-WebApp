@@ -73,4 +73,6 @@
     <string name="yes">SI</string>
     <string name="license_yes" translatable="false">Ver código en GitHub</string>
     <string name="please_reload">Por favor actualiza el contenido</string>
+    <string name="sign_out">Cerrar sesión</string>
+    <string name="confirm_sign_out">¿Deseas salir de tu cuenta?</string>
 </resources>

@@ -405,34 +405,34 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                         }
 
-                    case R.id.jb_pod:
-                        txtTitle.setText(R.string.jb_pod);
-                        if (Helpers.isOnline(MainActivity.this)) {
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle(getString(R.string.confirmation))
-                                    .setMessage(getString(R.string.change_pod_warning))
-                                    .setPositiveButton(getString(R.string.yes),
-                                            new DialogInterface.OnClickListener() {
-                                                @TargetApi(11)
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    webView.clearCache(true);
-                                                    dialog.cancel();
-                                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
-                                                    startActivity(i);
-                                                    finish();
-                                                }
-                                            })
-                                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                                        @TargetApi(11)
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-                            return true;
-                        } else {
-                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
-                            return false;
-                        }
+//                    case R.id.jb_pod:
+//                        txtTitle.setText(R.string.jb_pod);
+//                        if (Helpers.isOnline(MainActivity.this)) {
+//                            new AlertDialog.Builder(MainActivity.this)
+//                                    .setTitle(getString(R.string.confirmation))
+//                                    .setMessage(getString(R.string.change_pod_warning))
+//                                    .setPositiveButton(getString(R.string.yes),
+//                                            new DialogInterface.OnClickListener() {
+//                                                @TargetApi(11)
+//                                                public void onClick(DialogInterface dialog, int id) {
+//                                                    webView.clearCache(true);
+//                                                    dialog.cancel();
+//                                                    Intent i = new Intent(MainActivity.this, PodsActivity.class);
+//                                                    startActivity(i);
+//                                                    finish();
+//                                                }
+//                                            })
+//                                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+//                                        @TargetApi(11)
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    }).show();
+//                            return true;
+//                        } else {
+//                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+//                            return false;
+//                        }
                 }
             }
         });
@@ -477,21 +477,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void fab_exit_click(View v) {
-        fab.collapse();
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage(getString(R.string.confirm_exit))
-                .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        webView.clearCache(true);
-                        finish();
-                    }
-                })
-                .setNegativeButton(getString(android.R.string.no).toUpperCase(), null)
-                .show();
-    }
+//    public void fab_exit_click(View v) {
+//        fab.collapse();
+//        new AlertDialog.Builder(this)
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .setMessage(getString(R.string.confirm_exit))
+//                .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        webView.clearCache(true);
+//                        finish();
+//                    }
+//                })
+//                .setNegativeButton(getString(android.R.string.no).toUpperCase(), null)
+//                .show();
+//    }
 
 
     private File createImageFile() throws IOException {
@@ -800,6 +800,29 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         }
+
+        if (id ==  R.id.exit) {
+            if (Helpers.isOnline(MainActivity.this)) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage(getString(R.string.confirm_sign_out))
+                        .setPositiveButton(getString(android.R.string.yes).toUpperCase(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                webView.clearCache(true);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(getString(android.R.string.no).toUpperCase(), null)
+                        .show();
+                return true;
+            } else {
+                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }

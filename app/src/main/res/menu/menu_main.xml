@@ -49,5 +49,10 @@
         android:orderInCategory="122"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/exit"
+        android:title="@string/sign_out"
+        android:orderInCategory="125"
+        app:showAsAction="never" />
 
 </menu>

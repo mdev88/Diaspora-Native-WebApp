@@ -111,6 +111,8 @@ along with this program.  If not, see http://www.gnu.org/licenses/.</string>
     <string name="normal">Normal</string>
     <string name="large">Large</string>
     <string name="huge">Huge</string>
+    <string name="sign_out">Sign out</string>
+    <string name="confirm_sign_out">Sign out of your account?</string>
     <array name="splash_images">
         <item>@drawable/splash1</item>
         <item>@drawable/splash2</item>
