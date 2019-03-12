@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        imgSplash = (ImageView) findViewById(R.id.imgSplash);
+        imgSplash = findViewById(R.id.imgSplash);
 
         TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
         int choice = (int) (Math.random() * images.length());

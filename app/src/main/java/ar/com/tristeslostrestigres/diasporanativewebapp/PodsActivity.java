@@ -59,18 +59,18 @@ public class PodsActivity extends AppCompatActivity {
     ListView lv;
     ImageView imgSelectPod;
     ProgressDialog progressDialog;
-    private static final String TAG = "Diaspora Pods";
+//    private static final String TAG = "Diaspora Pods";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pods);
         
-        filter = (EditText) findViewById(R.id.edtFilter);
-        lv = (ListView) findViewById(R.id.lstPods);
+        filter = findViewById(R.id.edtFilter);
+        lv = findViewById(R.id.lstPods);
         lv.setTextFilterEnabled(true);
 
-        imgSelectPod = (ImageView) findViewById(R.id.imgSelectPod);
+        imgSelectPod = findViewById(R.id.imgSelectPod);
         imgSelectPod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,8 +128,8 @@ public class PodsActivity extends AppCompatActivity {
     private void updateListview(String[] source) {
         final ArrayList<String> podList = new ArrayList<>();
 
-        for (int i = 0 ; i < source.length ; i++) {
-            podList.add(source[i].toLowerCase());
+        for (String aSource : source) {
+            podList.add(aSource.toLowerCase());
         }
         Collections.sort(podList);
 

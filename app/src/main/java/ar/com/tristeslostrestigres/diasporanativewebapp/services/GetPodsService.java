@@ -19,6 +19,7 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp.services;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -62,7 +63,7 @@ public class GetPodsService extends Service {
          * https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/getPodlistTask.java
          * Thanks to Terkel Sørensen
          */
-        AsyncTask<Void, Void, String[]> getPodsAsync = new AsyncTask<Void, Void, String[]>() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String[]> getPodsAsync = new AsyncTask<Void, Void, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
 
@@ -102,8 +103,8 @@ public class GetPodsService extends Service {
                     for (int i = 0; i < jr.length(); i++) {
                         JSONObject jo = jr.getJSONObject(i);
                         Log.d(TAG, jo.getString("domain"));
-                        String secure = jo.getString("secure");
-                        if (secure.equals("true"))
+//                        String secure = jo.getString("secure");
+//                        if (secure.equals("true"))
                             list.add(jo.getString("domain"));
                     }
 

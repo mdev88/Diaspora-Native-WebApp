@@ -19,7 +19,6 @@
 
 package ar.com.tristeslostrestigres.diasporanativewebapp;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,7 +51,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -89,23 +87,22 @@ public class MainActivity extends AppCompatActivity {
     WebSettings wSettings;
     PrefManager pm;
 
-    @SuppressLint("SetJavaScriptEnabled")
-    @Override
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
         pm = new PrefManager(MainActivity.this);
 
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
-        fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        fab = findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
@@ -123,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        webView = (WebView)findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.addJavascriptInterface(new JavaScriptInterface(), "NotificationCounter");
 
@@ -257,10 +254,10 @@ public class MainActivity extends AppCompatActivity {
         /*
          * NavigationView
          */
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if(menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
 
@@ -433,8 +430,6 @@ public class MainActivity extends AppCompatActivity {
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                             return false;
                         }
-
-
                 }
             }
         });
@@ -443,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * DrawerLayout
          */
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerLayout = findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessary or else your hamburger icon wont show up
@@ -507,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
                 Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
     }
@@ -582,11 +577,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
             String url = intent.getStringExtra("url");
             txtTitle.setText(R.string.app_name);
             webView.loadUrl(url);
-
         }
     };
 
@@ -732,7 +725,7 @@ public class MainActivity extends AppCompatActivity {
                         String inputTag = input.getText().toString().trim();
                         String cleanTag = inputTag.replaceAll("\\*", "");
                         // this validate the input data for tagfind
-                        if (cleanTag == null || cleanTag.equals("")) {
+                        if (cleanTag.isEmpty()) {
                             dialog.cancel(); // if user don�t have added a tag
                             Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bypeople_validate_needsomedata, Snackbar.LENGTH_LONG).show();
                         } else { // User have added a search tag
@@ -746,7 +739,7 @@ public class MainActivity extends AppCompatActivity {
                                 String inputTag = input.getText().toString().trim();
                                 String cleanTag = inputTag.replaceAll("\\#", "");
                                 // this validate the input data for tagfind
-                                if (cleanTag == null || cleanTag.equals("")) {
+                                if (cleanTag.isEmpty()) {
                                     dialog.cancel(); // if user hasn't added a tag
                                     Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
                                 } else { // User have added a search tag

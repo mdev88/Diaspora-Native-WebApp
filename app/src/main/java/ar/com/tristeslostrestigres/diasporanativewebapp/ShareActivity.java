@@ -42,7 +42,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +50,8 @@ import java.util.Date;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
+//import android.widget.Toast;
+
 public class ShareActivity extends MainActivity {
 
     private WebView webView;
@@ -58,7 +59,6 @@ public class ShareActivity extends MainActivity {
     private String podDomain;
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
-    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
     private TextView txtTitle;
     private ProgressBar progressBar;
 
@@ -68,9 +68,9 @@ public class ShareActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
-        txtTitle = (TextView) findViewById(R.id.toolbar_title);
+        txtTitle = findViewById(R.id.toolbar_title);
         txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,10 +90,10 @@ public class ShareActivity extends MainActivity {
         SharedPreferences config = getSharedPreferences("PodSettings", MODE_PRIVATE);
         podDomain = config.getString("podDomain", null);
 
-        fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        com.getbase.floatingactionbutton.FloatingActionsMenu fab = (com.getbase.floatingactionbutton.FloatingActionsMenu) findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
 
-        webView = (WebView)findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
         WebSettings wSettings = webView.getSettings();
@@ -223,7 +223,7 @@ public class ShareActivity extends MainActivity {
 
                 public void onPageFinished(WebView view, String url) {
 
-                    if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) {
+                    if (extras != null && extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) {
                         final String extraText = (String) extras.get(Intent.EXTRA_TEXT);
                         final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);
 
@@ -277,7 +277,7 @@ public class ShareActivity extends MainActivity {
                 Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
     }
