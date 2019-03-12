@@ -45,9 +45,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import ar.com.tristeslostrestigres.diasporanativewebapp.services.GetPodsService;
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
@@ -126,17 +123,17 @@ public class PodsActivity extends AppCompatActivity {
 
 
     private void updateListview(String[] source) {
-        final ArrayList<String> podList = new ArrayList<>();
-
-        for (String aSource : source) {
-            podList.add(aSource.toLowerCase());
-        }
-        Collections.sort(podList);
+//        final ArrayList<String> podList = new ArrayList<>();
+//
+//        for (String aSource : source) {
+//            podList.add(aSource.toLowerCase());
+//        }
+//        Collections.sort(podList);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 PodsActivity.this,
                 android.R.layout.simple_list_item_1,
-                podList);
+                source);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

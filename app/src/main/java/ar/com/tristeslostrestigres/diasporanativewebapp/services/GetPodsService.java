@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GetPodsService extends Service {
@@ -105,17 +106,17 @@ public class GetPodsService extends Service {
                         Log.d(TAG, jo.getString("domain"));
 //                        String secure = jo.getString("secure");
 //                        if (secure.equals("true"))
-                            list.add(jo.getString("domain"));
+                            list.add(jo.getString("domain").trim().toLowerCase());
                     }
 
                 } catch (Exception e) {
                     //TODO Handle Parsing errors here
                     e.printStackTrace();
                 }
-                if (list != null)
-                    return list.toArray(new String[list.size()]);
-                else
-                    return null;
+                if (list != null) {
+                    Collections.sort(list);
+                    return list.toArray(new String[0]);
+                } else return null;
             }
 
             @Override

@@ -8,12 +8,13 @@
     tools:context="ar.com.tristeslostrestigres.diasporanativewebapp.PodsActivity">
 
     <ListView
+        android:id="@+id/lstPods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lstPods"
-        android:choiceMode="singleChoice"
+        android:layout_above="@+id/textView"
         android:layout_below="@+id/edtFilter"
-        android:layout_above="@+id/textView" />
+        android:layout_marginBottom="8dp"
+        android:choiceMode="singleChoice" />
 
     <EditText
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/podlist_source_note"
+        android:text="If you don't find your pod in this list, you can manually enter its domain and proceed anyway."
         android:id="@+id/textView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
