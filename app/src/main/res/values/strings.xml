@@ -92,7 +92,6 @@
     <string name="license_yes" translatable="false">Visit project on GitHub</string>
     <string name="license_no" translatable="false">OK</string>
     <string name="license_title" translatable="false">Diaspora Native WebApp</string>
-    <string name="license_text" translatable="false">Copyright (C) 2015  by martinchodev\n\n
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

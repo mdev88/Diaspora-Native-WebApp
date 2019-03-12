@@ -27,10 +27,6 @@ public class PrefManager {
 	}
 	
 
-
-
-
-
 	public boolean getLoadImages() {
 		return loadImages;
 	}
