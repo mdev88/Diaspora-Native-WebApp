@@ -70,4 +70,7 @@
     <string name="huge">Enorme</string>
     <string name="font_size">Tamaño de letra</string>
     <string name="normal"></string>
+    <string name="yes">SI</string>
+    <string name="license_yes" translatable="false">Ver código en GitHub</string>
+    <string name="please_reload">Por favor actualiza el contenido</string>
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Diaspora Native WebApp</string>
+    <string name="app_name" translatable="false">Diaspora Native Webapp</string>
     <string name="reload">Reload</string>
     <string name="title_activity_pods">Select Pod</string>
     <string name="filter_hint">Enter pod domain</string>

@@ -364,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
                         txtTitle.setText(R.string.jb_license);
                         new AlertDialog.Builder(MainActivity.this)
                                 .setTitle(getString(R.string.license_title))
+                                .setMessage(getString(R.string.license_text))
                                 .setPositiveButton(getString(R.string.license_yes),
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {

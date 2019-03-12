@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Diaspora Native WebApp</string>
+    <string name="app_name" translatable="false">Diaspora Native Webapp</string>
     <string name="reload">Reload</string>
     <string name="title_activity_pods">Select Pod</string>
     <string name="filter_hint">Enter pod domain</string>
@@ -40,7 +40,7 @@
     <string name="jb_menu_0">Personal sites</string>
     <string name="jb_menu_1">Settings</string>
     <string name="jb_menu_2">Application</string>
-    <string name="jb_about">About</string>
+    <!--<string name="jb_about">About</string>-->
     <string name="jb_license">License</string>
     <string name="jb_stream">Stream</string>
     <string name="jb_notifications">Notifications</string>
@@ -78,30 +78,29 @@
 
     //Dialog
 
-    <string name="about_yes">Visit projectsite from *martinchodev*</string>
-    <string name="about_no">OK</string>
-    <string name="about_title">Diaspora Native WebApp</string>
-    <string name="about_text">First of all: I am not a developer. I understand a few basics and most of my work is done
-        by copy and paste. This app is build from the original *DiasporaNativeWebApp* Version 1.6.1
-        from *martinchodev*, which is released under the GPL-license. Because I wanted a better visual integration
-        with my personal phone-setup, I changed a few icons and the splashscreen. I also added the navigationdrawer
-        and the floating-action-buttons. I also did some minor changes. Nearly all of my changes are tagged with
-        "By_me" in my sourcecode. All of the rest is the work of *martinchodev*. Big thanks to him.</string>
+    <!--<string name="about_yes">View code on GitHub</string>-->
+    <!--<string name="about_no">OK</string>-->
+    <!--<string name="about_title">Diaspora Native WebApp</string>-->
+    <!--<string name="about_text">First of all: I am not a developer. I understand a few basics and most of my work is done-->
+        <!--by copy and paste. This app is build from the original *DiasporaNativeWebApp* Version 1.6.1-->
+        <!--from *martinchodev*, which is released under the GPL-license. Because I wanted a better visual integration-->
+        <!--with my personal phone-setup, I changed a few icons and the splashscreen. I also added the navigationdrawer-->
+        <!--and the floating-action-buttons. I also did some minor changes. Nearly all of my changes are tagged with-->
+        <!--"By_me" in my sourcecode. All of the rest is the work of *martinchodev*. Big thanks to him.</string>-->
 
     //Dialog
-    <string name="license_yes" translatable="false">Visit project on GitHub</string>
+    <string name="license_yes">View code on GitHub</string>
     <string name="license_no" translatable="false">OK</string>
-    <string name="license_title" translatable="false">Diaspora Native WebApp</string>
-
-This program is free software: you can redistribute it and/or modify
+    <string name="license_title" translatable="false">Diaspora Native Webapp</string>
+    <string name="license_text" translatable="false">This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(at your option) any later version.\n\n
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU General Public License for more details.\n\n
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/.</string>
