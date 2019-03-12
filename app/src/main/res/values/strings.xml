@@ -22,6 +22,8 @@
     <string name="confirmation">Confirmation</string>
     <string name="confirm_pod">Do you want to use the pod: </string>
     <string name="confirm_exit">Are you sure you want to exit?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
     <string name="please_wait">Please Wait</string>
     <string name="loading">Loading...</string>
     <string name="clear_cookies_warning">Clearing the cookies will log you out and clear all session data. Do you want to proceed?</string>
@@ -32,11 +34,6 @@
     <string name="stream">Stream</string>
     <string name="search">Search</string>
     <string name="mobile">Toggle Mobile</string>
-
-    // By me
-
-    // Drawer and App
-
     <string name="app_copyright">The community-run distributed social network</string>
     <string name="closeDrawer">Navigation View</string>
     <string name="openDrawer">Navigation View Closed</string>
