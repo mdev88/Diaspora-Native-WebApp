@@ -68,24 +68,27 @@ import ar.com.tristeslostrestigres.diasporanativewebapp.utils.PrefManager;
 public class MainActivity extends AppCompatActivity {
 
     private static final String URL_MESSAGE = "URL_MESSAGE";
-    Toolbar toolbar;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
-    final Handler myHandler = new Handler();
-    WebView webView;
-    static final String TAG = "Diaspora Main";
-    String podDomain;
-    Menu menu;
-    int notificationCount = 0;
-    int conversationCount = 0;
-    ValueCallback<Uri[]> mFilePathCallback;
-    String mCameraPhotoPath;
+    private static final String TAG = "Diaspora Main";
+
+    private String podDomain;
+    private String mCameraPhotoPath;
+
+    private Menu menu;
+    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
+    private DrawerLayout drawerLayout;
+    private TextView txtTitle;
+    private WebView webView;
+    private ProgressBar progressBar;
+
+    private final Handler myHandler = new Handler();
+    private int notificationCount = 0;
+    private int conversationCount = 0;
+
+    private ValueCallback<Uri[]> mFilePathCallback;
+    private WebSettings wSettings;
+    private PrefManager pm;
+
     public static final int INPUT_FILE_REQUEST_CODE = 1;
-    com.getbase.floatingactionbutton.FloatingActionsMenu fab;
-    TextView txtTitle;
-    ProgressBar progressBar;
-    WebSettings wSettings;
-    PrefManager pm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.multiple_actions);
         fab.setVisibility(View.GONE);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
@@ -254,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * NavigationView
          */
-        navigationView = findViewById(R.id.navigation_view);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -730,27 +733,27 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton(R.string.search_alert_tag,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String inputTag = input.getText().toString().trim();
-                            String cleanTag = inputTag.replaceAll("\\#", "");
-                            // this validate the input data for tagfind
-                            if (cleanTag.isEmpty()) {
-                                dialog.cancel(); // if user hasn't added a tag
-                                Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
-                            } else { // User have added a search tag
-                                txtTitle.setText(R.string.fab1_title_tag);
-                                webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
+                        .setNegativeButton(R.string.search_alert_tag,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        String inputTag = input.getText().toString().trim();
+                                        String cleanTag = inputTag.replaceAll("\\#", "");
+                                        // this validate the input data for tagfind
+                                        if (cleanTag.isEmpty()) {
+                                            dialog.cancel(); // if user hasn't added a tag
+                                            Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.search_alert_bytags_validate_needsomedata, Snackbar.LENGTH_LONG).show();
+                                        } else { // User have added a search tag
+                                            txtTitle.setText(R.string.fab1_title_tag);
+                                            webView.loadUrl("https://" + podDomain + "/tags/" + cleanTag);
+                                        }
+                                    }
+                                })
+                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //
                             }
-                        }
-                    })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //
-                    }
-                });
+                        });
                 alert.show();
             }
         }

@@ -50,15 +50,15 @@ import java.util.Date;
 
 import ar.com.tristeslostrestigres.diasporanativewebapp.utils.Helpers;
 
-//import android.widget.Toast;
-
 public class ShareActivity extends MainActivity {
 
-    private WebView webView;
     private static final String TAG = "Diaspora Share";
+
     private String podDomain;
-    private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
+    private ValueCallback<Uri[]> mFilePathCallback;
+
+    private WebView webView;
     private TextView txtTitle;
     private ProgressBar progressBar;
 
@@ -212,8 +212,6 @@ public class ShareActivity extends MainActivity {
         });
 
 
-
-
         Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
         String action = intent.getAction();
@@ -262,7 +260,7 @@ public class ShareActivity extends MainActivity {
 
         if (savedInstanceState == null) {
             if (Helpers.isOnline(ShareActivity.this)) {
-                webView.loadUrl("https://"+podDomain+"/status_messages/new");
+                webView.loadUrl("https://" + podDomain + "/status_messages/new");
             } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
             }
@@ -297,7 +295,7 @@ public class ShareActivity extends MainActivity {
             if (Helpers.isOnline(ShareActivity.this)) {
                 webView.reload();
                 return true;
-            } else {  
+            } else {
                 Snackbar.make(getWindow().findViewById(R.id.drawer), R.string.no_internet, Snackbar.LENGTH_SHORT).show();
                 return false;
             }
