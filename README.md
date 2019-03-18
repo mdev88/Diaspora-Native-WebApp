@@ -1,28 +1,21 @@
 # Diaspora Native WebApp
 
 ## IMPORTANT NOTICE:
-### This project has been merged with Diaspora For Android
-### https://github.com/Diaspora-for-Android
+### This project has been discontinued for some time, but I'm working in resurrecting it, so expect new updates soon.
 
 ### About
-This is an unofficial client developed just for the lulz.
-It's currently under development and should be used with that in mind. Please submit any bugs you might find.
+This is an unofficial Diaspora social nerwork webapp.
+It's under development so please submit any bugs you might find.
 
 ### License
 It's released under GNU GENERAL PUBLIC LICENSE (see LICENCE).
 
-### Native
-It's "native" because it's developed in Java + the Android SDK (Android Studio).
-Other Diaspora clients are developed using frameworks like AppCelerator Titanium. A native app will always be more efficient and 
-almost certainly be faster and make better use of the resources of the device.
+### Native...? Webapp...?
+It's "native" because it's developed in Java + the Android SDK (Android Studio), not a hybrid framework like React or Flutter.
+It's a webapp because it uses the Diaspora mobile web interface (it doesn't use an API)
 
-### "WebApp"
-It's a WebApp because at this moment Diaspora doesn't have an API that can be used to create a native interface to retrieve the 
-user's data, publications, direct messages and so on, that's why there are only WebApps for Diaspora out there.
-
-### Why a WebApp is better than using the mobile site on a browser?
-Basically it provides better integration with the system (events coming into and going out of the app), notifications, 
-customized interface and functions and a nice little icon that takes you directly to your favorite social network :)
+### Why a webapp is better than just using the mobile site on a browser?
+Basically it provides better integration with the system, customized interface and functions, and a nice little icon that takes you directly to your favorite social network :)
 
 ### System Requirements
 The minimum version supported is Ice Cream Sandwitch, Android version 4.0.3 (or API 15)
@@ -32,34 +25,24 @@ It requires access to the Internet and to external storage to be able to upload 
 
 ### Third party libraries
 It uses the following third party libraries:
-- https://github.com/futuresimple/android-floating-action-button
+- https://github.com/futuresimple/android-floating-action-button (will be removed in future releases)
 
 
 ## Where to get the app
 
-### Google Play
+### Google Play (will contain ads)
 
 https://play.google.com/store/apps/details?id=ar.com.tristeslostrestigres.diasporanativewebapp
 
-### F-Droid
+### F-Droid (ad-free)
 
 https://f-droid.org/repository/browse/?fdfilter=diaspora&fdid=ar.com.tristeslostrestigres.diasporanativewebapp
 
-### Latest APK
+## Contributors
 
-You can also download the latest generated APK (which may or may not be the same published in Google Play o F-Droid) from the 
-"release" folder:
-https://github.com/martinchodev/Diaspora-Native-WebApp/tree/master/release
-
-## Special thanks
-
-- Scoute Dich (https://github.com/scoute-dich) for forking the app and submitting some great features.
-
-## Translations credits
-
-These notable gentlemen were kind to submit the first translations. 
 We shall remember their courage and honor until the end of times.
 
+- Scoute Dich (https://github.com/scoute-dich) for forking the app and submitting some great features.
 - DE: vanitasvitae - https://github.com/vanitasvitae | 
 - DE: Pascal - https://joindiaspora.com/people/dea2955ef6d84604
 - FR: Sans Pseudo Fix - https://github.com/SansPseudoFix
