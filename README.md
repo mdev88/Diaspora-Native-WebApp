@@ -1,10 +1,7 @@
 # Diaspora Native WebApp
 
-## IMPORTANT NOTICE:
-### This project has been discontinued for some time, but I'm working in resurrecting it, so expect new updates soon.
-
 ### About
-This is an unofficial Diaspora social nerwork webapp.
+This is an unofficial Diaspora social nerwork app.
 It's under development so please submit any bugs you might find.
 
 ### License
@@ -12,7 +9,7 @@ It's released under GNU GENERAL PUBLIC LICENSE (see LICENCE).
 
 ### Native...? Webapp...?
 It's "native" because it's developed in Java + the Android SDK (Android Studio), not a hybrid framework like React or Flutter.
-It's a webapp because it uses the Diaspora mobile web interface (it doesn't use an API)
+It's a webapp because it uses the Diaspora mobile web interface (it doesn't use an API, because it doesn't exist yet)
 
 ### Why a webapp is better than just using the mobile site on a browser?
 Basically it provides better integration with the system, customized interface and functions, and a nice little icon that takes you directly to your favorite social network :)
