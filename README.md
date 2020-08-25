@@ -1,5 +1,7 @@
 # Diaspora Native WebApp
 
+# >> This app is no longer maintained <<
+
 ### About
 This is an unofficial Diaspora social nerwork app.
 It's under development so please submit any bugs you might find.
